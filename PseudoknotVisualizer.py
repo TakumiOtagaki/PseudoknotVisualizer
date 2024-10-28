@@ -38,7 +38,7 @@ def rnaview_(pdb_object, chain_id):
             raise Exception("Chain ID not found: should be one of " + ", ".join(chains))
     
         try:
-            with tempfile.NamedTemporaryFile(delete=False, suffix=".pdb") as tmp_pdb:
+            with tempfile.NamedTemporaryFile(delete=False, suffix=".pdb", dir=INTEREMEDIATE_DIR) as tmp_pdb:
                 pdb_path = tmp_pdb.name # tmp.pdb is created and deleted automatically after the block.
                 cmd.save(pdb_path, pdb_object)
 
