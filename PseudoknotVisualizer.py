@@ -10,7 +10,8 @@ from addressRNAviewOutput import extract_base_pairs
 # os.environ["RNAVIEW"] = RNAVIEW
 # os.environ["RNAVIEW_PATH"] = RNAVIEW_PATH
 
-DEBUG = True
+# DEBUG = True
+DEBUG = False
 
 # def clear_intermediate_files():
 #     # intermediate dir には他のゴミのファイルがあるので消しておく
@@ -18,13 +19,12 @@ DEBUG = True
 #         if f.endswith(".out") or f.endswith(".pdb") or f.endswith(".ps") or f.endswith(".xml"):
 #             os.remove(INTEREMEDIATE_DIR + f)
 #     return
-
-def rnaview(pdb_object, chain_id):
+rnaview = os.path.join(RNAVIEW_PATH, "rnaview")
+def rnaview_(pdb_object, chain_id):
     if DEBUG:
         pdb_id = pdb_object # for debugging
         chain_id = "A"
         pdb_path = "/large/otgk/PseudoknotVisualizer/intermediate/1KPD_test.pdb"
-        rnaview = os.path.join(RNAVIEW_PATH, "rnaview")
         result = subprocess.run(
             [rnaview, pdb_path],
             env={"RNAVIEW": RNAVIEW},
@@ -43,9 +43,10 @@ def rnaview(pdb_object, chain_id):
                 cmd.save(pdb_path, pdb_object)
 
                 result = subprocess.run(
-                    [RNAVIEW_PATH, pdb_path],
+                    [rnaview, pdb_path],
                     env={"RNAVIEW": RNAVIEW},
                     cwd=INTEREMEDIATE_DIR,
+                    check=True
                 )
                 if result.returncode != 0:
                     raise Exception("RNAVIEW failed")
