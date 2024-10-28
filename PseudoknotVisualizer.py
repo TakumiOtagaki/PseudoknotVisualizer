@@ -72,6 +72,9 @@ def PseudoKnotVisualizer(pdb_object, chain_id):
     return
 
 
+cmd.extend("PseudoKnotVisualizer", PseudoKnotVisualizer)
+cmd.extend("pkv", PseudoKnotVisualizer)
+
 if __name__ == "__main__":
     # clear_intermediate_files()
     # BPL = rnaview("1KPD", "A")
