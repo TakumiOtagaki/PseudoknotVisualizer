@@ -13,6 +13,8 @@ from addressRNAviewOutput import extract_base_pairs
 DEBUG = True
 # DEBUG = False
 
+colors = load_colors_from_json(WORK_DIR + "/colors.json")
+
 def clear_intermediate_files():
     # intermediate dir には他のゴミのファイルがあるので消しておく
     for f in os.listdir(INTEREMEDIATE_DIR):
@@ -66,7 +68,9 @@ def PseudoKnotVisualizer(pdb_object, chain_id):
     BPL = rnaview_(pdb_object, chain_id)
     PKlayers = PKextractor(BPL)
     for depth, PKlayer in enumerate(PKlayers):
-        color = str(depth + 1)
+        # color = str(depth + 1)
+        color = colors[str(depth + 1)]
+        
         for i, j in PKlayer:
             coloring_canonical(pdb_object, chain_id, i, color)
             coloring_canonical(pdb_object, chain_id, j, color)
