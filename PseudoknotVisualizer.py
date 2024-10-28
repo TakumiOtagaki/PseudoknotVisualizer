@@ -67,8 +67,8 @@ def PseudoKnotVisualizer(pdb_object, chain_id):
     for depth, PKlayer in enumerate(PKlayers):
         color = str(depth + 1)
         for i, j in PKlayer:
-            coloring_canonical(pdb_object, chain_id, i+1, color)
-            coloring_canonical(pdb_object, chain_id, j+1, color)
+            coloring_canonical(pdb_object, chain_id, i, color)
+            coloring_canonical(pdb_object, chain_id, j, color)
     print("Coloring done.")
     return
 
