@@ -75,6 +75,8 @@ def PseudoKnotVisualizer(pdb_object, chain_id):
             coloring_canonical(pdb_object, chain_id, i, color)
             coloring_canonical(pdb_object, chain_id, j, color)
     print("Coloring done.")
+    print(f"Depth is {len(PKlayers)}")
+    
 
     clear_intermediate_files()
     
