@@ -13,12 +13,13 @@ from addressRNAviewOutput import extract_base_pairs
 DEBUG = True
 # DEBUG = False
 
-# def clear_intermediate_files():
-#     # intermediate dir には他のゴミのファイルがあるので消しておく
-#     for f in os.listdir(INTEREMEDIATE_DIR):
-#         if f.endswith(".out") or f.endswith(".pdb") or f.endswith(".ps") or f.endswith(".xml"):
-#             os.remove(INTEREMEDIATE_DIR + f)
-#     return
+def clear_intermediate_files():
+    # intermediate dir には他のゴミのファイルがあるので消しておく
+    for f in os.listdir(INTEREMEDIATE_DIR):
+        if f.endswith(".out") or f.endswith(".pdb") or f.endswith(".ps") or f.endswith(".xml"):
+            os.remove(INTEREMEDIATE_DIR + f)
+    return
+
 rnaview = os.path.join(RNAVIEW_PATH, "rnaview")
 def rnaview_(pdb_object, chain_id):
     if DEBUG:
@@ -70,6 +71,9 @@ def PseudoKnotVisualizer(pdb_object, chain_id):
             coloring_canonical(pdb_object, chain_id, i, color)
             coloring_canonical(pdb_object, chain_id, j, color)
     print("Coloring done.")
+
+    clear_intermediate_files()
+    
     return
 
 
