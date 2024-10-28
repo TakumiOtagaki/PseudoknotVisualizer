@@ -1,4 +1,6 @@
 from config import RNAVIEW_PATH, RNAVIEW, WORK_DIR, INTEREMEDIATE_DIR
+from coloring import coloring_canonical, load_colors_from_json
+from rna import PKextractor
 import os
 from pymol import cmd
 import tempfile
@@ -8,35 +10,79 @@ from addressRNAviewOutput import extract_base_pairs
 # os.environ["RNAVIEW"] = RNAVIEW
 # os.environ["RNAVIEW_PATH"] = RNAVIEW_PATH
 
-def clear_intermediate_files():
-    # intermediate dir には他のゴミのファイルがあるので消しておく
-    for f in os.listdir(INTEREMEDIATE_DIR):
-        if f.endswith(".out") or f.endswith(".pdb") or f.endswith(".ps") or f.endswith(".xml"):
-            os.remove(INTEREMEDIATE_DIR + f)
-    return
+DEBUG = True
+
+# def clear_intermediate_files():
+#     # intermediate dir には他のゴミのファイルがあるので消しておく
+#     for f in os.listdir(INTEREMEDIATE_DIR):
+#         if f.endswith(".out") or f.endswith(".pdb") or f.endswith(".ps") or f.endswith(".xml"):
+#             os.remove(INTEREMEDIATE_DIR + f)
+#     return
 
 def rnaview(pdb_object, chain_id):
-    chains = cmd.get_chains(pdb_object)
-    if chain_id not in chains:
-        raise Exception("Chain ID not found: should be one of " + ", ".join(chains))
-    
-    try:
-        with tempfile.NamedTemporaryFile(delete=False, suffix=".pdb") as tmp_pdb:
-            pdb_path = tmp_pdb.name # tmp.pdb is created and deleted automatically after the block.
-            cmd.save(pdb_path, pdb_object)
+    if DEBUG:
+        pdb_id = pdb_object # for debugging
+        chain_id = "A"
+        pdb_path = "/large/otgk/PseudoknotVisualizer/intermediate/1KPD_test.pdb"
+        rnaview = os.path.join(RNAVIEW_PATH, "rnaview")
+        result = subprocess.run(
+            [rnaview, pdb_path],
+            env={"RNAVIEW": RNAVIEW},
+            cwd=INTEREMEDIATE_DIR,
+            check=True
+        )
 
-            result = subprocess.run(
-                [RNAVIEW_PATH, pdb_path],
-                env={"RNAVIEW": RNAVIEW},
-                cwd=INTEREMEDIATE_DIR,
-            )
-            if result.returncode != 0:
-                raise Exception("RNAVIEW failed")
-    except Exception as e:
-        raise Exception("RNAVIEW failed or Exporting PDB failed: " + str(e))
+    else:
+        chains = cmd.get_chains(pdb_object)
+        if chain_id not in chains:
+            raise Exception("Chain ID not found: should be one of " + ", ".join(chains))
+    
+        try:
+            with tempfile.NamedTemporaryFile(delete=False, suffix=".pdb") as tmp_pdb:
+                pdb_path = tmp_pdb.name # tmp.pdb is created and deleted automatically after the block.
+                cmd.save(pdb_path, pdb_object)
+
+                result = subprocess.run(
+                    [RNAVIEW_PATH, pdb_path],
+                    env={"RNAVIEW": RNAVIEW},
+                    cwd=INTEREMEDIATE_DIR,
+                )
+                if result.returncode != 0:
+                    raise Exception("RNAVIEW failed")
+        except Exception as e:
+            raise Exception("RNAVIEW failed or Exporting PDB failed: " + str(e))
 
     result_file = INTEREMEDIATE_DIR + pdb_path.split("/")[-1] + ".out"
-    valid_bps = extract_base_pairs(result_file) # pandas
+    valid_bps_df = extract_base_pairs(result_file) # pandas
+    print(valid_bps_df)
+    BPL = [(row["left_idx"], row["right_idx"]) for _, row in valid_bps_df.iterrows()]
+
+    return BPL
+
+
+def PseudoKnotVisualizer(pdb_object, chain_id):
+    BPL = rnaview(pdb_object, chain_id)
+    PKlayers = PKextractor(BPL)
+    for depth, PKlayer in enumerate(PKlayers):
+        color = str(depth + 1)
+        for i, j in PKlayer:
+            coloring_canonical(pdb_object, chain_id, i, color)
+            coloring_canonical(pdb_object, chain_id, j, color)
+    print("Coloring done.")
+    return
+
+
+if __name__ == "__main__":
+    # clear_intermediate_files()
+    # BPL = rnaview("1KPD", "A")
+    # print(BPL)
+    # PKlayers = PKextractor(BPL)
+    # print(PKlayers)
+    PseudoKnotVisualizer("1KPD_test", "A")
+    
+
+    print("Done.")
+
 
 
 
