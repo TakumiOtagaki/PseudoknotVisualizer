@@ -1,4 +1,4 @@
-from .config import RNAVIEW_PATH, RNAVIEW, WORK_DIR, INTEREMEDIATE_DIR
+from config import RNAVIEW_PATH, RNAVIEW, WORK_DIR, INTEREMEDIATE_DIR
 import os
 from pymol import cmd
 import tempfile
@@ -21,7 +21,7 @@ def rnaview(pdb_object, chain_id):
         raise Exception("Chain ID not found: should be one of " + ", ".join(chains))
     
     try:
-        with tempfile.NamedTemporaryFile(delete=True, suffix=".pdb") as tmp_pdb:
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".pdb") as tmp_pdb:
             pdb_path = tmp_pdb.name # tmp.pdb is created and deleted automatically after the block.
             cmd.save(pdb_path, pdb_object)
 
