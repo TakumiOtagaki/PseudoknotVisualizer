@@ -10,8 +10,8 @@ from addressRNAviewOutput import extract_base_pairs
 # os.environ["RNAVIEW"] = RNAVIEW
 # os.environ["RNAVIEW_PATH"] = RNAVIEW_PATH
 
-DEBUG = True
-# DEBUG = False
+# DEBUG = True
+DEBUG = False
 
 colors = load_colors_from_json(WORK_DIR + "/colors.json")
 
