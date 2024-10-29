@@ -12,6 +12,15 @@ PseudoknotVisualizer is available at pymol, meaning that it is very easy to inst
 
 
 # How to Install
+The dependent module "RNAVIEW"  is only available in Linux OS.
+## Implementation on WSL & conda Recommended
+```
+wsl$ conda create -n pymol python=3.11.0
+wsl$ conda activate pymol
+wsl$ conda install -c conda-forge pymol-open-source
+wsl$ pymol
+```
+Type `pymol` in conda pymol env, then open source pymol app starts.
 
 ## Prerequisite: Installtion of RNAVIEW
 You need to pre-install [rnaview](https://github.com/rcsb/RNAView).
