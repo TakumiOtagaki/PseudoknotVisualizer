@@ -29,6 +29,8 @@ export RNAVIEW=/path/to/rnaview/
 2. Rewrite config.py; path and other enviromental variables.
 3. Rewrite or create `~/.pymolrc.py` in order to load the extension at startup.
 
+-----
+
 1. Cloning
 ```sh
 # 1. 
