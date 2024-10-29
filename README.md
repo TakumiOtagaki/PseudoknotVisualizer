@@ -24,5 +24,13 @@ export RNAVIEW=/path/to/rnaview/
 ```
 
 ## Installation of PseudoknotVisualizer
-1. clone this repository
-2. 
+### overview
+1. clone this repository.
+2. Rewrite config.py
+
+
+# to do list
+- Now intermediate dir should end with "/", it could cause an error.
+- We are going to support "non-canonical bp" mode, extension for chimera.
+
+
