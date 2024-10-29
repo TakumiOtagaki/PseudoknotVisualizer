@@ -74,7 +74,7 @@ After loading models, it can be called and used as follows:
 # pymol command line after loading model
 pkv $pdb_object $chainID
 ```
- -pdb_object = a model, it can be multimer.
+ - pdb_object = a model, it can be multimer.
  - chainID = A, B, C, ...
 
 For example, if you want to visualize the pseudoknots in 1kpd in PDB, run the followings:
