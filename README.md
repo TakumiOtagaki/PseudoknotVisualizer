@@ -25,8 +25,20 @@ export RNAVIEW=/path/to/rnaview/
 
 ## Installation of PseudoknotVisualizer
 ### overview
-1. clone this repository.
-2. Rewrite config.py
+1. Clone this repository.
+2. Rewrite config.py; path and other enviromental variables.
+3. Rewrite or create `~/.pymolrc.py` in order to load the extension at startup.
+
+1. Cloning
+```sh
+# 1. 
+git clone git@github.com:TakumiOtagaki/PseudoknotVisualizer.git
+cd PseudoknotVisualizer
+```
+
+2. Rewriting config.py
+   
+
 
 
 # to do list
