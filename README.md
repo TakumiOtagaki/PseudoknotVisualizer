@@ -5,7 +5,9 @@ PseudoknotVisualizer is a Pymol Extension for visualization that assigns differe
 This tool enables us to visually understand the RNA tertiary structures with pseudoknots.
 This is essential for prediction of tertiary structures and selecting the best structure from the structure ensemble.
 
-PseudoknotVisualizer is available at pymol, meaning that it is very easy to install.
+PseudoknotVisualizer is available at pymol, meaning that it is easy to install.
+However, the installation of dependent module "RNAVIEW" is a bit complicated.
+RNAVIEW cannot work in Macbook
 
 # Demo
 ![pymol_demo_6T3R](https://github.com/user-attachments/assets/444dadcf-72f9-46cf-b442-484c611adcfd)
