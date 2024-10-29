@@ -1,15 +1,7 @@
-RNAVIEW_PATH = "/large/otgk/app/rnaview/20231226/bin"
-# RNAVIEW="/large/otgk/app/rnaview/20231226"
-RNAVIEW = RNAVIEW_PATH.replace("/bin", "")
-
-DSSR_PATH = "OPTIONAL"
-
-
-WORK_DIR = "/large/otgk/app/PseudoknotVisualizer"
-INTEREMEDIATE_DIR = WORK_DIR + "/intermediate"
-
-
-
-
-
-
+# RNAVIEW related variables
+RNAVIEW="/home/qtami/RNAVIEW"
+RNAVIEW_PATH="/home/qtami/RNAVIEW/bin"
+# The path to this PseudoknotVisualizer repository.
+PseudoKnotVisualizer_DIR = "/home/qtami/research/PseudoknotVisualizer"
+# ------------- Do not edit below this line. ------------------
+INTEREMEDIATE_DIR = PseudoKnotVisualizer_DIR + "/intermediate/"
