@@ -132,18 +132,18 @@ $ python '/large/otgk/PseudoknotVisualizer/CLI_PseudoknotVisualizer.py' --help
 
 usage: CLI_PseudoknotVisualizer.py [-h] -i INPUT -o OUTPUT -f {chimera,pymol} [-m MODEL] [-c CHAIN]
 
-Visualize pseudoknots in RNA sequences
+Visualize pseudoknots in RNA structure
 
 options:
   -h, --help            show this help message and exit
   -i INPUT, --input INPUT
-                        Input file containing RNA sequences
+                        Input file containing RNA structure
   -o OUTPUT, --output OUTPUT
                         Output script file for visualization
   -f {chimera,pymol}, --format {chimera,pymol}
-                        Format of RNA sequences (chimera or pymol)
+                        Format of RNA structure (chimera or pymol)
   -c CHAIN, --chain CHAIN
-                        Chain ID for RNA sequences
+                        Chain ID for RNA structure, default is A
 
 chimera options:
   Options specific to Chimera format
@@ -151,7 +151,19 @@ chimera options:
   -m MODEL, --model MODEL
                         Model ID (required if Chimera format is selected)
 ```
+## Installation for CLI user
+ 1.	Run
+    ```sh
+   	conda create -n pymol python=3.11
+    conda activate pymol
+    ```
+	2.	Run
+  ```
+ pip install -r requirements.txt
+ ```
+3.	Complete steps 1 through 3 from the installation instructions above.
 
+4.	Execute the command `python CLI_PseudoknotVisualizer.py -i input.pdb -o ...`
 
 # to do list 
 - Now intermediate dir should end with "/", it could cause an error.
