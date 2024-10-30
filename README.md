@@ -173,8 +173,11 @@ python PseudoknotVisualizer/CLI_PseudoknotVisualizer.py \
   -c A \ # chain ID
   -f pymol \ # format: chimera or pymol
   -m 0 # model ID in your viewer.
+```
 
-# to do list 
+
+# to do list
+
 - Now intermediate dir should end with "/", it could cause an error.
 - We are going to support "non-canonical bp" mode, extension for chimera.
 
