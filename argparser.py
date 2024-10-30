@@ -1,12 +1,12 @@
 import argparse
 
 def argparser():
-    parser = argparse.ArgumentParser(description='Visualize pseudoknots in RNA sequences')
-    parser.add_argument('-i', '--input', type=str, required=True, help='Input file containing RNA sequences')
+    parser = argparse.ArgumentParser(description='Visualize pseudoknots in RNA structure')
+    parser.add_argument('-i', '--input', type=str, required=True, help='Input file containing RNA structure')
     parser.add_argument('-o', '--output', type=str, required=True, help='Output script file for visualization')
     parser.add_argument(
         '-f', '--format', choices=['chimera', 'pymol'], 
-        required=True, help='Format of RNA sequences (chimera or pymol)'
+        required=True, help='Format of RNA structure (chimera or pymol)'
     )
     chimera_group = parser.add_argument_group('chimera options', 'Options specific to Chimera format')
     chimera_group.add_argument(
@@ -14,7 +14,7 @@ def argparser():
         help='Model ID (required if Chimera format is selected)'
     )
 
-    parser.add_argument('-c', '--chain', type=str, default='A', help='Chain ID for RNA sequences, default is A')
+    parser.add_argument('-c', '--chain', type=str, default='A', help='Chain ID for RNA structure, default is A')
 
     return parser.parse_args()
 
