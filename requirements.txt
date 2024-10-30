@@ -1,0 +1,15 @@
+biopython @ file:///home/conda/feedstock_root/build_artifacts/biopython_1720014906935/work
+numpy @ file:///home/conda/feedstock_root/build_artifacts/numpy_1728239949208/work/dist/numpy-2.1.2-cp311-cp311-linux_x86_64.whl#sha256=768addcb66d11bf95f7d2036c7b2595c638ef6539dba5f6a98faa0cdd9170ce8
+packaging @ file:///home/conda/feedstock_root/build_artifacts/packaging_1718189413536/work
+pandas==2.2.3
+ply @ file:///home/conda/feedstock_root/build_artifacts/ply_1712242996588/work
+Pmw @ file:///home/conda/feedstock_root/build_artifacts/pmw_1695847163785/work
+pymol==3.0.0
+PyQt5==5.15.10
+PyQt5-sip @ file:///croot/pyqt-split_1698769088074/work/pyqt_sip
+python-dateutil==2.9.0.post0
+pytz==2024.2
+sip @ file:///home/conda/feedstock_root/build_artifacts/sip_1697300428897/work
+six==1.16.0
+tomli @ file:///home/conda/feedstock_root/build_artifacts/tomli_1727974628237/work
+tzdata==2024.2
