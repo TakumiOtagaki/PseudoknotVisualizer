@@ -14,8 +14,7 @@ def argparser():
         help='Model ID (required if Chimera format is selected)'
     )
 
-
-    parser.add_argument('-c', '--chain', type=str, default='A', help='Chain ID for RNA sequences')
+    parser.add_argument('-c', '--chain', type=str, default='A', help='Chain ID for RNA sequences, default is A')
 
     return parser.parse_args()
 
