@@ -1,5 +1,6 @@
-from config import RNAVIEW_PATH, RNAVIEW, WORK_DIR, INTEREMEDIATE_DIR
+from config import RNAVIEW_PATH, RNAVIEW, PseudoKnotVisualizer_DIR, INTEREMEDIATE_DIR
 from coloring import coloring_canonical, load_colors_from_json
+from argparser import argparser, args_validation
 from rna import PKextractor
 import os
 from pymol import cmd
@@ -13,13 +14,14 @@ from addressRNAviewOutput import extract_base_pairs
 # DEBUG = True
 DEBUG = False
 
-colors = load_colors_from_json(WORK_DIR + "/colors.json")
+colors = load_colors_from_json(PseudoKnotVisualizer_DIR + "/colors.json")
 
-def clear_intermediate_files():
+def clear_intermediate_files(except_files=[]):
     # intermediate dir には他のゴミのファイルがあるので消しておく
     for f in os.listdir(INTEREMEDIATE_DIR):
         if f.endswith(".out") or f.endswith(".pdb") or f.endswith(".ps") or f.endswith(".xml"):
-            os.remove(INTEREMEDIATE_DIR + f)
+            if f not in except_files:
+                os.remove(INTEREMEDIATE_DIR + f)
     return
 
 rnaview = os.path.join(RNAVIEW_PATH, "rnaview")
@@ -77,9 +79,7 @@ def PseudoKnotVisualizer(pdb_object, chain_id):
     print("Coloring done.")
     print(f"Depth is {len(PKlayers)}")
     
-
     clear_intermediate_files()
-    
     return
 
 
@@ -92,10 +92,9 @@ if __name__ == "__main__":
     # print(BPL)
     # PKlayers = PKextractor(BPL)
     # print(PKlayers)
-    PseudoKnotVisualizer("1KPD_test", "A")
     
 
-    print("Done.")
+    pass
 
 
 
