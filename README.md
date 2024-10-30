@@ -165,6 +165,15 @@ chimera options:
 
 4.	Execute the command `python CLI_PseudoknotVisualizer.py -i input.pdb -o ...`
 
+## Example of CLI usage
+```sh
+python PseudoknotVisualizer/CLI_PseudoknotVisualizer.py \
+  -i test/1KPD.pdb \  # input pdb file.
+  -o test/coloring_1KPD.0.A.pymol.txt \ # path of output script txtfile
+  -c A \ # chain ID
+  -f pymol \ # format: chimera or pymol
+  -m 0 # model ID in your viewer.
+
 # to do list 
 - Now intermediate dir should end with "/", it could cause an error.
 - We are going to support "non-canonical bp" mode, extension for chimera.
