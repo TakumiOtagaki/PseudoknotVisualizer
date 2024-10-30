@@ -157,7 +157,7 @@ chimera options:
    	conda create -n pymol python=3.11
     conda activate pymol
     ```
-	2.	Run
+2.	Run
   ```
  pip install -r requirements.txt
  ```
