@@ -151,6 +151,16 @@ chimera options:
   -m MODEL, --model MODEL
                         Model ID (required if Chimera format is selected)
 ```
+
+Also you can fetch PDB file from Protein Data Bank.
+```sh
+$ python fetch_pdb.py
+Enter PDB ID (q to quit): 1kpd
+Enter output filename(if not provided, pdb_id.pdb will be created in current directory): 
+PDB file for 1kpd downloaded as ./1kpd.pdb
+```
+Then, 1kpd.pdb is downloaded in current directory.
+
 ## Installation for CLI user
  1.	Run
     ```sh
@@ -164,6 +174,8 @@ chimera options:
 3.	Complete steps 1 through 3 from the installation instructions above.
 
 4.	Execute the command `python CLI_PseudoknotVisualizer.py -i input.pdb -o ...`
+
+
 
 ## Example of CLI usage
 ```sh
