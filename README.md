@@ -7,7 +7,9 @@ This is essential for prediction of tertiary structures and selecting the best s
 
 PseudoknotVisualizer is available at pymol, meaning that it is easy to install.
 However, the installation of dependent module "RNAVIEW" is a bit complicated.
-RNAVIEW cannot work in Macbook
+RNAVIEW cannot work in Macbook.
+
+This tool has two modes of use: CLI and GUI (using PyMOL).
 
 # Demo
 ![pymol_demo_6T3R](https://github.com/user-attachments/assets/444dadcf-72f9-46cf-b442-484c611adcfd)
@@ -121,6 +123,34 @@ If the number of layers is greater than 6, PseudoknotVisualizer will color the 7
 
 To increase this limit beyond 6, simply add entries like "7": "another color".
 
+# For CLI user
+After the installation (except for step 4), you can use our CLI.
+
+## CLI Usage
+```sh
+$ python '/large/otgk/PseudoknotVisualizer/CLI_PseudoknotVisualizer.py' --help
+
+usage: CLI_PseudoknotVisualizer.py [-h] -i INPUT -o OUTPUT -f {chimera,pymol} [-m MODEL] [-c CHAIN]
+
+Visualize pseudoknots in RNA sequences
+
+options:
+  -h, --help            show this help message and exit
+  -i INPUT, --input INPUT
+                        Input file containing RNA sequences
+  -o OUTPUT, --output OUTPUT
+                        Output script file for visualization
+  -f {chimera,pymol}, --format {chimera,pymol}
+                        Format of RNA sequences (chimera or pymol)
+  -c CHAIN, --chain CHAIN
+                        Chain ID for RNA sequences
+
+chimera options:
+  Options specific to Chimera format
+
+  -m MODEL, --model MODEL
+                        Model ID (required if Chimera format is selected)
+```
 
 
 # to do list 
