@@ -29,3 +29,22 @@ def coloring_canonical(pdb_object, chain, resi_i, color):
     # pdb_object の chain に対して、resi_i と resi_j の塩基を color で色付けする関数。
     cmd.color(color, f"{pdb_object} and chain {chain} and resi {resi_i}")
     return 
+
+
+
+def CLI_coloring_canonical(pdb_id, model_id, chain_id, PKlayer, color, format):
+    # pdb_object の chain に対して、resi_i と resi_j の塩基を color で色付けする関数。
+    print(f"Coloring {len(PKlayer)} base pairs.")
+    script = ""
+    # PKlayer = [(i, j), ...]
+    all_index = [i for pair in PKlayer for i in pair] 
+    if format.lower() == "chimera":
+        script += f"color {color} "
+        for i in all_index:
+            script += f" #{model_id}:{i}.{chain_id} "
+        script += "\n"
+    elif format.lower() == "pymol":
+        script += f"color {color}, {pdb_id} and chain {chain_id} and resi "
+        script += "+".join([str(i) for i in all_index])
+        script += "\n"
+    return script
