@@ -23,4 +23,7 @@ def download_pdb(pdb_id, filename=None):
 
 # 使用例
 pdb_id = input("Enter PDB ID: ")
-download_pdb(pdb_id, filename="given_ID.pdb")
+output_file = input("Enter output filename(if not provided, pdb_id.pdb will be created in current directory): ")
+if output_file == "":
+    output_file = "./" + pdb_id + ".pdb"
+download_pdb(pdb_id, output_file)
