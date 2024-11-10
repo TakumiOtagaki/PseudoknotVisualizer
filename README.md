@@ -6,9 +6,6 @@ This tool enables us to visually understand the RNA tertiary structures with pse
 This is essential for prediction of tertiary structures and selecting the best structure from the structure ensemble.
 
 PseudoknotVisualizer is available at pymol, meaning that it is easy to install.
-However, the installation of dependent module "RNAVIEW" is a bit complicated.
-RNAVIEW cannot work in Macbook.
-
 This tool has two modes of use: CLI and GUI (using PyMOL).
 
 # Demo
