@@ -9,7 +9,7 @@ PseudoknotVisualizer is available at pymol, meaning that it is easy to install.
 This tool has two modes of use: CLI and GUI (using PyMOL).
 
 # Demo
-<img src="https://github.com/TakumiOtagaki/PseudoknotVisualizer/blob/main/uncolored_6t3r.png" alt="pymol_demo_6T3R" width="30%"><img src="https://github.com/TakumiOtagaki/PseudoknotVisualizer/blob/main/colored_6t3r.png" alt="pymol_demo_6T3R" width="30%">
+<img src="https://github.com/TakumiOtagaki/PseudoknotVisualizer/blob/main/uncolored_6t3r.png" alt="pymol_demo_6T3R" width="30%"><img src="https://github.com/TakumiOtagaki/PseudoknotVisualizer/blob/main/colored_6t3r.png" alt="pymol_demo_6T3R" width="30%"><img src="https://github.com/TakumiOtagaki/PseudoknotVisualizer/blob/main/colored_6t3r.gif" alt="demo_gif" width="35.5%">
 
 - Left: Before coloring pseudoknots.
 - Right: After coloring
@@ -20,7 +20,7 @@ This tool has two modes of use: CLI and GUI (using PyMOL).
 
 
 
-<img src="https://github.com/TakumiOtagaki/PseudoknotVisualizer/blob/main/colored_6t3r.gif" alt="demo_gif" width="50%">
+
 
 
 
