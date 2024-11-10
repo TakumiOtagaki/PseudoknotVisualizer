@@ -49,7 +49,7 @@ export RNAVIEW=/path/to/rnaview/
 ```
 conda create -n pymol python=3.11.0
 conda activate pymol
-conda install pandas 
+conda install pandas numpy
 conda install -c conda-forge pymol-open-source
 pymol
 ```
