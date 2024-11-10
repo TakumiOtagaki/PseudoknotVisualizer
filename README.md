@@ -1,5 +1,6 @@
 # PseudoknotVisualizer
 PseudoknotVisualizer is a Pymol Extension for visualization that assigns different colors to each Pseudoknot layer.
+<img src="https://github.com/TakumiOtagaki/PseudoknotVisualizer/blob/main/paper_fig.png" alt="pymol_demo_6T3R" width="80%">
 
 # Overview
 This tool enables us to visually understand the RNA tertiary structures with pseudoknots.
@@ -9,6 +10,7 @@ PseudoknotVisualizer is available at pymol, meaning that it is easy to install.
 This tool has two modes of use: CLI and GUI (using PyMOL).
 
 # Demo
+
 <img src="https://github.com/TakumiOtagaki/PseudoknotVisualizer/blob/main/uncolored_6t3r.png" alt="pymol_demo_6T3R" width="30%"><img src="https://github.com/TakumiOtagaki/PseudoknotVisualizer/blob/main/colored_6t3r.png" alt="pymol_demo_6T3R" width="30%"><img src="https://github.com/TakumiOtagaki/PseudoknotVisualizer/blob/main/colored_6t3r.gif" alt="demo_gif" width="35.5%">
 
 - Left: Before coloring pseudoknots.
