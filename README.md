@@ -152,7 +152,7 @@ After the installation (except for step 4), you can use our CLI.
 
 ## CLI Usage
 ```sh
-$ python '/large/otgk/PseudoknotVisualizer/CLI_PseudoknotVisualizer.py' --help
+$ python 'PseudoknotVisualizer/CLI_PseudoknotVisualizer.py' --help
 
 usage: CLI_PseudoknotVisualizer.py [-h] -i INPUT -o OUTPUT -f {chimera,pymol} [-m MODEL] [-c CHAIN]
 
