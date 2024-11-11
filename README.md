@@ -129,6 +129,9 @@ pkv sele, A # if 1kpd is selected.
 ```
 As you can see from this example, you can use "sele" to identify the model.
 
+<img src="https://github.com/TakumiOtagaki/PseudoknotVisualizer/blob/main/casp15_examples.png" alt="pymol_demo_6T3R" width="80%">
+
+
 ## Changing Colors (Optinal)
 If you want to change the color of each layer, modify PseudoknotVisualizer/colors.json. You can also add new lines.
 
