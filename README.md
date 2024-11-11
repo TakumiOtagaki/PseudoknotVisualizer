@@ -1,5 +1,5 @@
 # PseudoknotVisualizer
-PseudoknotVisualizer is a Pymol Extension for visualization that assigns different colors to each Pseudoknot layer.
+PseudoknotVisualizer is a **Pymol Extension** for visualization that assigns **different colors to each Pseudoknot layer**.
 <img src="https://github.com/TakumiOtagaki/PseudoknotVisualizer/blob/main/paper_fig.png" alt="pymol_demo_6T3R" width="80%">
 
 # Overview
