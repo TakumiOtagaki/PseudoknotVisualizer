@@ -1,12 +1,12 @@
 # PseudoknotVisualizer
-PseudoknotVisualizer is a **Pymol Extension** for visualization that assigns **different colors to each Pseudoknot layer**.
+PseudoknotVisualizer is a **PyMOL Extension** for visualization that assigns **different colors to each Pseudoknot layer**.
 <img src="https://github.com/TakumiOtagaki/PseudoknotVisualizer/blob/main/paper_fig.png" alt="pymol_demo_6T3R" width="80%">
 
 # Overview
 This tool enables us to visually understand the RNA tertiary structures with pseudoknots.
 This is essential for prediction of tertiary structures and selecting the best structure from the structure ensemble.
 
-PseudoknotVisualizer is available at pymol, meaning that it is easy to install.
+PseudoknotVisualizer is available at PyMOL, meaning that it is easy to install.
 This tool has two modes of use: CLI and GUI (using PyMOL).
 
 # Demo
@@ -55,7 +55,7 @@ conda install pandas numpy
 conda install -c conda-forge pymol-open-source
 pymol
 ```
-Type `pymol` in conda pymol env, then open source pymol app will start.
+Type `pymol` in conda pymol env, then open source PyMOL app will start.
 
 
 
@@ -104,7 +104,7 @@ cmd.run(pathtoPseudoknotVisualizer + "PseudoknotVisualizer.py")
 
 
 Now, you can use our extension easily.
-After this step, the PseudoknotVisualizer extention will be automatically loaded when pymol starts.
+After this step, the PseudoknotVisualizer extention will be automatically loaded when PyMOL starts.
 
 If you skipped this step, you have to load manually (not recommended).
 
@@ -112,7 +112,7 @@ If you skipped this step, you have to load manually (not recommended).
 ## Basic Usage
 After loading models, it can be called and used as follows:
 ```
-# pymol command line after loading model
+# PyMOL command line after loading model
 pkv $pdb_object, $chainID
 ```
  - pdb_object = a model, it can be multimer.
@@ -122,7 +122,7 @@ For example, if you want to visualize the pseudoknots in 1kpd in PDB, run the fo
 ```
 # loading
 fetch 1kpd
-# at pymol command line.
+# at PyMOL command line.
 pkv 1kpd, A
 # OR
 pkv sele, A # if 1kpd is selected.
