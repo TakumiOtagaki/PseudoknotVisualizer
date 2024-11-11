@@ -29,7 +29,7 @@ This tool has two modes of use: CLI and GUI (using PyMOL).
 
 # How to Install
 
-## Prerequisite: Installtion of RNAVIEW
+## Prerequisite: Installtion of RNAView
 You need to pre-install [rnaview](https://github.com/rcsb/RNAView).
 The installation steps are like,
 ```
@@ -39,11 +39,11 @@ make
 ls bin 
 ```
 
-After the installation of rnaview, your `~/.bashrc` should contain these two lines.
+After the installation of RNAView, your `~/.bashrc` should contain these two lines.
 ```~/.bashrc
-# ------------ rnaview setting ---------------
-export PATH=$PATH:/path/to/rnaview/bin
-export RNAVIEW=/path/to/rnaview/
+# ------------ RNAView setting ---------------
+export PATH=$PATH:/path/to/RNAView/bin
+export RNAVIEW=/path/to/RNAView/
 ```
 
 
@@ -74,7 +74,7 @@ $ git clone git@github.com:TakumiOtagaki/PseudoknotVisualizer.git
 ```
 
 2. Rewriting config.py
-Add the two variables related to the RNAVIEW you installed earlier, RNAVIEW and PATH of RNAVIEW, to config.py.
+Add the two variables related to the RNAView you installed earlier, RNAVIEW and PATH of RNAVIEW, to config.py.
 Please rewrite the three lines:
 ```config.py
 # RNAVIEW related variables
