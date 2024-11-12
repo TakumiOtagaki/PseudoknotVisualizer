@@ -224,7 +224,7 @@ If so, please check the sequence index (`your_start_index`) pushing "S" button a
 ```sh
 select rna_chain, your_pdb_id and chain your_chain_id
 alter rna_chain, resi = int(resi) - (your_start_index - 1)
-pkv 8ufs, A
+pkv your_pdb_id, A
 ```
 Here, please rewrite 
  - your_pdb_id
