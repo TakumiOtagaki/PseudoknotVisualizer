@@ -13,3 +13,4 @@ sip @ file:///home/conda/feedstock_root/build_artifacts/sip_1697300428897/work
 six==1.16.0
 tomli @ file:///home/conda/feedstock_root/build_artifacts/tomli_1727974628237/work
 tzdata==2024.2
+biopython==1.84
