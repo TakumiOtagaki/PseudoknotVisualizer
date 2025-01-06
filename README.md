@@ -239,3 +239,6 @@ Then, it will work.
 - We are going to support "non-canonical bp" mode, extension for chimera.
 
 
+# License
+This software is released under the MIT License.  
+See [LICENSE](./LICENSE) for details.
