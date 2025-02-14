@@ -21,7 +21,8 @@ def clear_intermediate_files(except_files=[]):
     for f in os.listdir(INTEREMEDIATE_DIR):
         if f.endswith(".out") or f.endswith(".pdb") or f.endswith(".ps") or f.endswith(".xml"):
             if f not in except_files:
-                os.remove(INTEREMEDIATE_DIR + f)
+                # os.remove(INTEREMEDIATE_DIR + f)
+                os.remove(pathlib.Path(INTEREMEDIATE_DIR) / f)
     return
 
 def rnaview_wrapper(pdb_object, chain_id):
