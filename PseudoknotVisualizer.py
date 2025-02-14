@@ -39,9 +39,9 @@ def rnaview_wrapper(pdb_object, chain_id):
         )
 
     else:
-        chains = cmd.get_chains(pdb_object)
-        if chain_id not in chains:
-            raise Exception("Chain ID not found: should be one of " + ", ".join(chains))
+        # chains = cmd.get_chains(pdb_object)
+        # if chain_id not in chains:
+        #     raise Exception("Chain ID not found: should be one of " + ", ".join(chains))
     
         try:
             with tempfile.NamedTemporaryFile(delete=False, suffix=".pdb", dir=INTEREMEDIATE_DIR) as tmp_pdb:
@@ -68,7 +68,13 @@ def rnaview_wrapper(pdb_object, chain_id):
     return BPL
 
 
-def PseudoKnotVisualizer(pdb_object, chain_id):
+def PseudoKnotVisualizer(pdb_object, chain_id=None):
+    if chain_id is None:
+        chains = cmd.get_chains(pdb_object)
+        if len(chains) == 1:
+            chain_id = chains[0]
+        else:
+            raise Exception("Chain ID is not specified and there are multiple chains. Please specify chain ID from " + ", ".join(chains))
     BPL = rnaview_wrapper(pdb_object, chain_id)
     print(f"extracted base pairs: {BPL}")
     PKlayers = PKextractor(BPL)
