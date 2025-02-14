@@ -1,7 +1,11 @@
-# RNAVIEW related variables
-RNAVIEW="/large/otgk/app/rnaview/20231226"
-RNAVIEW_PATH="/large/otgk/app/rnaview/20231226/bin"
-# The path to this PseudoknotVisualizer repository.
-PseudoKnotVisualizer_DIR = "/large/otgk/PseudoknotVisualizer"
+from pathlib import Path
+
+# RNAVIEW related paths
+RNAVIEW = Path("/path/to/RNAView") # <-- please edit this path to your RNAVIEW path
+RNAVIEW_PATH = RNAVIEW / "bin"
+
+# PseudoknotVisualizer repository path
+PseudoKnotVisualizer_DIR = Path("/path/to/PseudoknotVisualizer") # <-- please edit this path to your PseudoKnotVisualizer repository path
+
 # ------------- Do not edit below this line. ------------------
-INTEREMEDIATE_DIR = PseudoKnotVisualizer_DIR + "/intermediate/"
+INTEREMEDIATE_DIR = PseudoKnotVisualizer_DIR / "intermediate"
