@@ -3,7 +3,7 @@ import pandas as pd
 
 # Only canonical base pairs are considered!!
 # Considering non-canonical base pairs is a future work. 2024.10.28
-def extract_base_pairs(input_file: str):
+def extract_base_pairs_from_rnaview(input_file: str):
     with open(input_file, 'r') as infile:
         lines = infile.readlines()
 
@@ -48,6 +48,6 @@ def extract_base_pairs(input_file: str):
 
 if __name__ == "__main__":
     rnaview_output = "/large/otgk/PseudoknotVisualizer/intermediate/1KPD.pdb.out"
-    df = extract_base_pairs(rnaview_output)
+    df = extract_base_pairs_from_rnaview(rnaview_output)
     print(df)
 

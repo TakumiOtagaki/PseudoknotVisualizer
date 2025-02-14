@@ -7,7 +7,7 @@ from pymol import cmd
 import tempfile
 import subprocess
 
-from addressRNAviewOutput import extract_base_pairs
+from addressRNAviewOutput import extract_base_pairs_from_rnaview
 import pathlib
 # os.environ["RNAVIEW"] = RNAVIEW
 # os.environ["RNAVIEW_PATH"] = RNAVIEW_PATH
@@ -62,7 +62,7 @@ def rnaview_wrapper(pdb_object, chain_id):
 
     # result_file = INTEREMEDIATE_DIR + pdb_path.split("/")[-1] + ".out"
     result_file = pathlib.Path(INTEREMEDIATE_DIR) / (pathlib.Path(pdb_path).name + ".out")
-    valid_bps_df = extract_base_pairs(result_file) # pandas
+    valid_bps_df = extract_base_pairs_from_rnaview(result_file) # pandas
     print(valid_bps_df)
     BPL = [(row["left_idx"], row["right_idx"]) for _, row in valid_bps_df.iterrows()]
 
