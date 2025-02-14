@@ -9,14 +9,12 @@ import subprocess
 
 from addressRNAviewOutput import extract_base_pairs_from_rnaview
 import pathlib
-# os.environ["RNAVIEW"] = RNAVIEW
-# os.environ["RNAVIEW_PATH"] = RNAVIEW_PATH
 
 # DEBUG = True
 DEBUG = False
 
-# colors = load_colors_from_json(PseudoKnotVisualizer_DIR + "/colors.json")
 colors = load_colors_from_json(PseudoKnotVisualizer_DIR / "colors.json")
+rnaview = os.path.join(RNAVIEW_PATH, "rnaview")
 
 def clear_intermediate_files(except_files=[]):
     # intermediate dir には他のゴミのファイルがあるので消しておく
@@ -26,7 +24,6 @@ def clear_intermediate_files(except_files=[]):
                 os.remove(INTEREMEDIATE_DIR + f)
     return
 
-rnaview = os.path.join(RNAVIEW_PATH, "rnaview")
 def rnaview_wrapper(pdb_object, chain_id):
     if DEBUG:
         pdb_id = pdb_object # for debugging
@@ -93,25 +90,9 @@ cmd.extend("pkv", PseudoKnotVisualizer)
 
 if __name__ == "__main__":
     # clear_intermediate_files()
-    # BPL = rnaview("1KPD", "A")
+    # BPL = rnaview_wrapper("1KPD", "A")
     # print(BPL)
     # PKlayers = PKextractor(BPL)
     # print(PKlayers)
-    
-
     pass
-
-
-
-
-
-        
-        
-        
-
-
-    
-
-
-
 
