@@ -83,7 +83,7 @@ def PseudoKnotVisualizer(pdb_object, chain_id):
     print("Coloring done.")
     print(f"Depth is {len(PKlayers)}")
     
-    # clear_intermediate_files()
+    clear_intermediate_files()
     return
 
 
