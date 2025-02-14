@@ -2,3 +2,4 @@ __pycache__/*
 intermediate/*
 *.cif
 *.pdb
+.DS_Store
