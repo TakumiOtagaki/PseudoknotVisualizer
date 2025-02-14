@@ -19,7 +19,7 @@ rnaview = os.path.join(RNAVIEW_PATH, "rnaview")
 def clear_intermediate_files(except_files=[]):
     # intermediate dir には他のゴミのファイルがあるので消しておく
     for f in os.listdir(INTEREMEDIATE_DIR):
-        if f.endswith(".out") or f.endswith(".pdb") or f.endswith(".ps") or f.endswith(".xml"):
+        if f.endswith(".out") or f.endswith(".pdb") or f.endswith(".ps") or f.endswith(".xml") or f.endswith(".cif") or f.endswith(".pdb_new"):
             if f not in except_files:
                 # os.remove(INTEREMEDIATE_DIR + f)
                 os.remove(pathlib.Path(INTEREMEDIATE_DIR) / f)
