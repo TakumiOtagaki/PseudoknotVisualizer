@@ -21,7 +21,7 @@ def argparser():
 def args_validation(args):
     if args.format.lower() not in ['pymol', 'chimera']:
         raise ValueError("Output format must be either 'pymol' or 'chimera'")
-    if not args.input.endswith('.pdb'):
-        raise ValueError("Input file must be a PDB file")
+    # if not args.input.endswith('.pdb'):
+    #     raise ValueError("Input file must be a PDB file")
     return
 

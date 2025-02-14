@@ -63,7 +63,7 @@ def CLI_rnaview(pdb_file, chain_id):
         raise Exception("RNAVIEW failed or Exporting structure failed: " + str(e))
 
     result_file = INTEREMEDIATE_DIR + os.path.basename(tmp_path) + ".out"
-    valid_bps_df = extract_base_pairs(result_file)
+    valid_bps_df = extract_base_pairs_from_rnaview(result_file)
     print(valid_bps_df)
     BPL = [(row["left_idx"], row["right_idx"]) for _, row in valid_bps_df.iterrows()]
 
