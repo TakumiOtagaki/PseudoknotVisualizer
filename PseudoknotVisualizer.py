@@ -14,7 +14,8 @@ import pathlib
 DEBUG = False
 
 colors = load_colors_from_json(PseudoKnotVisualizer_DIR / "colors.json")
-rnaview = os.path.join(RNAVIEW_PATH, "rnaview")
+# rnaview = os.path.join(RNAVIEW_PATH, "rnaview")
+rnaview = RNAVIEW_PATH / "rnaview"
 
 def clear_intermediate_files(except_files=[]):
     # intermediate dir には他のゴミのファイルがあるので消しておく
