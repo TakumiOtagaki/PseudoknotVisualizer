@@ -45,7 +45,7 @@ def rnaview_wrapper(pdb_object, chain_id):
         try:
             with tempfile.NamedTemporaryFile(delete=False, suffix=".cif", dir=INTEREMEDIATE_DIR) as tmp_pdb:
                 pdb_path = tmp_pdb.name # tmp.pdb is created and deleted automatically after the block.
-                cmd.save(pdb_path, pdb_object)
+                cmd.save(pdb_path, pdb_object, format="cif")
 
                 result = subprocess.run(
                     [rnaview, "-p", "--cif", pdb_path],
