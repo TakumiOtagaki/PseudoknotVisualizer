@@ -68,6 +68,7 @@ def rnaview_(pdb_object, chain_id):
 
 def PseudoKnotVisualizer(pdb_object, chain_id):
     BPL = rnaview_(pdb_object, chain_id)
+    print(f"extracted base pairs: {BPL}")
     PKlayers = PKextractor(BPL)
     for depth, PKlayer in enumerate(PKlayers):
         # color = str(depth + 1)
