@@ -43,12 +43,12 @@ def rnaview_wrapper(pdb_object, chain_id):
             raise Exception("Chain ID not found: should be one of " + ", ".join(chains))
     
         try:
-            with tempfile.NamedTemporaryFile(delete=False, suffix=".pdb", dir=INTEREMEDIATE_DIR) as tmp_pdb:
+            with tempfile.NamedTemporaryFile(delete=False, suffix=".cif", dir=INTEREMEDIATE_DIR) as tmp_pdb:
                 pdb_path = tmp_pdb.name # tmp.pdb is created and deleted automatically after the block.
                 cmd.save(pdb_path, pdb_object)
 
                 result = subprocess.run(
-                    [rnaview, pdb_path],
+                    [rnaview, "-p", "--cif", pdb_path],
                     env={"RNAVIEW": RNAVIEW},
                     cwd=INTEREMEDIATE_DIR,
                     check=True
