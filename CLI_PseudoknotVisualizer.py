@@ -3,7 +3,7 @@ from coloring import CLI_coloring_canonical, load_colors_from_json
 from argparser import argparser, args_validation
 from config import RNAVIEW_PATH, RNAVIEW, PseudoKnotVisualizer_DIR, INTEREMEDIATE_DIR
 from rna import PKextractor
-from addressRNAviewOutput import extract_base_pairs
+from addressRNAviewOutput import extract_base_pairs_from_rnaview
 from Bio.PDB import PDBParser, PDBIO
 from Bio.PDB.MMCIFParser import MMCIFParser
 from Bio.PDB.mmcifio import MMCIFIO
