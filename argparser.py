@@ -23,5 +23,7 @@ def args_validation(args):
         raise ValueError("Output format must be either 'pymol' or 'chimera'")
     # if not args.input.endswith('.pdb'):
     #     raise ValueError("Input file must be a PDB file")
+    if args.format.lower() == 'chimera' and args.model is None:
+        raise ValueError("Model ID is required for Chimera format")
     return
 
