@@ -140,7 +140,6 @@ Usage: pkv pdb_object [,chain_id]
  - pdb_object(str): PDB object name
  - chain_id(str): Chain ID of the RNA structure. 
     If not specified, all chains will be analyzed.
- 
 ```
 
 ## Changing Colors (Optinal)
