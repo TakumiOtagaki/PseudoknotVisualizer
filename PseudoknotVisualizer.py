@@ -55,10 +55,14 @@ def rnaview_wrapper(pdb_object, chain_id):
 def PseudoKnotVisualizer(pdb_object, chain_id=None):
     if chain_id is None:
         chains = cmd.get_chains(pdb_object)
-        if len(chains) == 1:
-            chain_id = chains[0]
-        else:
-            raise Exception("Chain ID is not specified and there are multiple chains. Please specify chain ID from " + ", ".join(chains))
+        print("Chain ID is not specified and there are multiple chains. All chains ID will be analyzed: " + ", ".join(chains))
+        for chain_id in chains:
+            PseudoKnotVisualizer(pdb_object, chain_id)
+        return
+    elif chain_id not in cmd.get_chains(pdb_object):
+        print(f"Chain {chain_id} is not found in the pdb object.")
+        print(f"Available chains are: {', '.join(cmd.get_chains(pdb_object))}")
+        return
     BPL = rnaview_wrapper(pdb_object, chain_id)
     print(f"extracted base pairs: {BPL}")
     PKlayers = PKextractor(BPL)
