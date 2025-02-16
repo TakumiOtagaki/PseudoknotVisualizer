@@ -10,16 +10,22 @@ from Bio.PDB.mmcifio import MMCIFIO
 import tempfile
 import subprocess
 import os
+import pathlib
 
-def CLI_rnaview(pdb_file, chain_id):
+def CLI_rnaview(struct_file, chain_id):
     # 入力ファイルが .cif か .pdb かを拡張子で判定
-    ext = os.path.splitext(pdb_file)[1].lower()
+    ext = os.path.splitext(struct_file)[1].lower()
+    file_type = None
     if ext == ".cif" or ext == ".mmcif":
         parser = MMCIFParser(QUIET=True)
-    else:
+        file_type = "cif"
+    elif ext == ".pdb":
         parser = PDBParser(QUIET=True)
+        file_type = "pdb"
+    else:
+        raise ValueError("Input file should be .cif or .pdb")
 
-    structure = parser.get_structure("structure", pdb_file)
+    structure = parser.get_structure("structure", struct_file)
     chain_structure = structure[0]
     selected_chain = None
 
@@ -29,40 +35,27 @@ def CLI_rnaview(pdb_file, chain_id):
             break
 
     if selected_chain is None:
-        raise ValueError(f"Chain ID {chain_id} not found in {pdb_file}")
+        raise ValueError(f"Chain ID {chain_id} not found in {struct_file}")
 
     # PDB と CIF で出力方法を分ける
-    if ext == ".cif" or ext == ".mmcif":
-        io = MMCIFIO()
-        suffix = ".cif"
-        rnaview_args = [rnaview, "-p", "--cif"]  # CIF 用
-    else:
-        io = PDBIO()
-        suffix = ".pdb"
-        rnaview_args = [rnaview, "-p", "--pdb"]  # PDB 用
+    arg = "--cif" if file_type == "cif" else "--pdb"
 
-    io.set_structure(selected_chain)
+    print(f"rnaview starts with {struct_file} and chain {chain_id}")
 
     try:
-        with tempfile.NamedTemporaryFile(delete=False, suffix=suffix, dir=INTEREMEDIATE_DIR) as tmp_file:
-            tmp_path = tmp_file.name
-            io.save(tmp_path)
-
-            # RNAVIEW 実行コマンドに一時ファイルを渡す
-            rnaview_args.append(tmp_path)
-
-            result = subprocess.run(
-                rnaview_args,
-                env={"RNAVIEW": RNAVIEW},
-                cwd=INTEREMEDIATE_DIR,
-                check=True
-            )
-            if result.returncode != 0:
-                raise Exception("RNAVIEW failed")
+        result = subprocess.run(
+            [rnaview, "-p", arg, struct_file],
+            env={"RNAVIEW": RNAVIEW},
+            cwd=INTEREMEDIATE_DIR,
+            check=True
+        )
+        if result.returncode != 0:
+            raise Exception("RNAVIEW failed")
     except Exception as e:
         raise Exception("RNAVIEW failed or Exporting structure failed: " + str(e))
 
-    result_file = INTEREMEDIATE_DIR + os.path.basename(tmp_path) + ".out"
+    print("rnaview done.")
+    result_file = pathlib.Path(INTEREMEDIATE_DIR) / (pathlib.Path(struct_file).name + ".out")
     valid_bps_df = extract_base_pairs_from_rnaview(result_file)
     print(valid_bps_df)
     BPL = [(row["left_idx"], row["right_idx"]) for _, row in valid_bps_df.iterrows()]
