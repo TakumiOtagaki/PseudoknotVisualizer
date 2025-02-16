@@ -13,6 +13,7 @@ import os
 import pathlib
 import shutil
 
+colors = load_colors_from_json(PseudoKnotVisualizer_DIR / "colors.json")
 rnaview = RNAVIEW_PATH / "rnaview"
 
 def CLI_rnaview(struct_file, chain_id):
@@ -81,7 +82,7 @@ def CLI_PseudoKnotVisualizer(pdb_file, chain_id, format, output_file, model_id):
     print(f"Depth is {len(PKlayers)}")
     print(f"Output script is saved as {output_file}")
     
-    # clear_intermediate_files()
+    clear_intermediate_files()
     return
 
 def main():
