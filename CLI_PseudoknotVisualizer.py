@@ -11,6 +11,9 @@ import tempfile
 import subprocess
 import os
 import pathlib
+import shutil
+
+rnaview = RNAVIEW_PATH / "rnaview"
 
 def CLI_rnaview(struct_file, chain_id):
     # 入力ファイルが .cif か .pdb かを拡張子で判定
@@ -40,19 +43,20 @@ def CLI_rnaview(struct_file, chain_id):
     # PDB と CIF で出力方法を分ける
     arg = "--cif" if file_type == "cif" else "--pdb"
 
-    print(f"rnaview starts with {struct_file} and chain {chain_id}")
+    print(f"rnaview starts with {struct_file} and chain {chain_id}, output type is {arg}")
+    # intermediate 以下に複製する
+    copied_file = pathlib.Path(INTEREMEDIATE_DIR) / pathlib.Path(struct_file).name
+    shutil.copy2(struct_file, copied_file)
 
-    try:
-        result = subprocess.run(
-            [rnaview, "-p", arg, struct_file],
-            env={"RNAVIEW": RNAVIEW},
-            cwd=INTEREMEDIATE_DIR,
-            check=True
+
+    result = subprocess.run(
+        [rnaview, "-p", arg, copied_file],
+        env={"RNAVIEW": RNAVIEW},
+        cwd=INTEREMEDIATE_DIR,
+        check=True
         )
-        if result.returncode != 0:
-            raise Exception("RNAVIEW failed")
-    except Exception as e:
-        raise Exception("RNAVIEW failed or Exporting structure failed: " + str(e))
+    if result.returncode != 0:
+        raise Exception("RNAVIEW failed")
 
     print("rnaview done.")
     result_file = pathlib.Path(INTEREMEDIATE_DIR) / (pathlib.Path(struct_file).name + ".out")
