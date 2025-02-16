@@ -53,6 +53,14 @@ def rnaview_wrapper(pdb_object, chain_id):
 
 
 def PseudoKnotVisualizer(pdb_object, chain_id=None):
+    """
+    PseudoKnotVisualizer: Visualizing Pseudo Knots in RNA structure.
+    Usage: pkv pdb_object [,chain_id]
+     - pdb_object(str): PDB object name
+     - chain_id(str): Chain ID of the RNA structure. 
+        If not specified, all chains will be analyzed.    
+    
+    """
     if chain_id is None:
         chains = cmd.get_chains(pdb_object)
         print("Chain ID is not specified and there are multiple chains. All chains ID will be analyzed: " + ", ".join(chains))
