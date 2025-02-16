@@ -132,6 +132,17 @@ As you can see from this example, you can use "sele" to identify the model.
 <img src="https://github.com/TakumiOtagaki/PseudoknotVisualizer/blob/main/casp15_examples.png" alt="pymol_demo_6T3R" width="50%">
 
 
+Also you can get the explanation in pymol command line using `help pkv`
+```sh
+pymol commandline$ help pkv
+PseudoKnotVisualizer: Visualizing Pseudo Knots in RNA structure.
+Usage: pkv pdb_object [,chain_id]
+ - pdb_object(str): PDB object name
+ - chain_id(str): Chain ID of the RNA structure. 
+    If not specified, all chains will be analyzed.
+ 
+```
+
 ## Changing Colors (Optinal)
 If you want to change the color of each layer, modify PseudoknotVisualizer/colors.json. You can also add new lines.
 
