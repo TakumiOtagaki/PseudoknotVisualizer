@@ -48,7 +48,7 @@ conda create -n pymol python=3.11.0
 conda activate pymol
 conda install pandas numpy
 conda install -c conda-forge pymol-open-source
-pymol
+pymol # pymol will get started.
 ```
 Type `pymol` in conda pymol env, then open source PyMOL app will start.
 
