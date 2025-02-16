@@ -69,7 +69,6 @@ Type `pymol` in conda pymol env, then open source PyMOL app will start.
 
 1. Cloning
 ```sh
-# 1. 
 $ git clone git@github.com:TakumiOtagaki/PseudoknotVisualizer.git
 ```
 
@@ -77,12 +76,17 @@ $ git clone git@github.com:TakumiOtagaki/PseudoknotVisualizer.git
 Add the two variables related to the RNAView you installed earlier, RNAVIEW and PATH of RNAVIEW, to config.py.
 Please rewrite the three lines:
 ```config.py
-# RNAVIEW related variables
-RNAVIEW="/path/to/RNAVIEW"
-RNAVIEW_PATH="/path/to/RNAVIEW/bin"
-# The path to this PseudoknotVisualizer repository.
-PseudoKnotVisualizer_DIR = "/path/to/PseudoknotVisualizer"
-...
+from pathlib import Path
+
+# RNAVIEW related paths
+RNAVIEW = Path("/path/to/RNAView") # <-- please edit this path to your RNAVIEW path
+RNAVIEW_PATH = RNAVIEW / "bin"
+
+# PseudoknotVisualizer repository path
+PseudoKnotVisualizer_DIR = Path("/path/to/PseudoknotVisualizer") # <-- please edit this path to your PseudoKnotVisualizer repository path
+
+# ------------- Do not edit below this line. ------------------
+INTEREMEDIATE_DIR = PseudoKnotVisualizer_DIR / "intermediate"
 ```
 
 3. Rewrite or create `~/.pymolrc.py`
@@ -95,7 +99,7 @@ And write a few lines as follows.
 ```~/.pymolrc.py
 # ~/.pymolrc.py
 import sys
-pathtoPseudoknotVisualizer = "/path/to/PseudoknotVisualizer" # <-- Please modify this line!
+pathtoPseudoknotVisualizer = "/path/to/PseudoknotVisualizer" # <-- Please modify this line! This is the path of this repo.
 sys.path.insert(0, pathtoPseudoknotVisualizer)
 
 from pymol import cmd
@@ -113,7 +117,7 @@ If you skipped this step, you have to load manually (not recommended).
 After loading models, it can be called and used as follows:
 ```
 # PyMOL command line after loading model
-pkv $pdb_object, $chainID
+pkv $pdb_object (,$chainID)
 ```
  - pdb_object = a model, it can be multimer.
  - chainID = A, B, C, ...
