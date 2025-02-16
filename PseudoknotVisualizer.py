@@ -27,37 +27,21 @@ def clear_intermediate_files(except_files=[]):
     return
 
 def rnaview_wrapper(pdb_object, chain_id):
-    if DEBUG:
-        pdb_id = pdb_object # for debugging
-        chain_id = "A"
-        pdb_path = "/large/otgk/PseudoknotVisualizer/intermediate/1KPD_test.pdb"
-        result = subprocess.run(
-            [rnaview, pdb_path],
-            env={"RNAVIEW": RNAVIEW},
-            cwd=INTEREMEDIATE_DIR,
-            check=True
-        )
+    try:
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".pdb", dir=INTEREMEDIATE_DIR) as tmp_pdb:
+            pdb_path = tmp_pdb.name # tmp.pdb is created and deleted automatically after the block.
+            cmd.save(pdb_path, pdb_object, format="pdb")
 
-    else:
-        # chains = cmd.get_chains(pdb_object)
-        # if chain_id not in chains:
-        #     raise Exception("Chain ID not found: should be one of " + ", ".join(chains))
-    
-        try:
-            with tempfile.NamedTemporaryFile(delete=False, suffix=".pdb", dir=INTEREMEDIATE_DIR) as tmp_pdb:
-                pdb_path = tmp_pdb.name # tmp.pdb is created and deleted automatically after the block.
-                cmd.save(pdb_path, pdb_object, format="pdb")
-
-                result = subprocess.run(
-                    [rnaview, "-p", "--pdb", pdb_path],
-                    env={"RNAVIEW": RNAVIEW},
-                    cwd=INTEREMEDIATE_DIR,
-                    check=True
-                )
-                if result.returncode != 0:
-                    raise Exception("RNAVIEW failed")
-        except Exception as e:
-            raise Exception("RNAVIEW failed or Exporting PDB failed: " + str(e))
+            result = subprocess.run(
+                [rnaview, "-p", "--pdb", pdb_path],
+                env={"RNAVIEW": RNAVIEW},
+                cwd=INTEREMEDIATE_DIR,
+                check=True
+            )
+            if result.returncode != 0:
+                raise Exception("RNAVIEW failed")
+    except Exception as e:
+        raise Exception("RNAVIEW failed or Exporting PDB failed: " + str(e))
 
     # result_file = INTEREMEDIATE_DIR + pdb_path.split("/")[-1] + ".out"
     result_file = pathlib.Path(INTEREMEDIATE_DIR) / (pathlib.Path(pdb_path).name + ".out")
