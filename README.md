@@ -22,11 +22,6 @@ This tool has two modes of use: CLI and GUI (using PyMOL).
 
 
 
-
-
-
-
-
 # How to Install
 
 ## Prerequisite: Installtion of RNAView
@@ -60,10 +55,10 @@ Type `pymol` in conda pymol env, then open source PyMOL app will start.
 
 
 ## Installation of PseudoknotVisualizer
-### overview
+### overview of the installation
 1. Clone this repository.
-2. Rewrite config.py; path and other enviromental variables.
-3. Rewrite or create `~/.pymolrc.py` in order to load the extension at startup.
+2. Rewrite `config.py`: path and other enviromental variables.
+3. Rewrite or create `~/.pymolrc.py` in order to load the extension at startup automatically.
 
 -----
 
