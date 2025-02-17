@@ -139,7 +139,7 @@ def rnaview_wrapper(pdb_object, chain_id):
     return BPL
 
 
-def PseudoKnotVisualizer(pdb_object, chain_id=None, auto_renumber=True, pure_rna=True):
+def PseudoKnotVisualizer(pdb_object, chain_id=None, auto_renumber=True, only_pure_rna=False):
     """
     PseudoKnotVisualizer: Visualizing Pseudo Knots in RNA structure.
     Usage: pkv pdb_object [,chain_id]
@@ -148,7 +148,7 @@ def PseudoKnotVisualizer(pdb_object, chain_id=None, auto_renumber=True, pure_rna
         If not specified, all chains will be analyzed.
      - auto_renumber(bool): If True, automatically renumber residues from 1,
         to avoid the error caused by non-sequential residue numbers in the input PDB file.
-     - pure_rna(bool): If True, only standard RNA bases (A, C, G, U, I) are analyzed.
+     - only_pure_rna(bool): If True, only standard RNA bases (A, C, G, U, I) are analyzed.
     """
     if chain_id is None:
         chains = cmd.get_chains(pdb_object)
@@ -163,6 +163,11 @@ def PseudoKnotVisualizer(pdb_object, chain_id=None, auto_renumber=True, pure_rna
     # ★ ここで自動でレジデュー番号を補正する
     if auto_renumber:
         auto_renumber_residues(pdb_object, chain_id)
+    if only_pure_rna:
+        if not is_pure_rna(pdb_object, chain_id):
+            print("The structure contains non-standard RNA bases or other molecules.")
+            print("If you want to analyze them, please set pure_rna=False.")
+            return
     BPL = rnaview_wrapper(pdb_object, chain_id)
     print(f"extracted base pairs: {BPL}")
     PKlayers = PKextractor(BPL)
