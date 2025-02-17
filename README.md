@@ -15,9 +15,9 @@ This tool has two modes of use: CLI and GUI (using PyMOL).
 
 - Left: Before coloring pseudoknots.
 - Right: After coloring
- - red: pseudoknot layer 1
- - blue: pseudoknot layer 2
- - green: pseudoknot layer 3
+ - red: pseudoknot order 1
+ - blue: pseudoknot order 2
+ - green: pseudoknot order 3
  - (gray: Main Layer)
 
 
@@ -207,8 +207,8 @@ Then, 1kpd.pdb is downloaded in current directory.
     ```
 2.	Run
   ```
- pip install -r requirements.txt
- ```
+  pip install -r requirements.txt
+  ```
 3.	Complete steps 1 through 3 from the installation instructions above.
 
 4.	Execute the command `python CLI_PseudoknotVisualizer.py -i input.pdb -o ...`
@@ -222,7 +222,7 @@ python PseudoknotVisualizer/CLI_PseudoknotVisualizer.py \
   -o test/coloring_1KPD.0.A.pymol.txt \ # path of output script txtfile
   -c A \ # chain ID
   -f pymol \ # format: chimera or pymol
-  -m 0 # model ID in your viewer.
+  -m 0 # model ID in your viewer if you choose chimera format with -f option.
 ```
 
 
@@ -242,10 +242,23 @@ Here, please rewrite
 
 Then, it will work.
 
+### Update
+Now, PseudoKnotVisualizer can deal the molecule whose sequence index in PyMOL does not start with 1.
+In pymol command line, you can specify the `auto-renumber` flag (default: True):
+```
+$ help pkv
+...
+ - auto_renumber(bool): If True, automatically renumber residues from 1,
+    to avoid the error caused by non-sequential residue numbers in the input PDB file.
+```
+
+Using this option, you can avoid the error around the non-ordinary sequence index.
 
 
 # to do list
-- We are going to support "non-canonical bp" mode, extension for chimera.
+- We are going to support
+  -  "non-canonical bp" mode
+  -  the extension for chimera.
 
 
 # License
