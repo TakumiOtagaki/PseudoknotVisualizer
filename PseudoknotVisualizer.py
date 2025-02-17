@@ -26,6 +26,52 @@ def clear_intermediate_files(except_files=[]):
                 os.remove(pathlib.Path(INTEREMEDIATE_DIR) / f)
     return
 
+from pymol import cmd
+
+def auto_renumber_residues(pdb_object, chain_id):
+    """
+    指定したpdb_objectの chain_id に対して、
+    レジデュー番号の最小値が1でない場合に、自動で 1 から始まるように再番号付けする。
+    例: min_resiが100の場合、 100 -> 1, 101 -> 2, ... のようにalterする。
+    """
+    # pdb_object and chain_id のアトム情報を取得
+    model = cmd.get_model(f"{pdb_object} and chain {chain_id}")
+
+    # ユニークな整数レジデュー番号のみを収集 (insertion codeなどは一旦無視)
+    resi_list = []
+    for atom in model.atom:
+        try:
+            r = int(atom.resi)
+            if r not in resi_list:
+                resi_list.append(r)
+        except ValueError:
+            # resi が変な文字付き(例: 101A 等)の場合、スキップ or 追加処理要検討
+            pass
+
+    if not resi_list:
+        # 見つからなかった場合はスキップ
+        print(f"[auto_renumber_residues] {pdb_object}, chain {chain_id} でレジデュー番号が見つかりませんでした。")
+        return
+
+    min_resi = min(resi_list)
+    
+    # すでに1から始まっていれば何もしない
+    if min_resi == 1: return
+    
+    # (min_resi - 1) を引くことによって、最小値を1に合わせる
+    offset = min_resi - 1
+    
+    print(f"[auto_renumber_residues] renumbering chain {chain_id} by offset={offset} (min_resi was {min_resi})")
+    
+    # alter で一括変更 (resiを int(resi)-offset に置き換える)
+    cmd.alter(
+        f"{pdb_object} and chain {chain_id}",
+        f"resi=str(int(resi)-{offset})"
+    )
+    
+    # sort して整合性を取っておく (resi 順序などが正しく並ぶように)
+    cmd.sort(pdb_object)
+
 def rnaview_wrapper(pdb_object, chain_id):
     try:
         with tempfile.NamedTemporaryFile(delete=False, suffix=".pdb", dir=INTEREMEDIATE_DIR) as tmp_pdb:
@@ -52,13 +98,15 @@ def rnaview_wrapper(pdb_object, chain_id):
     return BPL
 
 
-def PseudoKnotVisualizer(pdb_object, chain_id=None):
+def PseudoKnotVisualizer(pdb_object, chain_id=None, auto_renumber=True):
     """
     PseudoKnotVisualizer: Visualizing Pseudo Knots in RNA structure.
     Usage: pkv pdb_object [,chain_id]
      - pdb_object(str): PDB object name
-     - chain_id(str): Chain ID of the RNA structure. 
-        If not specified, all chains will be analyzed.    
+     - chain_id(str): Chain ID of the RNA structure.
+        If not specified, all chains will be analyzed.
+     - auto_renumber(bool): If True, automatically renumber residues from 1,
+        to avoid the error caused by non-sequential residue numbers in the input PDB file.
     """
     if chain_id is None:
         chains = cmd.get_chains(pdb_object)
@@ -70,6 +118,9 @@ def PseudoKnotVisualizer(pdb_object, chain_id=None):
         print(f"Chain {chain_id} is not found in the pdb object.")
         print(f"Available chains are: {', '.join(cmd.get_chains(pdb_object))}")
         return
+    # ★ ここで自動でレジデュー番号を補正する
+    if auto_renumber:
+        auto_renumber_residues(pdb_object, chain_id)
     BPL = rnaview_wrapper(pdb_object, chain_id)
     print(f"extracted base pairs: {BPL}")
     PKlayers = PKextractor(BPL)
