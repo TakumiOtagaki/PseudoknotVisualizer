@@ -28,6 +28,47 @@ def clear_intermediate_files(except_files=[]):
 
 from pymol import cmd
 
+from pymol import cmd
+
+def is_pure_rna(pdb_object, chain_id=None):
+    """
+    指定した pdb_object(＋chain_id) が
+    ・標準的な RNA 塩基 (A, C, G, U, I)
+    ・あるいは水分子やイオンなど (HOH, MG, NA, K, CL, etc.)
+    以外を一切含まない場合に True を返す関数。
+    
+    - pdb_object: PyMOL上にロードされているオブジェクト名 (例: "1ABC")
+    - chain_id: チェーンID を文字列で指定 (例: "A"). 
+                Noneの場合は全チェーンを対象にチェックする。
+    """
+    # ▼ ここに標準的な RNA の残基名を定義 (実際にはより多くの修飾などがある場合は追加)
+    rna_bases = {"A", "C", "G", "U", "I"}
+    
+    # ▼ ここに「無視してOK」な水・イオンの残基名を列挙
+    #   (HOH/WAT/H2O は水、MG, NA, CL, K, CA, ZN ...etc.)
+    ignore_resn = {"HOH", "WAT", "H2O", "MG", "NA", "K", "CL", "CA", "ZN"}
+
+    # チェーンを指定したい場合は selection を絞る
+    selection = pdb_object
+    if chain_id:
+        selection = f"{pdb_object} and chain {chain_id}"
+
+    # PyMOLの model を取得
+    model = cmd.get_model(selection)
+
+    for atom in model.atom:
+        # アトムの持つ残基名 (resn) をチェック
+        resn_upper = atom.resn.upper()  # 大文字にしておく
+        if resn_upper in ignore_resn:
+            # 水やイオンなどはスキップ
+            continue
+        if resn_upper not in rna_bases:
+            # RNA 塩基以外が見つかった場合は False
+            return False
+    
+    # ループを抜けた = 問題ある残基が見つからなかった場合
+    return True
+
 def auto_renumber_residues(pdb_object, chain_id):
     """
     指定したpdb_objectの chain_id に対して、
@@ -98,7 +139,7 @@ def rnaview_wrapper(pdb_object, chain_id):
     return BPL
 
 
-def PseudoKnotVisualizer(pdb_object, chain_id=None, auto_renumber=True):
+def PseudoKnotVisualizer(pdb_object, chain_id=None, auto_renumber=True, pure_rna=True):
     """
     PseudoKnotVisualizer: Visualizing Pseudo Knots in RNA structure.
     Usage: pkv pdb_object [,chain_id]
@@ -107,6 +148,7 @@ def PseudoKnotVisualizer(pdb_object, chain_id=None, auto_renumber=True):
         If not specified, all chains will be analyzed.
      - auto_renumber(bool): If True, automatically renumber residues from 1,
         to avoid the error caused by non-sequential residue numbers in the input PDB file.
+     - pure_rna(bool): If True, only standard RNA bases (A, C, G, U, I) are analyzed.
     """
     if chain_id is None:
         chains = cmd.get_chains(pdb_object)
