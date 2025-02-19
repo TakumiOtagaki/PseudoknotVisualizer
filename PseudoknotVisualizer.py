@@ -26,10 +26,6 @@ def clear_intermediate_files(except_files=[]):
                 os.remove(pathlib.Path(INTEREMEDIATE_DIR) / f)
     return
 
-from pymol import cmd
-
-from pymol import cmd
-
 def is_pure_rna(pdb_object, chain_id=None):
     """
     指定した pdb_object(＋chain_id) が
@@ -139,7 +135,7 @@ def rnaview_wrapper(pdb_object, chain_id):
     return BPL
 
 
-def PseudoKnotVisualizer(pdb_object, chain_id=None, auto_renumber=True, only_pure_rna=False):
+def PseudoKnotVisualizer(pdb_object, chain_id=None, auto_renumber=True, only_pure_rna=False, precoloring=True):
     """
     PseudoKnotVisualizer: Visualizing Pseudo Knots in RNA structure.
     Usage: pkv pdb_object [,chain_id]
@@ -149,6 +145,7 @@ def PseudoKnotVisualizer(pdb_object, chain_id=None, auto_renumber=True, only_pur
      - auto_renumber(bool): If True, automatically renumber residues from 1,
         to avoid the error caused by non-sequential residue numbers in the input PDB file.
      - only_pure_rna(bool): If True, only standard RNA bases (A, C, G, U, I) are analyzed.
+     - precoloring(bool): If True, all atoms are colored 'white' before coloring the base pairs.
     """
     if chain_id is None:
         chains = cmd.get_chains(pdb_object)
@@ -171,6 +168,9 @@ def PseudoKnotVisualizer(pdb_object, chain_id=None, auto_renumber=True, only_pur
     BPL = rnaview_wrapper(pdb_object, chain_id)
     print(f"extracted base pairs: {BPL}")
     PKlayers = PKextractor(BPL)
+    if precoloring:
+        # 全て white にする
+        cmd.color("white", pdb_object)
     for depth, PKlayer in enumerate(PKlayers):
         # color = str(depth + 1)
         color = colors[str(depth + 1)]
