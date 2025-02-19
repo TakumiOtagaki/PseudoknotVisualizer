@@ -94,10 +94,12 @@ And write a few lines as follows.
 ```~/.pymolrc.py
 # ~/.pymolrc.py
 import sys
-pathtoPseudoknotVisualizer = "/path/to/PseudoknotVisualizer" # <-- Please modify this line! This is the path of this repo.
-sys.path.insert(0, pathtoPseudoknotVisualizer)
+import pathlib
+pathtoPKV = pathlib.Path("/path/to/PseudoknotVisualizer") # <-- Please modify this line! This is the path of this repo.
+
 
 from pymol import cmd
+sys.path.insert(0, pathtoPseudoknotVisualizer)
 cmd.run(pathtoPseudoknotVisualizer + "PseudoknotVisualizer.py")
 ```
 
