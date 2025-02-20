@@ -148,6 +148,8 @@ def PseudoKnotVisualizer(pdb_object, chain_id=None, auto_renumber=True, only_pur
      - precoloring(bool) [default: True]: If True, all atoms are colored 'white' before coloring the base pairs.
     """
     #  - selection(bool): If True, selection will be created for each layer: pdb_object_pkorder0, pdb_object_pkorder1, pdb_object_pkorder2, ...
+
+    # precoloring = 
     
     if chain_id is None:
         chains = cmd.get_chains(pdb_object)
@@ -170,6 +172,7 @@ def PseudoKnotVisualizer(pdb_object, chain_id=None, auto_renumber=True, only_pur
     BPL = rnaview_wrapper(pdb_object, chain_id)
     print(f"extracted base pairs: {BPL}")
     PKlayers = PKextractor(BPL)
+    print("precoloring: ", precoloring)
     if precoloring:
         # 全て white にする
         cmd.color("white", f"{pdb_object} and chain {chain_id}")
