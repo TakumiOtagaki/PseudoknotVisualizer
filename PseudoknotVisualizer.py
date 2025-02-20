@@ -140,12 +140,12 @@ def PseudoKnotVisualizer(pdb_object, chain_id=None, auto_renumber=True, only_pur
     PseudoKnotVisualizer: Visualizing Pseudo Knots in RNA structure.
     Usage: pkv pdb_object [,chain_id]
      - pdb_object(str): PDB object name
-     - chain_id(str): Chain ID of the RNA structure.
+     - chain_id(str) : Chain ID of the RNA structure.
         If not specified, all chains will be analyzed.
-     - auto_renumber(bool): If True, automatically renumber residues from 1,
+     - auto_renumber(bool) [auto_renumber: True]: If True, automatically renumber residues from 1,
         to avoid the error caused by non-sequential residue numbers in the input PDB file.
-     - only_pure_rna(bool): If True, only standard RNA bases (A, C, G, U, I) are analyzed.
-     - precoloring(bool): If True, all atoms are colored 'white' before coloring the base pairs.
+     - only_pure_rna(bool) [default: False]: If True, only standard RNA bases (A, C, G, U, I) are analyzed.
+     - precoloring(bool) [default: True]: If True, all atoms are colored 'white' before coloring the base pairs.
     """
     #  - selection(bool): If True, selection will be created for each layer: pdb_object_pkorder0, pdb_object_pkorder1, pdb_object_pkorder2, ...
     
