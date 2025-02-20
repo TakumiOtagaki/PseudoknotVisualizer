@@ -135,7 +135,7 @@ def rnaview_wrapper(pdb_object, chain_id):
     return BPL
 
 
-def PseudoKnotVisualizer(pdb_object, chain_id=None, auto_renumber=True, only_pure_rna=False, precoloring=True):
+def PseudoKnotVisualizer(pdb_object, chain_id=None, auto_renumber=True, only_pure_rna=False, precoloring=True, selection=False):
     """
     PseudoKnotVisualizer: Visualizing Pseudo Knots in RNA structure.
     Usage: pkv pdb_object [,chain_id]
@@ -147,6 +147,8 @@ def PseudoKnotVisualizer(pdb_object, chain_id=None, auto_renumber=True, only_pur
      - only_pure_rna(bool): If True, only standard RNA bases (A, C, G, U, I) are analyzed.
      - precoloring(bool): If True, all atoms are colored 'white' before coloring the base pairs.
     """
+    #  - selection(bool): If True, selection will be created for each layer: pdb_object_pkorder0, pdb_object_pkorder1, pdb_object_pkorder2, ...
+    
     if chain_id is None:
         chains = cmd.get_chains(pdb_object)
         print("Chain ID is not specified and there are multiple chains. All chains ID will be analyzed: " + ", ".join(chains))
@@ -170,14 +172,23 @@ def PseudoKnotVisualizer(pdb_object, chain_id=None, auto_renumber=True, only_pur
     PKlayers = PKextractor(BPL)
     if precoloring:
         # 全て white にする
-        cmd.color("white", pdb_object)
+        cmd.color("white", f"{pdb_object} and chain {chain_id}")
+        pass
     for depth, PKlayer in enumerate(PKlayers):
         # color = str(depth + 1)
         color = colors[str(depth + 1)]
+        print(f"Coloring layer {depth + 1} with color: {color}")
         
+        resi_list = [ f"{i}+{j}" for i, j in PKlayer ]
+        selection_str = "+".join(resi_list)
+        # for i, j in PKlayer:
+        coloring_canonical(pdb_object, chain_id, selection_str, color)
         for i, j in PKlayer:
             coloring_canonical(pdb_object, chain_id, i, color)
             coloring_canonical(pdb_object, chain_id, j, color)
+        if selection:
+            print(f"Creating selection: {pdb_object}_pkorder{depth}")
+            cmd.create(f"{pdb_object}_pkorder{depth}", f"{pdb_object} and chain {chain_id} and resi {selection_str}")
         print(f"Layer {depth + 1}: (i, j) = {PKlayer}")
     print("Coloring done.")
     print(f"Depth is {len(PKlayers)}")
