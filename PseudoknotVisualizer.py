@@ -135,7 +135,7 @@ def rnaview_wrapper(pdb_object, chain_id):
     return BPL
 
 
-def PseudoKnotVisualizer(pdb_object, chain_id=None, auto_renumber=True, only_pure_rna=False, precoloring=True, selection=False):
+def PseudoKnotVisualizer(pdb_object, chain_id=None, auto_renumber=True, only_pure_rna=False, non_precoloring=False, selection=False):
     """
     PseudoKnotVisualizer: Visualizing Pseudo Knots in RNA structure.
     Usage: pkv pdb_object [,chain_id]
@@ -145,7 +145,7 @@ def PseudoKnotVisualizer(pdb_object, chain_id=None, auto_renumber=True, only_pur
      - auto_renumber(bool) [auto_renumber: True]: If True, automatically renumber residues from 1,
         to avoid the error caused by non-sequential residue numbers in the input PDB file.
      - only_pure_rna(bool) [default: False]: If True, only standard RNA bases (A, C, G, U, I) are analyzed.
-     - precoloring(bool) [default: True]: If True, all atoms are colored 'white' before coloring the base pairs.
+     - non_precoloring(bool) [default: False]: If True, all atoms are not colored 'white' before coloring the base pairs.
     """
     #  - selection(bool): If True, selection will be created for each layer: pdb_object_pkorder0, pdb_object_pkorder1, pdb_object_pkorder2, ...
 
@@ -155,7 +155,7 @@ def PseudoKnotVisualizer(pdb_object, chain_id=None, auto_renumber=True, only_pur
         chains = cmd.get_chains(pdb_object)
         print("Chain ID is not specified and there are multiple chains. All chains ID will be analyzed: " + ", ".join(chains))
         for chain_id in chains:
-            PseudoKnotVisualizer(pdb_object, chain_id)
+            PseudoKnotVisualizer(pdb_object, chain_id, auto_renumber, only_pure_rna, non_precoloring, selection)
         return
     elif chain_id not in cmd.get_chains(pdb_object):
         print(f"Chain {chain_id} is not found in the pdb object.")
@@ -172,9 +172,10 @@ def PseudoKnotVisualizer(pdb_object, chain_id=None, auto_renumber=True, only_pur
     BPL = rnaview_wrapper(pdb_object, chain_id)
     print(f"extracted base pairs: {BPL}")
     PKlayers = PKextractor(BPL)
-    print("precoloring: ", precoloring)
-    if precoloring:
+    print("non_precoloring: ", non_precoloring)
+    if not non_precoloring:
         # 全て white にする
+        print("Precoloring all atoms to white.")
         cmd.color("white", f"{pdb_object} and chain {chain_id}")
         pass
     for depth, PKlayer in enumerate(PKlayers):
