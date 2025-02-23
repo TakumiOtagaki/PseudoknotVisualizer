@@ -95,12 +95,12 @@ And write a few lines as follows.
 # ~/.pymolrc.py
 import sys
 import pathlib
+from pymol import cmd
+
 pathtoPKV = pathlib.Path("/path/to/PseudoknotVisualizer") # <-- Please modify this line! This is the path of this repo.
 
-
-from pymol import cmd
 sys.path.insert(0, pathtoPseudoknotVisualizer)
-cmd.run(pathtoPseudoknotVisualizer + "PseudoknotVisualizer.py")
+cmd.run( str(pathtoPKV /  "PseudoknotVisualizer.py"))
 ```
 
 
