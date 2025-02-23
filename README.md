@@ -232,7 +232,7 @@ python PseudoknotVisualizer/CLI_PseudoknotVisualizer.py \
 ```
 
 
-# PyMOL errors
+# Errors caused by the mismatch of pdb format 
 ## Case 1
 PseudoknotVisualizer can not color accurately the specified molecule when the sequence index in PyMOL viewer does not start with 1.
 If so, please check the sequence index (`your_start_index`) pushing "S" button and do as followings:
