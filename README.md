@@ -99,7 +99,7 @@ from pymol import cmd
 
 pathtoPKV = pathlib.Path("/path/to/PseudoknotVisualizer") # <-- Please modify this line! This is the path of this repo.
 
-sys.path.insert(0, pathtoPseudoknotVisualizer)
+sys.path.insert(0, str(pathtoPKV))
 cmd.run( str(pathtoPKV /  "PseudoknotVisualizer.py"))
 ```
 
@@ -259,12 +259,6 @@ $ help pkv
 ```
 
 Using this option, you can avoid the error around the non-ordinary sequence index.
-
-
-# to do list
-- We are going to support
-  -  "non-canonical bp" mode
-  -  the extension for chimera.
 
 
 # License
