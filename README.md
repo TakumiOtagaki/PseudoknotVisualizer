@@ -64,7 +64,7 @@ Type `pymol` in conda pymol env, then open source PyMOL app will start.
 
 1. Cloning
 ```sh
-$ git clone git@github.com:TakumiOtagaki/PseudoknotVisualizer.git
+$ git clone https://github.com/TakumiOtagaki/PseudoknotVisualizer.git
 ```
 
 2. Rewriting config.py
@@ -85,7 +85,7 @@ INTEREMEDIATE_DIR = PseudoKnotVisualizer_DIR / "intermediate"
 ```
 
 3. Rewrite or create `~/.pymolrc.py`
-This is optional, but if you want to automatically load the extension at startup, please follow the instructions below.
+To  load the extension at startup automatically, please follow the instructions below.
 
 ```sh
 $ vim ~/.pymolrc.py
@@ -107,7 +107,6 @@ cmd.run( str(pathtoPKV /  "PseudoknotVisualizer.py"))
 Now, you can use our extension easily.
 After this step, the PseudoknotVisualizer extention will be automatically loaded when PyMOL starts.
 
-If you skipped this step, you have to load manually (not recommended).
 
 # How to use
 ## Basic Usage
