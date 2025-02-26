@@ -69,7 +69,7 @@ git clone https://github.com/TakumiOtagaki/PseudoknotVisualizer.git
 
 2. Rewriting config.py
 Add the two variables related to the RNAView you installed earlier, RNAVIEW and PATH of RNAVIEW, to config.py.
-Please rewrite the three lines:
+Please rewrite one line:
 ```config.py
 from pathlib import Path
 
