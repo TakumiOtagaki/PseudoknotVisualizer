@@ -23,6 +23,25 @@ This tool has two modes of use: CLI and GUI (using PyMOL).
 
 
 # How to Install
+
+## Prerequisite: Installtion of RNAView
+You need to pre-install [rnaview](https://github.com/rcsb/RNAView).
+The installation steps are like followings:
+```
+git clone https://github.com/rcsb/RNAView.git
+cd RNAView
+make
+ls bin # the binary rnaview will be found.
+```
+
+<!-- After the installation of RNAView, your `~/.bashrc` should contain these two lines.
+```~/.bashrc
+# ------------ RNAView setting ---------------
+export PATH=$PATH:/path/to/RNAView/bin
+export RNAVIEW=/path/to/RNAView/
+``` -->
+
+
 ## Prepairing "pymol" Conda Environment. (Recommended)
 ```
 conda create -n pymol python=3.11.0
@@ -38,37 +57,17 @@ Type `pymol` in conda pymol env, then open source PyMOL app will start.
 ## Installation of PseudoknotVisualizer
 ### overview of the installation
 1. Clone this repository.
-2. Installation of RNAView
-<!-- 3. Rewrite `config.py`: path and other enviromental variables. -->
+2. Rewrite `config.py`: path and other enviromental variables.
 3. Rewrite or create `~/.pymolrc.py` in order to load the extension at startup automatically.
 
 -----
 
-1. Cloning PseudoknotVisualizer
+1. Cloning
 ```sh
 git clone https://github.com/TakumiOtagaki/PseudoknotVisualizer.git
-cd PseudoknotVisualizer
 ```
 
-2. Installation of RNAView
-You need to install [rnaview](https://github.com/rcsb/RNAView).
-The installation steps are as followings:
-```
-git clone https://github.com/rcsb/RNAView.git
-cd RNAView
-make
-ls bin # the binary rnaview will be found.
-cd .. # move to the top directory.
-```
-
-<!-- After the installation of RNAView, your `~/.bashrc` should contain these two lines.
-```~/.bashrc
-# ------------ RNAView setting ---------------
-export PATH=$PATH:/path/to/RNAView/bin
-export RNAVIEW=/path/to/RNAView/
-``` -->
-
-<!-- 3. Rewriting config.py (optional)
+2. Rewriting config.py
 Add the two variables related to the RNAView you installed earlier, RNAVIEW and PATH of RNAVIEW, to config.py.
 Please rewrite the three lines:
 ```config.py
@@ -86,7 +85,7 @@ RNAVIEW_PATH = RNAVIEW / "bin"
 PseudoKnotVisualizer_DIR = Path(__file__).parent
 INTERMEDIATE_DIR = PseudoKnotVisualizer_DIR / "intermediate"
 # -------------------------------------------------------------
-``` -->
+```
 
 3. Rewrite or create `~/.pymolrc.py`
 To  load the extension at startup automatically, please follow the instructions below.
