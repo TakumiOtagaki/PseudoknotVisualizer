@@ -3,3 +3,4 @@ intermediate/*
 *.cif
 *.pdb
 .DS_Store
+RNAView/*
