@@ -64,7 +64,7 @@ Type `pymol` in conda pymol env, then open source PyMOL app will start.
 
 1. Cloning
 ```sh
-$ git clone https://github.com/TakumiOtagaki/PseudoknotVisualizer.git
+git clone https://github.com/TakumiOtagaki/PseudoknotVisualizer.git
 ```
 
 2. Rewriting config.py
@@ -105,6 +105,7 @@ pathtoPKV = pathlib.Path("/path/to/PseudoknotVisualizer") # <-- Please modify th
 # --------------------------------------------------------------------------------------------------------------------
 
 cmd.run( str(pathtoPKV /  "PseudoknotVisualizer.py"))
+sys.path.append(str(pathtoPKV))
 ```
 
 
