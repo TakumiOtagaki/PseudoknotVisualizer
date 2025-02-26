@@ -26,6 +26,8 @@ This tool has two modes of use: CLI and GUI (using PyMOL).
 
 ## Prerequisite: Installtion of RNAView
 You need to pre-install [rnaview](https://github.com/rcsb/RNAView).
+
+Your installation path should not contain the special characters like "~", " " and so on, which causes unexpected errors around RNAView.
 The installation steps are like followings:
 ```
 git clone https://github.com/rcsb/RNAView.git
