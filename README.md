@@ -100,9 +100,10 @@ import sys
 import pathlib
 from pymol import cmd
 
-pathtoPKV = pathlib.Path("/path/to/PseudoknotVisualizer") # <-- Please modify this line! This is the path of this repo.
+# --------------------- please modify this line: the path of PseudoknotVisualizer repository -------------------------
+pathtoPKV = pathlib.Path("/path/to/PseudoknotVisualizer") # <-- Please modify this line! This is the path of this repository.
+# --------------------------------------------------------------------------------------------------------------------
 
-sys.path.insert(0, str(pathtoPKV))
 cmd.run( str(pathtoPKV /  "PseudoknotVisualizer.py"))
 ```
 
@@ -126,9 +127,9 @@ For example, if you want to visualize the pseudoknots in 1kpd in PDB, run the fo
 # loading
 fetch 1kpd
 # at PyMOL command line.
-pkv 1kpd, A
+pkv 1kpd
 # OR
-pkv sele, A # if 1kpd is selected.
+pkv sele  # if 1kpd is selected.
 ```
 As you can see from this example, you can use "sele" to identify the model.
 
@@ -165,7 +166,7 @@ Make sure to update colors.json before launching PyMOL.
     "default": "gray"
 }
 ```
-If the number of layers is greater than 6, PseudoknotVisualizer will color the 7th and subsequent layers with a default color.
+If the number of layers (pseudoknot order) is greater than 6, PseudoknotVisualizer will color the 7th and subsequent layers with a default color.
 
 To increase this limit beyond 6, simply add entries like "7": "another color".
 
@@ -241,7 +242,7 @@ If so, please check the sequence index (`your_start_index`) pushing "S" button a
 ```sh
 select rna_chain, your_pdb_id and chain your_chain_id
 alter rna_chain, resi = int(resi) - (your_start_index - 1)
-pkv your_pdb_id, A
+pkv your_pdb_id
 ```
 Here, please rewrite 
  - your_pdb_id
