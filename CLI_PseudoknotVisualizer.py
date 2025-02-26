@@ -46,21 +46,21 @@ def CLI_rnaview(struct_file, chain_id):
 
     print(f"rnaview starts with {struct_file} and chain {chain_id}, output type is {arg}")
     # intermediate 以下に複製する
-    copied_file = pathlib.Path(INTEREMEDIATE_DIR) / pathlib.Path(struct_file).name
+    copied_file = pathlib.Path(INTERMEDIATE_DIR) / pathlib.Path(struct_file).name
     shutil.copy2(struct_file, copied_file)
 
 
     result = subprocess.run(
         [rnaview, "-p", arg, copied_file],
         env={"RNAVIEW": RNAVIEW},
-        cwd=INTEREMEDIATE_DIR,
+        cwd=INTERMEDIATE_DIR,
         check=True
         )
     if result.returncode != 0:
         raise Exception("RNAVIEW failed")
 
     print("rnaview done.")
-    result_file = pathlib.Path(INTEREMEDIATE_DIR) / (pathlib.Path(struct_file).name + ".out")
+    result_file = pathlib.Path(INTERMEDIATE_DIR) / (pathlib.Path(struct_file).name + ".out")
     valid_bps_df = extract_base_pairs_from_rnaview(result_file)
     print(valid_bps_df)
     BPL = [(row["left_idx"], row["right_idx"]) for _, row in valid_bps_df.iterrows()]

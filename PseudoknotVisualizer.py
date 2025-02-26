@@ -19,11 +19,11 @@ rnaview = RNAVIEW_PATH / "rnaview"
 
 def clear_intermediate_files(except_files=[]):
     # intermediate dir には他のゴミのファイルがあるので消しておく
-    for f in os.listdir(INTEREMEDIATE_DIR):
+    for f in os.listdir(INTERMEDIATE_DIR):
         if f.endswith(".out") or f.endswith(".pdb") or f.endswith(".ps") or f.endswith(".xml") or f.endswith(".cif") or f.endswith(".pdb_new"):
             if f not in except_files:
-                # os.remove(INTEREMEDIATE_DIR + f)
-                os.remove(pathlib.Path(INTEREMEDIATE_DIR) / f)
+                # os.remove(INTERMEDIATE_DIR + f)
+                os.remove(pathlib.Path(INTERMEDIATE_DIR) / f)
     return
 
 def is_pure_rna(pdb_object, chain_id=None):
@@ -111,14 +111,14 @@ def auto_renumber_residues(pdb_object, chain_id):
 
 def rnaview_wrapper(pdb_object, chain_id):
     try:
-        with tempfile.NamedTemporaryFile(delete=False, suffix=".pdb", dir=INTEREMEDIATE_DIR) as tmp_pdb:
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".pdb", dir=INTERMEDIATE_DIR) as tmp_pdb:
             pdb_path = tmp_pdb.name # tmp.pdb is created and deleted automatically after the block.
             cmd.save(pdb_path, pdb_object, format="pdb")
 
             result = subprocess.run(
                 [rnaview, "-p", "--pdb", pdb_path],
                 env={"RNAVIEW": RNAVIEW},
-                cwd=INTEREMEDIATE_DIR,
+                cwd=INTERMEDIATE_DIR,
                 check=True
             )
             if result.returncode != 0:
@@ -126,8 +126,8 @@ def rnaview_wrapper(pdb_object, chain_id):
     except Exception as e:
         raise Exception("RNAVIEW failed or Exporting PDB failed: " + str(e))
 
-    # result_file = INTEREMEDIATE_DIR + pdb_path.split("/")[-1] + ".out"
-    result_file = pathlib.Path(INTEREMEDIATE_DIR) / (pathlib.Path(pdb_path).name + ".out")
+    # result_file = INTERMEDIATE_DIR + pdb_path.split("/")[-1] + ".out"
+    result_file = pathlib.Path(INTERMEDIATE_DIR) / (pathlib.Path(pdb_path).name + ".out")
     valid_bps_df = extract_base_pairs_from_rnaview(result_file) # pandas
     print(valid_bps_df)
     BPL = [(row["left_idx"], row["right_idx"]) for _, row in valid_bps_df.iterrows()]
