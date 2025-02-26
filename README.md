@@ -34,12 +34,12 @@ make
 ls bin 
 ```
 
-After the installation of RNAView, your `~/.bashrc` should contain these two lines.
+<!-- After the installation of RNAView, your `~/.bashrc` should contain these two lines.
 ```~/.bashrc
 # ------------ RNAView setting ---------------
 export PATH=$PATH:/path/to/RNAView/bin
 export RNAVIEW=/path/to/RNAView/
-```
+``` -->
 
 
 ## Prepairing "pymol" Conda Environment. (Recommended)
