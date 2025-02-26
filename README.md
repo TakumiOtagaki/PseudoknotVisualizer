@@ -26,12 +26,12 @@ This tool has two modes of use: CLI and GUI (using PyMOL).
 
 ## Prerequisite: Installtion of RNAView
 You need to pre-install [rnaview](https://github.com/rcsb/RNAView).
-The installation steps are like,
+The installation steps are like followings:
 ```
 git clone https://github.com/rcsb/RNAView.git
 cd RNAView
 make
-ls bin 
+ls bin # rnaview will be found.
 ```
 
 <!-- After the installation of RNAView, your `~/.bashrc` should contain these two lines.
