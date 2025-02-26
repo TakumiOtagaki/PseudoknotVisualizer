@@ -31,7 +31,7 @@ The installation steps are like followings:
 git clone https://github.com/rcsb/RNAView.git
 cd RNAView
 make
-ls bin # rnaview will be found.
+ls bin # the binary rnaview will be found.
 ```
 
 <!-- After the installation of RNAView, your `~/.bashrc` should contain these two lines.
