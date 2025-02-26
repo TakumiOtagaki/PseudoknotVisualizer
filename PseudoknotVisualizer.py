@@ -1,4 +1,4 @@
-from config import RNAVIEW_PATH, RNAVIEW, PseudoKnotVisualizer_DIR, INTEREMEDIATE_DIR
+from config import RNAVIEW_PATH, RNAVIEW, PseudoKnotVisualizer_DIR, INTERMEDIATE_DIR
 from coloring import coloring_canonical, load_colors_from_json
 from argparser import argparser, args_validation
 from rna import PKextractor

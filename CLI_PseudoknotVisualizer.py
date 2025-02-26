@@ -1,7 +1,7 @@
 from PseudoknotVisualizer import clear_intermediate_files, rnaview, colors
 from coloring import CLI_coloring_canonical, load_colors_from_json
 from argparser import argparser, args_validation
-from config import RNAVIEW_PATH, RNAVIEW, PseudoKnotVisualizer_DIR, INTEREMEDIATE_DIR
+from config import RNAVIEW_PATH, RNAVIEW, PseudoKnotVisualizer_DIR, INTERMEDIATE_DIR
 from rna import PKextractor
 from addressRNAviewOutput import extract_base_pairs_from_rnaview
 from Bio.PDB import PDBParser, PDBIO
