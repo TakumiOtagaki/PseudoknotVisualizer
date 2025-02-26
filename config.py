@@ -1,18 +1,11 @@
 from pathlib import Path
 
 
-
-# ------------------------ plsease edit this path to your RNAVIEW directory. ------------------------
-
-# The variable RNAVIEW is the path to the RNAView directory and RNAVIEW/bin/rnaview is the path to the RNAView executable.
-RNAVIEW = Path("/path/to/RNAView") # <-- please edit this path to your "RNAView" repo directory.
-
-# ---------------------------------------------------------------------------------------------------
-
-
-
 # ------------- Do not edit below this line. ------------------
-RNAVIEW_PATH = RNAVIEW / "bin"
 PseudoKnotVisualizer_DIR = Path(__file__).parent
 INTERMEDIATE_DIR = PseudoKnotVisualizer_DIR / "intermediate"
 # -------------------------------------------------------------
+
+# The variable RNAVIEW is the path to the RNAView directory and RNAVIEW/bin/rnaview is the path to the RNAView executable.
+RNAVIEW = PseudoKnotVisualizer_DIR / "RNAView"
+RNAVIEW_PATH = RNAVIEW / "bin"
