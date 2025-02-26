@@ -5,7 +5,7 @@ from pathlib import Path
 # ------------------------ plsease edit this path to your RNAVIEW directory. ------------------------
 
 # The variable RNAVIEW is the path to the RNAView directory and RNAVIEW/bin/rnaview is the path to the RNAView executable.
-RNAVIEW = Path("/Users/ootagakitakumi/Applications/RNAView") # <-- please edit this path to your "RNAView" repo directory.
+RNAVIEW = Path("/path/to/RNAView") # <-- please edit this path to your "RNAView" repo directory.
 
 # ---------------------------------------------------------------------------------------------------
 
