@@ -104,8 +104,8 @@ from pymol import cmd
 pathtoPKV = pathlib.Path("/path/to/PseudoknotVisualizer") # <-- Please modify this line! This is the path of this repository.
 # --------------------------------------------------------------------------------------------------------------------
 
-cmd.run( str(pathtoPKV /  "PseudoknotVisualizer.py"))
 sys.path.append(str(pathtoPKV))
+cmd.run( str(pathtoPKV /  "PseudoknotVisualizer.py"))
 ```
 
 
