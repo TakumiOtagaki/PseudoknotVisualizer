@@ -73,15 +73,18 @@ Please rewrite the three lines:
 ```config.py
 from pathlib import Path
 
-# RNAVIEW related paths
-RNAVIEW = Path("/path/to/RNAView") # <-- please edit this path to your RNAVIEW path
-RNAVIEW_PATH = RNAVIEW / "bin"
+# ------------------------ plsease edit this path to your RNAVIEW directory. ------------------------
 
-# PseudoknotVisualizer repository path
-PseudoKnotVisualizer_DIR = Path("/path/to/PseudoknotVisualizer") # <-- please edit this path to your PseudoKnotVisualizer repository path
+# The variable RNAVIEW is the path to the RNAView directory and RNAVIEW/bin/rnaview is the path to the RNAView executable.
+RNAVIEW = Path("/Users/ootagakitakumi/Applications/RNAView") # <-- please edit this path to your "RNAView" repo directory.
+
+# ---------------------------------------------------------------------------------------------------
 
 # ------------- Do not edit below this line. ------------------
-INTEREMEDIATE_DIR = PseudoKnotVisualizer_DIR / "intermediate"
+RNAVIEW_PATH = RNAVIEW / "bin"
+PseudoKnotVisualizer_DIR = Path(__file__).parent
+INTERMEDIATE_DIR = PseudoKnotVisualizer_DIR / "intermediate"
+# -------------------------------------------------------------
 ```
 
 3. Rewrite or create `~/.pymolrc.py`
