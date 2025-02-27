@@ -233,7 +233,7 @@ python PseudoknotVisualizer/CLI_PseudoknotVisualizer.py \
   -o test/coloring_1KPD.0.A.pymol.txt \ # path of output script txtfile
   -c A \ # chain ID
   -f pymol \ # format: chimera or pymol
-  -m 0 # model ID in your viewer if you choose chimera format with -f option.
+  # -m 0 # model ID in your viewer if you choose chimera format with -f option.
 ```
 
 
