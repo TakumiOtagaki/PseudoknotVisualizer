@@ -1,272 +1,80 @@
-# PseudoknotVisualizer
-PseudoknotVisualizer is a **PyMOL Extension** for visualization that assigns **different colors to each Pseudoknot layer**.
-<img src="https://github.com/TakumiOtagaki/PseudoknotVisualizer/blob/main/demo.png" alt="pymol_demo_6T3R" width="100%">
+# RNAView
 
-# Overview
-This tool enables us to visually understand the RNA tertiary structures with pseudoknots.
-This is essential for prediction of tertiary structures and selecting the best structure from the structure ensemble.
+RNAView identifies base pairs that are formed in nucleic acid structures and classifies them according to the system of Leontis and Westhof. The software presented here was originally described in Yang, H., Jossinet, F., Leontis, N., Chen, L., Westbrook, J., Berman, H.M., Westhof, E. (2003). Tools for the automatic identification and classification of RNA base pairs. Nucleic Acids Research 31.13: 3450-3460, https://doi.org/10.1093/nar/gkg529
 
-PseudoknotVisualizer is available at PyMOL, meaning that it is easy to install.
-This tool has two modes of use: CLI and GUI (using PyMOL).
+RNAView release version 2.0.0 (Jan 2024) supports mmCIF file input, yielding results identical to PDB file input.
+ 
+## Introduction
 
-# Demo
+RNAVIEW program quickly displays the secondary structure of RNA/DNA with tertiary interactions. It fully implements Leontis and Westhof's convention for the edge-to-edge hydrogen bonding interactions.
 
-<img src="https://github.com/TakumiOtagaki/PseudoknotVisualizer/blob/main/uncolored_6t3r.png" alt="pymol_demo_6T3R" width="30%"><img src="https://github.com/TakumiOtagaki/PseudoknotVisualizer/blob/main/colored_6t3r.png" alt="pymol_demo_6T3R" width="30%"><img src="https://github.com/TakumiOtagaki/PseudoknotVisualizer/blob/main/colored_6t3r.gif" alt="demo_gif" width="35.5%">
+Leontis NB and Westhof E. (2001) Geometric nomenclature and classification of RNA base pairs. RNA 7:499-512. https://doi.org/10.1017/s1355838201002515
 
-- Left: Before coloring pseudoknots.
-- Right: After coloring
- - red: pseudoknot order 1
- - blue: pseudoknot order 2
- - green: pseudoknot order 3
- - (gray: Main Layer)
+The software has been tested in Linux and UNIX (SGI), MAC, SUN systems
 
+## Installation
 
+You can install the program in any directory.
 
-# How to Install
+1. unpack the program package in the desired directory (e.g. /?/?/?/ ).
 
-## Prerequisite: Installtion of RNAView
-You need to pre-install [rnaview](https://github.com/rcsb/RNAView).
-
-Your installation path should not contain the special characters like "~", " " and so on, which causes unexpected errors around RNAView.
-The installation steps are like followings:
-```
-git clone https://github.com/rcsb/RNAView.git
-cd RNAView
-make
-ls bin # the binary rnaview will be found.
-```
-
-<!-- After the installation of RNAView, your `~/.bashrc` should contain these two lines.
-```~/.bashrc
-# ------------ RNAView setting ---------------
-export PATH=$PATH:/path/to/RNAView/bin
-export RNAVIEW=/path/to/RNAView/
-``` -->
-
-
-## Prepairing "pymol" Conda Environment. (Recommended)
-```
-conda create -n pymol python=3.11.0
-conda activate pymol
-conda install pandas numpy
-conda install -c conda-forge pymol-open-source
-pymol # pymol will get started.
-```
-Type `pymol` in conda pymol env, then open source PyMOL app will start.
-
-
-
-## Installation of PseudoknotVisualizer
-### overview of the installation
-1. Clone this repository.
-2. Rewrite `config.py`: path and other enviromental variables.
-3. Rewrite or create `~/.pymolrc.py` in order to load the extension at startup automatically.
-
------
-
-1. Cloning
-```sh
-git clone https://github.com/TakumiOtagaki/PseudoknotVisualizer.git
-```
-
-2. Rewriting config.py
-Add the two variables related to the RNAView you installed earlier, RNAVIEW and PATH of RNAVIEW, to config.py.
-Please rewrite one line:
-```config.py
-from pathlib import Path
-
-# ------------------------ plsease edit this path to your RNAVIEW directory. ------------------------
-
-# The variable RNAVIEW is the path to the RNAView directory and RNAVIEW/bin/rnaview is the path to the RNAView executable.
-RNAVIEW = Path("/path/to/RNAView") # <-- please edit this path to your "RNAView" repo directory.
-
-# ---------------------------------------------------------------------------------------------------
-
-# ------------- Do not edit below this line. ------------------
-RNAVIEW_PATH = RNAVIEW / "bin"
-PseudoKnotVisualizer_DIR = Path(__file__).parent
-INTERMEDIATE_DIR = PseudoKnotVisualizer_DIR / "intermediate"
-# -------------------------------------------------------------
-```
-
-3. Rewrite or create `~/.pymolrc.py`
-To  load the extension at startup automatically, please follow the instructions below.
-
-```sh
-$ vim ~/.pymolrc.py
-```
-And write a few lines as follows.
-```~/.pymolrc.py
-# ~/.pymolrc.py
-import sys
-import pathlib
-from pymol import cmd
-
-# --------------------- please modify this line: the path of PseudoknotVisualizer repository -------------------------
-pathtoPKV = pathlib.Path("/path/to/PseudoknotVisualizer") # <-- Please modify this line! This is the path of this repository.
-# --------------------------------------------------------------------------------------------------------------------
-
-sys.path.append(str(pathtoPKV))
-cmd.run( str(pathtoPKV /  "PseudoknotVisualizer.py"))
-```
-
-
-Now, you can use our extension easily.
-After this step, the PseudoknotVisualizer extention will be automatically loaded when PyMOL starts.
-
-
-# How to use
-## Basic Usage
-After loading models, it can be called and used as follows:
-```
-# PyMOL command line after loading model
-pkv $pdb_object (,$chainID)
-```
- - pdb_object = a model, it can be multimer.
- - chainID = A, B, C, ...
-
-For example, if you want to visualize the pseudoknots in 1kpd in PDB, run the followings:
-```
-# loading
-fetch 1kpd
-# at PyMOL command line.
-pkv 1kpd
-# OR
-pkv sele  # if 1kpd is selected.
-```
-As you can see from this example, you can use "sele" to identify the model.
-
-<img src="https://github.com/TakumiOtagaki/PseudoknotVisualizer/blob/main/casp15_examples.png" alt="pymol_demo_6T3R" width="50%">
-
-
-Also you can get the explanation in pymol command line using `help pkv`
-```sh
-pymol commandline$ help pkv
-PseudoKnotVisualizer: Visualizing Pseudo Knots in RNA structure.
-Usage: pkv pdb_object [,chain_id]
- - pdb_object(str): PDB object name
- - chain_id(str) : Chain ID of the RNA structure.
-    If not specified, all chains will be analyzed.
- - auto_renumber(bool) [auto_renumber: True]: If True, automatically renumber residues from 1,
-    to avoid the error caused by non-sequential residue numbers in the input PDB file.
- - only_pure_rna(bool) [default: False]: If True, only standard RNA bases (A, C, G, U, I) are analyzed.
- - non_precoloring(bool) [default: False]: If True, all atoms are not colored 'white' before coloring the base pairs.
-```
-
-## Changing Colors (Optinal)
-If you want to change the color of each layer, modify PseudoknotVisualizer/colors.json. You can also add new lines.
-
-Make sure to update colors.json before launching PyMOL.
-
-```colors.json
-{
-    "1": "gray",
-    "2": "red",
-    "3": "blue",
-    "4": "green",
-    "5": "yellow",
-    "6": "purple",
-    "default": "gray"
-}
-```
-If the number of layers (pseudoknot order) is greater than 6, PseudoknotVisualizer will color the 7th and subsequent layers with a default color.
-
-To increase this limit beyond 6, simply add entries like "7": "another color".
-
-# For CLI user
-After the installation (except for step 4), you can use our CLI.
-
-## CLI Usage
-```sh
-$ python 'PseudoknotVisualizer/CLI_PseudoknotVisualizer.py' --help
-
-usage: CLI_PseudoknotVisualizer.py [-h] -i INPUT -o OUTPUT -f {chimera,pymol} [-m MODEL] [-c CHAIN]
-
-Visualize pseudoknots in RNA structure
-
-options:
-  -h, --help            show this help message and exit
-  -i INPUT, --input INPUT
-                        Input file containing RNA structure
-  -o OUTPUT, --output OUTPUT
-                        Output script file for visualization
-  -f {chimera,pymol}, --format {chimera,pymol}
-                        Format of RNA structure (chimera or pymol)
-  -c CHAIN, --chain CHAIN
-                        Chain ID for RNA structure, default is A
-
-chimera options:
-  Options specific to Chimera format
-
-  -m MODEL, --model MODEL
-                        Model ID (required if Chimera format is selected)
-```
-
-Also you can fetch PDB file from Protein Data Bank.
-```sh
-$ python fetch_pdb.py
-Enter PDB ID (q to quit): 1kpd
-Enter output filename(if not provided, pdb_id.pdb will be created in current directory): 
-PDB file for 1kpd downloaded as ./1kpd.pdb
-```
-Then, 1kpd.pdb is downloaded in current directory.
-
-## Installation for CLI user
- 1.	Run
-    ```sh
-   	conda create -n pymol python=3.11
-    conda activate pymol
     ```
-2.	Run
-  ```
-  pip install -r requirements.txt
-  ```
-3.	Complete steps 1 through 3 from the installation instructions above.
+    zcat  RNAVIEW.tar.gz | tar xvf -
+    ```
 
-4.	Execute the command `python CLI_PseudoknotVisualizer.py -i input.pdb -o ...`
+2. install the program
 
+    ```
+    cd /?/?/?/RNAVIEW/
+    make
+    ```
 
+    The executable file rnaview will be in the directory /?/?/?/RNAVIEW/bin/.
 
-## Example of CLI usage
-```sh
-python PseudoknotVisualizer/CLI_PseudoknotVisualizer.py \
-  -i test/1KPD.pdb \  # input pdb file.
-  -o test/coloring_1KPD.0.A.pymol.txt \ # path of output script txtfile
-  -c A \ # chain ID
-  -f pymol \ # format: chimera or pymol
-  -m 0 # model ID in your viewer if you choose chimera format with -f option.
-```
+3. Define RNAVIEW environment variable to point to the installation directory (e.g. /?/?/?/RNAVIEW)
+   Add the following command to your shell script
 
+    For C shell users:
 
-# Errors caused by the mismatch of pdb format 
-## Case 1
-PseudoknotVisualizer can not color accurately the specified molecule when the sequence index in PyMOL viewer does not start with 1.
-If so, please check the sequence index (`your_start_index`) pushing "S" button and do as followings:
-```sh
-select rna_chain, your_pdb_id and chain your_chain_id
-alter rna_chain, resi = int(resi) - (your_start_index - 1)
-pkv your_pdb_id
-```
-Here, please rewrite 
- - your_pdb_id
- - your_chain_id
- - your_start_index.
+    ```
+     setenv RNAVIEW /?/?/?/RNAVIEW
+     setenv PATH "/?/?/?/RNAVIEW/bin:"$PATH
+    ```
 
-Then, it will work.
+    For Bourne shell users:
 
-### Update
-Now, PseudoKnotVisualizer can deal the molecule whose sequence index in PyMOL does not start with 1.
-In pymol command line, you can specify the `auto-renumber` flag (default: True):
-```
-$ help pkv
-...
- - auto_renumber(bool): If True, automatically renumber residues from 1,
-    to avoid the error caused by non-sequential residue numbers in the input PDB file.
-```
+    ```
+    RNAVIEW=/?/?/?/RNA/RNAVIEW; export RNAVIEW
+    PATH="/?/?/?/RNAVIEW/bin:"$PATH; export PATH
+    ```
 
-Using this option, you can avoid the error around the non-ordinary sequence index.
+4. To test the program, go to /?/?/?/RNAVIEW/test
 
+    ```
+    rnaview -p tr0001.pdb
+    ```
 
-# License
-This software is released under the MIT License.  
-See [LICENSE](./LICENSE) for details.
+    You should get a postscript file \*.ps and some other output files.
+
+## Usage
+
+type rnaview or rnaview -h to get an online help.
+
+Usage: executable [option] input_file
+
+## Options
+
+1. If no [option] is given, it will only generate the fully annotated base pair lists. Example: rnaview pdbfile_name
+2. [option] -p to generate fully annotated 2D structure in postscript format. Detailed information is given in XML format(RNAML) Example: rnaview -p pdbfile_name
+3. [option] -v to generate a 3D structure in VRML format. It can be displayed on internet (with VRML plug in). Example: rnaview -v pdbfile_name
+4. [option] -c to select chains for calculation. -c should be followed by chain IDs. If select several chains, they should be put together, like ABC for chain A, B and C. This option is useful, when drawing a single copy of 2D structure from a dimer or trimer PDB file. Example: rnaview -pc ABC pdbfile_name
+5. [option] -a to process many pdbfiles. The pdbfile names must be put in one file (like file.list) and seperated by a space. You may give the resolution after file.list. If you do not give (or give 0), it means resolution is ignored Example: rnaview -a file.list 3.0 means that only the pdbfiles with resolution < 3.0 are selected for calculation.
+6. [option] -x to input XML (RNAML) file. Normally this option is combined with -p to generate a 2D structure. Example: rnaview -px RNAML_file_name
+7. [option] --label processes mmCIF files using mmCIF atom_site.label_xxx data (database-provided chain ids, residue numbering, altcodes). If not provided, the program will use atom_site.auth_xxx data (author-provided chain ids, residue numbering, altcodes). Example: rnaview -p --cif --label ciffile_name. This will use label for parsing. Example: rnaview -p --cif ciffile_name. This will auth for parsing because it is default.
+
+## NMR structures
+
+The program will automatically pick the best NMR model according to the REMARK record of the pdb file. If there is no best model in the PDB file, it will pick the first model from the ensemble.
+
+## Update
+Nov 21, 2023: RNAVIEW permits MMCIF inputs.
