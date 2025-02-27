@@ -58,6 +58,7 @@ git clone https://github.com/rcsb/RNAView.git
 cd RNAView
 make
 ls bin # the binary rnaview will be found.
+cd ..
 ```
 
 <!-- After the installation of RNAView, your `~/.bashrc` should contain these two lines.
