@@ -138,7 +138,7 @@ As you can see from this example, you can use "sele" to identify the model.
 <img src="https://github.com/TakumiOtagaki/PseudoknotVisualizer/blob/main/casp15_examples.png" alt="pymol_demo_6T3R" width="50%">
 
 
-Also you can get the explanation in pymol command line using `help pkv`
+Also you can get the detail explanation in pymol command line using `help pkv`:
 ```sh
 pymol commandline$ help pkv
 PseudoKnotVisualizer: Visualizing Pseudo Knots in RNA structure.
