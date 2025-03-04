@@ -52,7 +52,7 @@ git clone https://github.com/TakumiOtagaki/PseudoknotVisualizer.git
 cd PseudoknotVisualizer
 ```
 
-1. Installation of RNAView
+2. Installation of RNAView
 You need to install [rnaview](https://github.com/rcsb/RNAView).
 There is an error around the installation of RNAView,
 if you are installing PseudknotVisualizer in a directory with a long path (longer than 60 char),
