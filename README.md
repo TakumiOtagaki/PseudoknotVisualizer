@@ -39,8 +39,7 @@ Type `pymol` in conda pymol env, then open source PyMOL app will start.
 ### overview of the installation
 1. Clone this repository.
 2. Installation of RNAView
-3. Rewrite `config.py`: path and other enviromental variables.
-4. Rewrite or create `~/.pymolrc.py` in order to load the extension at startup automatically.
+3. Rewrite or create `~/.pymolrc.py` in order to load the extension at startup automatically.
 
 -----
 
@@ -59,6 +58,8 @@ if you are installing PseudknotVisualizer in a directory with a long path (longe
 you need to edit the line46 in RNAView/src/fpair_subs.c. 
 Please read the issues: [Buffer Overflow in get_reference_pdb() Caused by Insufficient Buffer Size ](https://github.com/rcsb/RNAView/issues/11)
 
+
+If you are installing PseudknotVisualizer in your home directory, the installation command is simple!
 The installation steps are basically as followings:
 ```sh
 git clone https://github.com/rcsb/RNAView.git
