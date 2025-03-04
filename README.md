@@ -60,7 +60,7 @@ you need to edit the line46 in RNAView/src/fpair_subs.c.
 Please read the issues: [Buffer Overflow in get_reference_pdb() Caused by Insufficient Buffer Size ](https://github.com/rcsb/RNAView/issues/11)
 
 The installation steps are basically as followings:
-```
+```sh
 git clone https://github.com/rcsb/RNAView.git
 cd RNAView
 make # if the name of the installation directory is long, you need to modify the RNAView script as shown in the issue.
