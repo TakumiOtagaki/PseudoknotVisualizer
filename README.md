@@ -106,7 +106,8 @@ To  load the extension at startup automatically, please follow the instructions 
 ```sh
 $ vim ~/.pymolrc.py
 ```
-And write a few lines as follows.
+And modify the pathtoPKV line:
+Please do not use the "~" character.
 ```~/.pymolrc.py
 # ~/.pymolrc.py
 import sys
