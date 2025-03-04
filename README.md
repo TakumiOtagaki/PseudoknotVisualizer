@@ -238,6 +238,7 @@ Then, 1kpd.pdb is downloaded in current directory.
 
 ## Example of CLI usage
 ```sh
+conda activate pymol
 python PseudoknotVisualizer/CLI_PseudoknotVisualizer.py \
   -i test/1KPD.pdb \  # input pdb file.
   -o test/coloring_1KPD.0.A.pymol.txt \ # path of output script txtfile
