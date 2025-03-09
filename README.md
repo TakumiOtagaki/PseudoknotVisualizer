@@ -6,6 +6,8 @@ PseudoknotVisualizer is a **PyMOL Extension** for visualization that assigns **d
 This tool enables us to visually understand the RNA tertiary structures with pseudoknots.
 This is essential for prediction of tertiary structures and selecting the best structure from the structure ensemble.
 
+For now, PseudoknotVisualizer treats only canonical base pairs(AU, GU, GC), however we are planning to support non-canonical base pairs in the future.
+
 PseudoknotVisualizer is available at PyMOL, meaning that it is easy to install.
 This tool has two modes of use: CLI and GUI (using PyMOL).
 
