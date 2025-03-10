@@ -58,12 +58,10 @@ cd PseudoknotVisualizer
   
 You need to install [rnaview](https://github.com/rcsb/RNAView).
 There is an error around the installation of RNAView,
-if you are installing PseudknotVisualizer in a directory with a long path (longer than 60 char),
-you need to edit the line46 in RNAView/src/fpair_subs.c. 
-Please read the issues: [Buffer Overflow in get_reference_pdb() Caused by Insufficient Buffer Size ](https://github.com/rcsb/RNAView/issues/11)
 
 
-If you are installing PseudknotVisualizer in your home directory, the installation command is simple!
+
+If you are installing PseudknotVisualizer in your home directory (recommended), the installation command is simple!
 The installation steps are basically as followings:
 ```sh
 git clone https://github.com/rcsb/RNAView.git
@@ -127,6 +125,13 @@ cmd.run( str(pathtoPKV /  "PseudoknotVisualizer.py"))
 
 Now, you can use our extension easily.
 After this step, the PseudoknotVisualizer extention will be automatically loaded when PyMOL starts.
+
+## Error cased by RNAView installation
+When you are installing PseudknotVisualizer in a directory with a long path (longer than 60 char),
+you need to edit the line46 in RNAView/src/fpair_subs.c. 
+Please read the issues: [Buffer Overflow in get_reference_pdb() Caused by Insufficient Buffer Size ](https://github.com/rcsb/RNAView/issues/11)
+
+To avoid this error, we recommend that you should install PseudoknotVisualizer in your home directory.
 
 
 # How to use
