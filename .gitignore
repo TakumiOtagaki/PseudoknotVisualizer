@@ -4,3 +4,5 @@ intermediate/*
 *.pdb
 .DS_Store
 RNAView/
+rebuttal/
+PseudoknotVisualizer_Photos/
