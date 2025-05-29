@@ -7,3 +7,12 @@ RNAView/
 rebuttal/
 PseudoknotVisualizer_Photos/
 paper
+*.pdb.out
+*.pdb.ps
+*.pdb.xml
+*.pdb_patt.out
+*.pdb_sort.out
+*.pdb_new_torsion.out
+6t3r.cif.out
+6t3r.cif_new_torsion.out
+base_pair_statistics.out
