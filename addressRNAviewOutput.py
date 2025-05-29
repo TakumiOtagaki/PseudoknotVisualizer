@@ -29,15 +29,10 @@ def extract_base_pairs_from_rnaview(input_file: str):
         
         # 特定条件のチェック
         if fields[1] == fields[5]:  # considering only chain-internal bp
-            if len(fields) != 9: continue
-            if fields[8] in ["XX", "XIX", "XXVIII"]:  # Canonical BP
-                # result_lines.append("\t".join(fields[:9]))
-                # print("hi")
-
+            # fieldsの長さに依存せず、fields[-1]でカノニカル判定, syn が入ってくることがある。
+            if fields[-1] in ["XX", "XIX", "XXVIII"]:  # Canonical BP
                 left_idx, right_idx = tuple(map(int, fields[0].replace(",", "").split("_")))
                 left_resi, right_resi = tuple(map(str, fields[3].split("-")))
-                
-                # print(f"left_resi={left_resi}, right_resi={right_resi}, left_idx={left_idx}, right_idx={right_idx}")
                 result_lines.append((left_resi, left_idx, right_resi, right_idx))
 
                 
@@ -50,4 +45,3 @@ if __name__ == "__main__":
     rnaview_output = "/large/otgk/PseudoknotVisualizer/intermediate/1KPD.pdb.out"
     df = extract_base_pairs_from_rnaview(rnaview_output)
     print(df)
-
