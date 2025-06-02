@@ -287,7 +287,7 @@ $ help pkv
 Using this option, you can avoid the error around the non-ordinary sequence index.
 
 ## 0530 update
-- Fixed an issue where, for certain entries (e.g., 1ezh), some base pairs detected by RNAView were not being colored.
+- Fixed an issue where, for certain entries (e.g., 1ehz), some base pairs detected by RNAView were not being colored.
 
 # License
 This software is released under the MIT License.  
