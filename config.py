@@ -9,3 +9,6 @@ INTERMEDIATE_DIR = PseudoKnotVisualizer_DIR / "intermediate"
 # The variable RNAVIEW is the path to the RNAView directory and RNAVIEW/bin/rnaview is the path to the RNAView executable.
 RNAVIEW = PseudoKnotVisualizer_DIR / "RNAView"
 RNAVIEW_PATH = RNAVIEW / "bin"
+
+DSSR = PseudoKnotVisualizer_DIR / "DSSR"
+DSSR_PATH = DSSR / "xdna-dssr"
