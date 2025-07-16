@@ -164,7 +164,7 @@ def dssr_wrapper(pdb_object, chain_id):
     return BPL
 
 
-def PseudoKnotVisualizer(pdb_object, chain_id=None, auto_renumber=True, only_pure_rna=False, non_precoloring=False, selection=False, parser="RNAView"):
+def PseudoKnotVisualizer(pdb_object, chain_id=None, auto_renumber=True, only_pure_rna=False, non_precoloring=False, selection=True, parser="RNAView"):
     """
     PseudoKnotVisualizer: Visualizing Pseudo Knots in RNA structure.
     Usage: pkv pdb_object [,chain_id]
@@ -223,15 +223,20 @@ def PseudoKnotVisualizer(pdb_object, chain_id=None, auto_renumber=True, only_pur
         color = colors[str(depth + 1)]
         print(f"Coloring layer {depth + 1} with color: {color}")
         
-        resi_list = [ f"{i}+{j}" for i, j in PKlayer ]
-        selection_str = "+".join(resi_list)
-        # for i, j in PKlayer:
-        coloring_canonical(pdb_object, chain_id, selection_str, color)
+        # PKlayerから全ての残基番号を取得して、PyMOL用の選択文字列を作成
+        all_residues = set()  # setを使って重複を除去
+        for i, j in PKlayer:
+            all_residues.add(str(i))
+            all_residues.add(str(j))
+        selection_str = "+".join(sorted(all_residues, key=int))  # 数値順にソート
+        
+        # coloring_canonical(pdb_object, chain_id, selection_str, color)
         for i, j in PKlayer:
             coloring_canonical(pdb_object, chain_id, i, color)
             coloring_canonical(pdb_object, chain_id, j, color)
         if selection:
             print(f"Creating selection: {pdb_object}_l{depth}")
+            print(f"Selection string: resi {selection_str}")
             cmd.create(f"{pdb_object}_l{depth}", f"{pdb_object} and chain {chain_id} and resi {selection_str}")
         print(f"Layer {depth + 1}: (i, j) = {PKlayer}")
     print("Coloring done.")
