@@ -72,33 +72,6 @@ cd ..
 ```
 
 
-<!-- After the installation of RNAView, your `~/.bashrc` should contain these two lines.
-```~/.bashrc
-# ------------ RNAView setting ---------------
-export PATH=$PATH:/path/to/RNAView/bin
-export RNAVIEW=/path/to/RNAView/
-``` -->
-
-<!-- 3. Rewriting config.py (optional)
-Add the two variables related to the RNAView you installed earlier, RNAVIEW and PATH of RNAVIEW, to config.py.
-Please rewrite the three lines:
-```config.py
-from pathlib import Path
-
-# ------------------------ plsease edit this path to your RNAVIEW directory. ------------------------
-
-# The variable RNAVIEW is the path to the RNAView directory and RNAVIEW/bin/rnaview is the path to the RNAView executable.
-RNAVIEW = Path("/Users/ootagakitakumi/Applications/RNAView") # <-- please edit this path to your "RNAView" repo directory.
-
-# ---------------------------------------------------------------------------------------------------
-
-# ------------- Do not edit below this line. ------------------
-RNAVIEW_PATH = RNAVIEW / "bin"
-PseudoKnotVisualizer_DIR = Path(__file__).parent
-INTERMEDIATE_DIR = PseudoKnotVisualizer_DIR / "intermediate"
-# -------------------------------------------------------------
-``` -->
-
 ### 3. Rewrite or create `~/.pymolrc.py`
 To  load the extension at startup automatically, please follow the instructions below.
 
