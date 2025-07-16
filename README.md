@@ -56,7 +56,7 @@ cd PseudoknotVisualizer
 
 ### 2. Installation of RNAView
   
-You need to install [rnaview](https://github.com/rcsb/RNAView).
+You need to install [RNAView](https://github.com/rcsb/RNAView).
 There is an error around the installation of RNAView,
 
 
