@@ -43,6 +43,15 @@ Type `pymol` in conda pymol env, then open source PyMOL app will start.
 2. Installation of RNAView
 3. Rewrite or create `~/.pymolrc.py` in order to load the extension at startup automatically.
 
+
+```mermaid
+graph TD;
+  CloningRepository
+  installation of RNAView
+  installation of DSSR
+  Rewrite pymolrc
+```
+
 -----
 
 ### 1. Cloning PseudoknotVisualizer
