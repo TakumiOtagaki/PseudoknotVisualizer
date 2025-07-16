@@ -8,6 +8,7 @@ import tempfile
 import subprocess
 
 from addressRNAviewOutput import extract_base_pairs_from_rnaview
+from addressDSSROutput import extract_base_pairs_from_dssr
 import pathlib
 
 # DEBUG = True
@@ -135,7 +136,35 @@ def rnaview_wrapper(pdb_object, chain_id):
     return BPL
 
 
-def PseudoKnotVisualizer(pdb_object, chain_id=None, auto_renumber=True, only_pure_rna=False, non_precoloring=False, selection=False):
+def dssr_wrapper(pdb_object, chain_id):
+    """DSSR wrapper function to extract base pairs"""
+    try:
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".pdb", dir=INTERMEDIATE_DIR) as tmp_pdb:
+            pdb_path = tmp_pdb.name
+            cmd.save(pdb_path, pdb_object, format="pdb")
+
+            # DSSR実行（JSONフォーマットで出力）
+            json_output_path = pathlib.Path(INTERMEDIATE_DIR) / (pathlib.Path(pdb_path).name + ".dssr.json")
+            result = subprocess.run(
+                ["x3dna-dssr", f"-i={pdb_path}", "--json", f"-o={json_output_path}"],
+                cwd=INTERMEDIATE_DIR,
+                check=True,
+                capture_output=True,
+                text=True
+            )
+            if result.returncode != 0:
+                raise Exception("DSSR failed")
+    except Exception as e:
+        raise Exception("DSSR failed or Exporting PDB failed: " + str(e))
+
+    valid_bps_df = extract_base_pairs_from_dssr(json_output_path)
+    print(valid_bps_df)
+    BPL = [(row["left_idx"], row["right_idx"]) for _, row in valid_bps_df.iterrows()]
+
+    return BPL
+
+
+def PseudoKnotVisualizer(pdb_object, chain_id=None, auto_renumber=True, only_pure_rna=False, non_precoloring=False, selection=False, parser="RNAView"):
     """
     PseudoKnotVisualizer: Visualizing Pseudo Knots in RNA structure.
     Usage: pkv pdb_object [,chain_id]
@@ -146,16 +175,19 @@ def PseudoKnotVisualizer(pdb_object, chain_id=None, auto_renumber=True, only_pur
         to avoid the error caused by non-sequential residue numbers in the input PDB file.
      - only_pure_rna(bool) [default: False]: If True, only standard RNA bases (A, C, G, U, I) are analyzed.
      - non_precoloring(bool) [default: False]: If True, all atoms are not colored 'white' before coloring the base pairs.
+     - parser(str) [default: "RNAView"]: Structure parser to use ("DSSR" or "RNAView").
     """
     #  - selection(bool): If True, selection will be created for each layer: pdb_object_pkorder0, pdb_object_pkorder1, pdb_object_pkorder2, ...
 
     # precoloring = 
+    print("version ", PseudoKnotVisualizer_DIR / "VERSION.txt")
+    
     
     if chain_id is None:
         chains = cmd.get_chains(pdb_object)
         print("Chain ID is not specified and there are multiple chains. All chains ID will be analyzed: " + ", ".join(chains))
         for chain_id in chains:
-            PseudoKnotVisualizer(pdb_object, chain_id, auto_renumber, only_pure_rna, non_precoloring, selection)
+            PseudoKnotVisualizer(pdb_object, chain_id, auto_renumber, only_pure_rna, non_precoloring, selection, parser)
         return
     elif chain_id not in cmd.get_chains(pdb_object):
         print(f"Chain {chain_id} is not found in the pdb object.")
@@ -169,7 +201,15 @@ def PseudoKnotVisualizer(pdb_object, chain_id=None, auto_renumber=True, only_pur
             print("The structure contains non-standard RNA bases or other molecules.")
             print("If you want to analyze them, please set pure_rna=False.")
             return
-    BPL = rnaview_wrapper(pdb_object, chain_id)
+    
+    # パーサーの選択に応じてベースペアを抽出
+    if parser.upper() == "DSSR":
+        BPL = dssr_wrapper(pdb_object, chain_id)
+    elif parser.upper() == "RNAVIEW":
+        BPL = rnaview_wrapper(pdb_object, chain_id)
+    else:
+        raise ValueError(f"Unsupported parser: {parser}. Use 'DSSR' or 'RNAView'.")
+    
     print(f"extracted base pairs: {BPL}")
     PKlayers = PKextractor(BPL)
     print("non_precoloring: ", non_precoloring)
@@ -191,8 +231,8 @@ def PseudoKnotVisualizer(pdb_object, chain_id=None, auto_renumber=True, only_pur
             coloring_canonical(pdb_object, chain_id, i, color)
             coloring_canonical(pdb_object, chain_id, j, color)
         if selection:
-            print(f"Creating selection: {pdb_object}_pkorder{depth}")
-            cmd.create(f"{pdb_object}_pkorder{depth}", f"{pdb_object} and chain {chain_id} and resi {selection_str}")
+            print(f"Creating selection: {pdb_object}_l{depth}")
+            cmd.create(f"{pdb_object}_l{depth}", f"{pdb_object} and chain {chain_id} and resi {selection_str}")
         print(f"Layer {depth + 1}: (i, j) = {PKlayer}")
     print("Coloring done.")
     print(f"Depth is {len(PKlayers)}")

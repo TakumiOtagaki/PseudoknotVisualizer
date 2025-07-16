@@ -15,6 +15,10 @@ def argparser():
     )
 
     parser.add_argument('-c', '--chain', type=str, default='A', help='Chain ID for RNA structure, default is A')
+    parser.add_argument(
+        '-p', '--parser', choices=['DSSR', 'RNAView'], 
+        default='RNAView', help='Structure parser to use (DSSR or RNAView), default is RNAView'
+    )
 
     return parser.parse_args()
 
@@ -25,5 +29,8 @@ def args_validation(args):
     #     raise ValueError("Input file must be a PDB file")
     if args.format.lower() == 'chimera' and args.model is None:
         raise ValueError("Model ID is required for Chimera format")
+    
+    if args.parser.upper() not in ['DSSR', 'RNAVIEW']:
+        raise ValueError("Parser must be either 'DSSR' or 'RNAView'")
     return
 

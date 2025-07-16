@@ -4,6 +4,7 @@ from argparser import argparser, args_validation
 from config import RNAVIEW_PATH, RNAVIEW, PseudoKnotVisualizer_DIR, INTERMEDIATE_DIR
 from rna import PKextractor
 from addressRNAviewOutput import extract_base_pairs_from_rnaview
+from addressDSSROutput import extract_base_pairs_from_dssr
 from Bio.PDB import PDBParser, PDBIO
 from Bio.PDB.MMCIFParser import MMCIFParser
 from Bio.PDB.mmcifio import MMCIFIO
@@ -67,8 +68,42 @@ def CLI_rnaview(struct_file, chain_id):
 
     return BPL
 
-def CLI_PseudoKnotVisualizer(pdb_file, chain_id, format, output_file, model_id):
-    BPL = CLI_rnaview(pdb_file, chain_id)
+def CLI_dssr(struct_file, chain_id):
+    """CLI version of DSSR wrapper"""
+    # intermediate 以下に複製する
+    copied_file = pathlib.Path(INTERMEDIATE_DIR) / pathlib.Path(struct_file).name
+    shutil.copy2(struct_file, copied_file)
+
+    print(f"DSSR starts with {struct_file} and chain {chain_id}")
+    
+    # DSSR実行（JSONフォーマットで出力）
+    json_output_path = pathlib.Path(INTERMEDIATE_DIR) / (pathlib.Path(struct_file).name + ".dssr.json")
+    result = subprocess.run(
+        ["x3dna-dssr", f"-i={str(copied_file)}", "--json", f"-o={str(json_output_path)}"],
+        cwd=INTERMEDIATE_DIR,
+        check=True,
+        capture_output=True,
+        text=True
+    )
+    if result.returncode != 0:
+        raise Exception("DSSR failed")
+
+    print("DSSR done.")
+    valid_bps_df = extract_base_pairs_from_dssr(json_output_path)
+    print(valid_bps_df)
+    BPL = [(row["left_idx"], row["right_idx"]) for _, row in valid_bps_df.iterrows()]
+
+    return BPL
+
+def CLI_PseudoKnotVisualizer(pdb_file, chain_id, format, output_file, model_id, parser="RNAView"):
+    # パーサーの選択に応じてベースペアを抽出
+    if parser.upper() == "DSSR":
+        BPL = CLI_dssr(pdb_file, chain_id)
+    elif parser.upper() == "RNAVIEW":
+        BPL = CLI_rnaview(pdb_file, chain_id)
+    else:
+        raise ValueError(f"Unsupported parser: {parser}. Use 'DSSR' or 'RNAView'.")
+    
     pdb_id = os.path.splitext(os.path.basename(pdb_file))[0]
     PKlayers = PKextractor(BPL)
 
@@ -90,7 +125,7 @@ def main():
     args_validation(args)
 
     print("PseudoKnotVisualizer started.")
-    CLI_PseudoKnotVisualizer(args.input, args.chain, args.format, args.output, args.model)
+    CLI_PseudoKnotVisualizer(args.input, args.chain, args.format, args.output, args.model, args.parser)
 
 if __name__ == "__main__":
     main()
