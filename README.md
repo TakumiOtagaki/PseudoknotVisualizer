@@ -45,7 +45,7 @@ Type `pymol` in conda pymol env, then open source PyMOL app will start.
 
 -----
 
-1. Cloning PseudoknotVisualizer
+### 1. Cloning PseudoknotVisualizer
 
 Cloning in home directory is recommended due to the error of submodule RNAView.
 ```sh
@@ -54,7 +54,7 @@ git clone https://github.com/TakumiOtagaki/PseudoknotVisualizer.git
 cd PseudoknotVisualizer
 ```
 
-2. Installation of RNAView
+### 2. Installation of RNAView
   
 You need to install [rnaview](https://github.com/rcsb/RNAView).
 There is an error around the installation of RNAView,
@@ -70,7 +70,6 @@ make # if the name of the installation directory is long, you need to modify the
 ls bin # the binary rnaview will be found.
 cd ..
 ```
-
 
 
 <!-- After the installation of RNAView, your `~/.bashrc` should contain these two lines.
@@ -100,7 +99,7 @@ INTERMEDIATE_DIR = PseudoKnotVisualizer_DIR / "intermediate"
 # -------------------------------------------------------------
 ``` -->
 
-3. Rewrite or create `~/.pymolrc.py`
+### 3. Rewrite or create `~/.pymolrc.py`
 To  load the extension at startup automatically, please follow the instructions below.
 
 ```sh
