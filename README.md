@@ -47,9 +47,9 @@ Type `pymol` in conda pymol env, then open source PyMOL app will start.
 ```mermaid
 graph TD;
   CloningRepository
-  installation of RNAView
-  installation of DSSR
-  Rewrite pymolrc
+  RNAView
+  DSSR
+  .pymolrc
 ```
 
 -----
