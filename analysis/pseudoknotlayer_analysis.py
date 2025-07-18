@@ -16,10 +16,11 @@ import glob
 import json
 import traceback
 from pathlib import Path
+from tqdm import tqdm
 
-# 親ディレクトリをパスに追加してインポート可能にする
-parent_dir = Path(__file__).parent.parent
-sys.path.insert(0, str(parent_dir))
+script_dir = Path(__file__).parent.parent
+print(f"Script directory: {script_dir}")
+sys.path.insert(0, str(script_dir))
 
 from addressRNAviewOutput import load_rnaview_data, canonical_extraction_from_rnaview_df
 from addressDSSROutput import load_dssr_data, canonical_extraction_from_dssr_df
@@ -28,11 +29,11 @@ from rna import PKextractor
 import pandas as pd
 
 # データセットディレクトリ
-DATASET_DIR = parent_dir / "analysis" / "datasets" / "BGSU__M__All__A__4_0__pdb_3_396"
+DATASET_DIR = "analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396"
 
 def get_pdb_files():
     """データセットディレクトリから全PDBファイルのリストを取得"""
-    pdb_files = list(DATASET_DIR.glob("*.pdb"))
+    pdb_files = list(Path(DATASET_DIR).glob("*.pdb"))
     print(f"Found {len(pdb_files)} PDB files in dataset")
     return sorted(pdb_files)
 
@@ -170,6 +171,7 @@ def main():
     
     # PDBファイルリストを取得
     pdb_files = get_pdb_files()
+    print(f"Found {len(pdb_files)} PDB files to analyze.")
     
     if not pdb_files:
         print("No PDB files found!")
@@ -187,7 +189,8 @@ def main():
     failed_count = 0
     
     # 各PDBファイルを処理（最初の10個をテスト用に制限）
-    for i, pdb_file in enumerate(pdb_files[:10]):  # テスト用に最初の10個のみ
+    # for i, pdb_file in enumerate(pdb_files[:10]):  # テスト用に最初の10個のみ
+    for i, pdb_file in enumerate(tqdm(pdb_files, desc="Processing PDB files", unit="file")):
         print(f"\n--- Processing {i+1}/{min(10, len(pdb_files))}: {pdb_file.name} ---")
         
         result = analyze_single_pdb(pdb_file, parser)
@@ -202,7 +205,7 @@ def main():
             print(f"✗ Failed to process {pdb_file.name}")
     
     # 結果をJSONファイルに保存
-    output_file = parent_dir / "analysis" / f"pseudoknot_analysis_{parser.lower()}.json"
+    output_file = f"analysis/pseudoknot_analysis_{parser.lower()}.json"
     with open(output_file, 'w') as f:
         json.dump(results, f, indent=2, ensure_ascii=False)
     
