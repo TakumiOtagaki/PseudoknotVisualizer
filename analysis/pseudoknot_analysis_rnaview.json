@@ -1,1 +1,119 @@
-[]
+[
+  {
+    "pdb_id": "157D_1_A-B",
+    "chain_id": "A",
+    "parser": "RNAView",
+    "total_bp_count": 12,
+    "total_canonical_bp_count": 0,
+    "total_non_canonical_bp_count": 12,
+    "total_canonical_ratio": 0.0,
+    "total_non_canonical_ratio": 1.0,
+    "pseudoknot_layer_count": 0,
+    "layers": []
+  },
+  {
+    "pdb_id": "1EHZ_1_A",
+    "chain_id": "A",
+    "parser": "RNAView",
+    "total_bp_count": 29,
+    "total_canonical_bp_count": 18,
+    "total_non_canonical_bp_count": 11,
+    "total_canonical_ratio": 0.6206896551724138,
+    "total_non_canonical_ratio": 0.3793103448275862,
+    "pseudoknot_layer_count": 2,
+    "layers": [
+      {
+        "layer_id": 0,
+        "total_bp_count": 17,
+        "canonical_bp_count": 17,
+        "non_canonical_bp_count": 0,
+        "canonical_ratio": 1.0,
+        "non_canonical_ratio": 0.0,
+        "base_pairs": [
+          [
+            1,
+            58
+          ],
+          [
+            2,
+            57
+          ],
+          [
+            3,
+            56
+          ],
+          [
+            4,
+            55
+          ],
+          [
+            5,
+            54
+          ],
+          [
+            6,
+            53
+          ],
+          [
+            7,
+            52
+          ],
+          [
+            10,
+            21
+          ],
+          [
+            11,
+            20
+          ],
+          [
+            12,
+            19
+          ],
+          [
+            23,
+            34
+          ],
+          [
+            24,
+            33
+          ],
+          [
+            25,
+            32
+          ],
+          [
+            39,
+            50
+          ],
+          [
+            40,
+            49
+          ],
+          [
+            41,
+            48
+          ],
+          [
+            42,
+            47
+          ]
+        ]
+      },
+      {
+        "layer_id": 1,
+        "total_bp_count": 1,
+        "canonical_bp_count": 1,
+        "non_canonical_bp_count": 0,
+        "canonical_ratio": 1.0,
+        "non_canonical_ratio": 0.0,
+        "base_pairs": [
+          [
+            16,
+            43
+          ]
+        ]
+      }
+    ]
+  }
+]
