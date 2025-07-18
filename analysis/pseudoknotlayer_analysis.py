@@ -14,7 +14,6 @@ import os
 import sys
 import glob
 import json
-import traceback
 from pathlib import Path
 from tqdm import tqdm
 
@@ -52,6 +51,38 @@ def extract_chain_from_filename(filename):
         return chain
     return 'A'  # デフォルト
 
+def extract_actual_chain_from_pdb(pdb_file_path):
+    """
+    PDBファイルのREMARK 350行から実際のチェーンIDを抽出
+    
+    Args:
+        pdb_file_path (str or Path): PDBファイルのパス
+        
+    Returns:
+        str: チェーンID（見つからない場合は'A'）
+    """
+    try:
+        with open(pdb_file_path, 'r') as f:
+            for line in f:
+                # REMARK 350 APPLY THE FOLLOWING TO CHAINS: の行を探す
+                if line.startswith('REMARK 350') and 'APPLY THE FOLLOWING TO CHAINS:' in line:
+                    # "CHAINS:" の後の部分を抽出
+                    chains_part = line.split('CHAINS:')[1].strip()
+                    # 最初のチェーンIDを取得（複数ある場合はスペースやカンマで区切られている）
+                    chain_id = chains_part.split()[0].split(',')[0].strip()
+                    return chain_id
+                # ATOMレコードが始まったらヘッダー部分は終了
+                elif line.startswith('ATOM'):
+                    break
+        
+        # 見つからない場合はデフォルト
+        print(f"Warning: No REMARK 350 CHAINS found in {pdb_file_path}, using default 'A'")
+        return 'A'
+        
+    except Exception as e:
+        print(f"Error reading PDB file {pdb_file_path}: {e}")
+        return 'A'
+
 def analyze_single_pdb(pdb_file, parser="RNAView"):
     """
     単一のPDBファイルを解析
@@ -63,150 +94,134 @@ def analyze_single_pdb(pdb_file, parser="RNAView"):
     Returns:
         dict: 解析結果
     """
-    try:
-        # チェーン情報を抽出（表示用）
-        display_chain_id = extract_chain_from_filename(pdb_file.name)
-        # データセット内のRNAは全てモノマーでチェーンIDはAに統一されている
-        actual_chain_id = "A"
+    # チェーン情報を抽出（表示用）
+    display_chain_id = extract_chain_from_filename(pdb_file.name)
+    # PDBファイルのREMARK 350から実際のチェーンIDを取得
+    actual_chain_id = extract_actual_chain_from_pdb(pdb_file)
+    
+    print(f"Processing {pdb_file.name} with chain {actual_chain_id} (display: {display_chain_id}) using {parser}...")
+    
+    # パーサーに応じてベースペア情報を取得
+    if parser.upper() == "RNAVIEW":
+        # RNAViewで全ベースペア情報を取得
+        CLI_rnaview(str(pdb_file), actual_chain_id)
+        # 出力ファイルパスを構築
+        output_file = Path(f"intermediate/{pdb_file.name}.out")
         
-        print(f"Processing {pdb_file.name} with chain {actual_chain_id} using {parser}...")
-        
-        # パーサーに応じてベースペア情報を取得
-        if parser.upper() == "RNAVIEW":
-            # RNAViewで全ベースペア情報を取得
-            try:
-                CLI_rnaview(str(pdb_file), actual_chain_id)
-                # 出力ファイルパスを構築
-                output_file = Path(f"intermediate/{pdb_file.name}.out")
-                
-                if not output_file.exists():
-                    print(f"Warning: RNAView output not found for {pdb_file.name}")
-                    return None
-                    
-                # 全データをロード
-                all_bp_df = load_rnaview_data(str(output_file))
-                canonical_bp_df = canonical_extraction_from_rnaview_df(all_bp_df)
-                
-            except Exception as e:
-                print(f"Error processing {pdb_file.name} with RNAView: {e}")
-                return None
-                
-        elif parser.upper() == "DSSR":
-            # DSSRで全ベースペア情報を取得
-            try:
-                CLI_dssr(str(pdb_file), actual_chain_id)
-                # 出力ファイルパスを構築
-                output_file = Path(f"intermediate/{pdb_file.name}.dssr.json")
+        if not output_file.exists():
+            print(f"Warning: RNAView output not found for {pdb_file.name}")
+            return None
+            
+        # 全データをロード
+        all_bp_df = load_rnaview_data(str(output_file))
+        canonical_bp_df = canonical_extraction_from_rnaview_df(all_bp_df)
+            
+    elif parser.upper() == "DSSR":
+        # DSSRで全ベースペア情報を取得
+        CLI_dssr(str(pdb_file), actual_chain_id)
+        # 出力ファイルパスを構築
+        output_file = Path(f"intermediate/{pdb_file.name}.dssr.json")
 
-                if not output_file.exists():
-                    print(f"Warning: DSSR output not found for {pdb_file.name}")
-                    return None
-                
-                # 全データをロード
-                all_bp_df = load_dssr_data(str(output_file))
-                canonical_bp_df = canonical_extraction_from_dssr_df(all_bp_df)
-                
-            except Exception as e:
-                print(f"Error processing {pdb_file.name} with DSSR: {e}")
-                return None
-        else:
-            raise ValueError(f"Unsupported parser: {parser}")
-        
-        # ベースペア詳細情報の準備
-        def create_bp_details(df, parser_type):
-            """DataFrameから詳細な塩基対情報を作成"""
-            bp_details = []
-            for _, row in df.iterrows():
-                if parser_type.upper() == "RNAVIEW":
-                    # RNAViewのSaenger分類を判定
-                    saenger = row.get("saenger", "")
-                    is_canonical = saenger in ["XX", "XIX", "XXVIII"]
-                    wc_type = "Watson-Crick" if saenger in ["XIX", "XX"] else "Wobble" if saenger == "XXVIII" else "Non-WC"
-                    
-                elif parser_type.upper() == "DSSR":
-                    # DSSRのSaenger分類を判定
-                    saenger = row.get("saenger", "")
-                    is_canonical = saenger in ["19-XIX", "20-XX", "28-XXVIII"]
-                    wc_type = "Watson-Crick" if saenger in ["19-XIX", "20-XX"] else "Wobble" if saenger == "28-XXVIII" else "Non-WC"
-                else:
-                    is_canonical = False
-                    wc_type = "Unknown"
-                
-                bp_details.append({
-                    "position": [int(row["left_idx"]), int(row["right_idx"])],
-                    "residues": [row["left_resi"], row["right_resi"]],
-                    "is_canonical": is_canonical,
-                    "wc_type": wc_type,
-                    "saenger_id": saenger,
-                    "base_pair_type": "canonical" if is_canonical else "non-canonical"
-                })
-            return bp_details
-        
-        # 全塩基対とcanonical塩基対の詳細情報を作成
-        all_bp_details = create_bp_details(all_bp_df, parser)
-        canonical_bp_details = create_bp_details(canonical_bp_df, parser)
-        
-        # PKextractor用の位置情報のみのリスト
-        canonical_bp_list = [(row["left_idx"], row["right_idx"]) for _, row in canonical_bp_df.iterrows()]
-        
-        if not all_bp_details:
-            print(f"No base pairs found for {pdb_file.name}")
+        if not output_file.exists():
+            print(f"Warning: DSSR output not found for {pdb_file.name}")
             return None
         
-        # PKextractorでレイヤー分解（canonical BPのみ使用）
-        pk_layers = PKextractor(canonical_bp_list.copy()) if canonical_bp_list else []
+        # 全データをロード
+        all_bp_df = load_dssr_data(str(output_file))
+        canonical_bp_df = canonical_extraction_from_dssr_df(all_bp_df)
+    else:
+        raise ValueError(f"Unsupported parser: {parser}")
         
-        # 各レイヤーの解析
-        layer_analysis = []
-        total_canonical = len(canonical_bp_details)
-        total_all = len(all_bp_details)
-        total_non_canonical = total_all - total_canonical
-        
-        for layer_id, layer_bps in enumerate(pk_layers):
-            # このレイヤーに含まれる塩基対の詳細情報を取得
-            layer_bp_details = []
-            for bp_pos in layer_bps:
-                # canonical_bp_detailsから該当する塩基対を見つける
-                for bp_detail in canonical_bp_details:
-                    if tuple(bp_detail["position"]) == bp_pos:
-                        layer_bp_details.append(bp_detail)
-                        break
+    # ベースペア詳細情報の準備
+    def create_bp_details(df, parser_type):
+        """DataFrameから詳細な塩基対情報を作成"""
+        bp_details = []
+        for _, row in df.iterrows():
+            if parser_type.upper() == "RNAVIEW":
+                # RNAViewのSaenger分類を判定
+                saenger = row.get("saenger", "")
+                is_canonical = saenger in ["XX", "XIX", "XXVIII"]
+                wc_type = "Watson-Crick" if saenger in ["XIX", "XX"] else "Wobble" if saenger == "XXVIII" else "Non-WC"
+                
+            elif parser_type.upper() == "DSSR":
+                # DSSRのSaenger分類を判定
+                saenger = row.get("saenger", "")
+                is_canonical = saenger in ["19-XIX", "20-XX", "28-XXVIII"]
+                wc_type = "Watson-Crick" if saenger in ["19-XIX", "20-XX"] else "Wobble" if saenger == "28-XXVIII" else "Non-WC"
+            else:
+                is_canonical = False
+                wc_type = "Unknown"
             
-            layer_canonical_count = len(layer_bp_details)
-            # このレイヤーの塩基対は全てcanonical（PKextractorがcanonical BPのみで動作するため）
-            layer_non_canonical_count = 0
-            
-            layer_analysis.append({
-                "layer_id": layer_id,
-                "total_bp_count": layer_canonical_count,
-                "canonical_bp_count": layer_canonical_count,
-                "non_canonical_bp_count": layer_non_canonical_count,
-                "canonical_ratio": 1.0,  # 100%
-                "non_canonical_ratio": 0.0,
-                "base_pairs": layer_bp_details
+            bp_details.append({
+                "position": [int(row["left_idx"]), int(row["right_idx"])],
+                "residues": [row["left_resi"], row["right_resi"]],
+                "is_canonical": is_canonical,
+                "wc_type": wc_type,
+                "saenger_id": saenger,
+                "base_pair_type": "canonical" if is_canonical else "non-canonical"
             })
-        
-        result = {
-            "pdb_id": pdb_file.stem,
-            "chain_id": display_chain_id,  # ファイル名から抽出したチェーンID（表示用）
-            "actual_chain_id": actual_chain_id,  # 実際に処理で使用したチェーンID
-            "parser": parser,
-            "total_bp_count": total_all,
-            "total_canonical_bp_count": total_canonical,
-            "total_non_canonical_bp_count": total_non_canonical,
-            "total_canonical_ratio": total_canonical / total_all if total_all > 0 else 0,
-            "total_non_canonical_ratio": total_non_canonical / total_all if total_all > 0 else 0,
-            "pseudoknot_layer_count": len(pk_layers),
-            "all_base_pairs": all_bp_details,  # 全塩基対の詳細情報
-            "layers": layer_analysis
-        }
-        
-        return result
-        
-    except Exception as e:
-        print(f"Error analyzing {pdb_file.name}: {e}")
-        print(traceback.format_exc())
+        return bp_details
+    
+    # 全塩基対とcanonical塩基対の詳細情報を作成
+    all_bp_details = create_bp_details(all_bp_df, parser)
+    canonical_bp_details = create_bp_details(canonical_bp_df, parser)
+    
+    # PKextractor用の位置情報のみのリスト
+    canonical_bp_list = [(row["left_idx"], row["right_idx"]) for _, row in canonical_bp_df.iterrows()]
+    
+    if not all_bp_details:
+        print(f"No base pairs found for {pdb_file.name}")
         return None
+    
+    # PKextractorでレイヤー分解（canonical BPのみ使用）
+    pk_layers = PKextractor(canonical_bp_list.copy()) if canonical_bp_list else []
+    
+    # 各レイヤーの解析
+    layer_analysis = []
+    total_canonical = len(canonical_bp_details)
+    total_all = len(all_bp_details)
+    total_non_canonical = total_all - total_canonical
+    
+    for layer_id, layer_bps in enumerate(pk_layers):
+        # このレイヤーに含まれる塩基対の詳細情報を取得
+        layer_bp_details = []
+        for bp_pos in layer_bps:
+            # canonical_bp_detailsから該当する塩基対を見つける
+            for bp_detail in canonical_bp_details:
+                if tuple(bp_detail["position"]) == bp_pos:
+                    layer_bp_details.append(bp_detail)
+                    break
+        
+        layer_canonical_count = len(layer_bp_details)
+        # このレイヤーの塩基対は全てcanonical（PKextractorがcanonical BPのみで動作するため）
+        layer_non_canonical_count = 0
+        
+        layer_analysis.append({
+            "layer_id": layer_id,
+            "total_bp_count": layer_canonical_count,
+            "canonical_bp_count": layer_canonical_count,
+            "non_canonical_bp_count": layer_non_canonical_count,
+            "canonical_ratio": 1.0,  # 100%
+            "non_canonical_ratio": 0.0,
+            "base_pairs": layer_bp_details
+        })
+        
+    result = {
+        "pdb_id": pdb_file.stem,
+        "chain_id": display_chain_id,  # ファイル名から抽出したチェーンID（表示用）
+        "actual_chain_id": actual_chain_id,  # 実際に処理で使用したチェーンID
+        "parser": parser,
+        "total_bp_count": total_all,
+        "total_canonical_bp_count": total_canonical,
+        "total_non_canonical_bp_count": total_non_canonical,
+        "total_canonical_ratio": total_canonical / total_all if total_all > 0 else 0,
+        "total_non_canonical_ratio": total_non_canonical / total_all if total_all > 0 else 0,
+        "pseudoknot_layer_count": len(pk_layers),
+        "all_base_pairs": all_bp_details,  # 全塩基対の詳細情報
+        "layers": layer_analysis
+    }
+    
+    return result
 
 def main():
     """メイン実行関数"""
@@ -222,8 +237,8 @@ def main():
         return
     
     # 解析設定
-    # parser = "RNAView"  # "RNAView" or "DSSR"
-    parser = "DSSR"
+    parser = "RNAView"  # "RNAView" or "DSSR"
+    # parser = "DSSR"
     
     print(f"Using parser: {parser}")
     print(f"Processing {len(pdb_files)} files...")
@@ -233,10 +248,10 @@ def main():
     successful_count = 0
     failed_count = 0
     
-    # 各PDBファイルを処理（最初の10個をテスト用に制限）
-    # for i, pdb_file in enumerate(pdb_files[:10]):  # テスト用に最初の10個のみ
+    # 各PDBファイルを処理（最初の5個をテスト用に制限）
+    # for i, pdb_file in enumerate(pdb_files[:5]):  # テスト用に最初の5個のみ
     for i, pdb_file in enumerate(tqdm(pdb_files, desc="Processing PDB files", unit="file")):
-        print(f"\n--- Processing {i+1}/{min(10, len(pdb_files))}: {pdb_file.name} ---")
+        print(f"\n--- Processing {i+1}/5: {pdb_file.name} ---")
         
         result = analyze_single_pdb(pdb_file, parser)
         
