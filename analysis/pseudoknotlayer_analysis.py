@@ -64,16 +64,18 @@ def analyze_single_pdb(pdb_file, parser="RNAView"):
         dict: 解析結果
     """
     try:
-        # チェーン情報を抽出
-        chain_id = extract_chain_from_filename(pdb_file.name)
+        # チェーン情報を抽出（表示用）
+        display_chain_id = extract_chain_from_filename(pdb_file.name)
+        # データセット内のRNAは全てモノマーでチェーンIDはAに統一されている
+        actual_chain_id = "A"
         
-        print(f"Processing {pdb_file.name} with chain {chain_id} using {parser}...")
+        print(f"Processing {pdb_file.name} with chain {actual_chain_id} using {parser}...")
         
         # パーサーに応じてベースペア情報を取得
         if parser.upper() == "RNAVIEW":
             # RNAViewで全ベースペア情報を取得
             try:
-                CLI_rnaview(str(pdb_file), chain_id)
+                CLI_rnaview(str(pdb_file), actual_chain_id)
                 # 出力ファイルパスを構築
                 output_file = Path(f"intermediate/{pdb_file.name}.out")
                 
@@ -92,7 +94,7 @@ def analyze_single_pdb(pdb_file, parser="RNAView"):
         elif parser.upper() == "DSSR":
             # DSSRで全ベースペア情報を取得
             try:
-                CLI_dssr(str(pdb_file), chain_id)
+                CLI_dssr(str(pdb_file), actual_chain_id)
                 # 出力ファイルパスを構築
                 output_file = Path(f"intermediate/{pdb_file.name}.dssr.json")
 
@@ -186,7 +188,8 @@ def analyze_single_pdb(pdb_file, parser="RNAView"):
         
         result = {
             "pdb_id": pdb_file.stem,
-            "chain_id": chain_id,
+            "chain_id": display_chain_id,  # ファイル名から抽出したチェーンID（表示用）
+            "actual_chain_id": actual_chain_id,  # 実際に処理で使用したチェーンID
             "parser": parser,
             "total_bp_count": total_all,
             "total_canonical_bp_count": total_canonical,
