@@ -21,6 +21,9 @@ colors = load_colors_from_json(PseudoKnotVisualizer_DIR / "colors.json")
 def clear_intermediate_files(except_files=[]):
     # intermediate dir には他のゴミのファイルがあるので消しておく
     for f in os.listdir(INTERMEDIATE_DIR):
+        # .gitkeep は残す
+        if f == ".gitkeep":
+            continue
         if f.endswith(".out") or f.endswith(".pdb") or f.endswith(".ps") or f.endswith(".xml") or f.endswith(".cif") or f.endswith(".pdb_new"):
             if f not in except_files:
                 # os.remove(INTERMEDIATE_DIR + f)
