@@ -75,7 +75,7 @@ def analyze_single_pdb(pdb_file, parser="RNAView"):
             try:
                 CLI_rnaview(str(pdb_file), chain_id)
                 # 出力ファイルパスを構築
-                intermediate_dir = parent_dir / "intermediate"
+                intermediate_dir = "intermediate"
                 output_file = intermediate_dir / f"{pdb_file.name}.out"
                 
                 if not output_file.exists():
@@ -95,7 +95,7 @@ def analyze_single_pdb(pdb_file, parser="RNAView"):
             try:
                 CLI_dssr(str(pdb_file), chain_id)
                 # 出力ファイルパスを構築
-                intermediate_dir = parent_dir / "intermediate"
+                intermediate_dir = "intermediate"
                 output_file = intermediate_dir / f"{pdb_file.name}.dssr.json"
                 
                 if not output_file.exists():
@@ -178,7 +178,8 @@ def main():
         return
     
     # 解析設定
-    parser = "RNAView"  # "RNAView" or "DSSR"
+    # parser = "RNAView"  # "RNAView" or "DSSR"
+    parser = "DSSR"
     
     print(f"Using parser: {parser}")
     print(f"Processing {len(pdb_files)} files...")
