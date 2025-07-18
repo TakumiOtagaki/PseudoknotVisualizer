@@ -32,7 +32,7 @@ def clear_intermediate_files(except_files=[]):
 
 def is_pure_rna(pdb_object, chain_id=None):
     """
-    指定した pdb_object(＋chain_id) が
+    指定した pdb_object( + chain_id) が
     ・標準的な RNA 塩基 (A, C, G, U, I)
     ・あるいは水分子やイオンなど (HOH, MG, NA, K, CL, etc.)
     以外を一切含まない場合に True を返す関数。
