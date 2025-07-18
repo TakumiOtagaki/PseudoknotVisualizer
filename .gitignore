@@ -1,5 +1,5 @@
 __pycache__/*
-intermediate
+# intermediate
 *.cif
 *.pdb
 .DS_Store
