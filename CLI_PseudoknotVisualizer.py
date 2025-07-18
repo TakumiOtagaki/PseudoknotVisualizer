@@ -1,7 +1,7 @@
-from PseudoknotVisualizer import clear_intermediate_files, rnaview, colors
+from PseudoknotVisualizer import clear_intermediate_files, colors
 from coloring import CLI_coloring_canonical, load_colors_from_json
 from argparser import argparser, args_validation
-from config import RNAVIEW_PATH, RNAVIEW, PseudoKnotVisualizer_DIR, INTERMEDIATE_DIR
+from config import RNAVIEW_DIR, RNAVIEW_EXEC, PseudoKnotVisualizer_DIR, INTERMEDIATE_DIR, DSSR_EXEC
 from rna import PKextractor
 from addressRNAviewOutput import extract_base_pairs_from_rnaview
 from addressDSSROutput import extract_base_pairs_from_dssr
@@ -15,7 +15,7 @@ import pathlib
 import shutil
 
 colors = load_colors_from_json(PseudoKnotVisualizer_DIR / "colors.json")
-rnaview = RNAVIEW_PATH / "rnaview"
+# rnaview_exec = RNAVIEW_EXEC
 
 def CLI_rnaview(struct_file, chain_id):
     # 入力ファイルが .cif か .pdb かを拡張子で判定
@@ -52,8 +52,8 @@ def CLI_rnaview(struct_file, chain_id):
 
 
     result = subprocess.run(
-        [rnaview, "-p", arg, copied_file],
-        env={"RNAVIEW": RNAVIEW},
+        [RNAVIEW_EXEC, "-p", arg, copied_file],
+        env={"RNAVIEW": RNAVIEW_DIR},
         cwd=INTERMEDIATE_DIR,
         check=True
         )
@@ -79,7 +79,7 @@ def CLI_dssr(struct_file, chain_id):
     # DSSR実行（JSONフォーマットで出力）
     json_output_path = pathlib.Path(INTERMEDIATE_DIR) / (pathlib.Path(struct_file).name + ".dssr.json")
     result = subprocess.run(
-        ["x3dna-dssr", f"-i={str(copied_file)}", "--json", f"-o={str(json_output_path)}"],
+        [DSSR_EXEC, f"-i={str(copied_file)}", "--json", f"-o={str(json_output_path)}"],
         cwd=INTERMEDIATE_DIR,
         check=True,
         capture_output=True,

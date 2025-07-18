@@ -1,4 +1,4 @@
-from config import RNAVIEW_PATH, RNAVIEW, PseudoKnotVisualizer_DIR, INTERMEDIATE_DIR
+from config import RNAVIEW_DIR, RNAVIEW_EXEC, PseudoKnotVisualizer_DIR, INTERMEDIATE_DIR, DSSR_EXEC
 from coloring import coloring_canonical, load_colors_from_json
 from argparser import argparser, args_validation
 from rna import PKextractor
@@ -16,7 +16,7 @@ DEBUG = False
 
 colors = load_colors_from_json(PseudoKnotVisualizer_DIR / "colors.json")
 # rnaview = os.path.join(RNAVIEW_PATH, "rnaview")
-rnaview = RNAVIEW_PATH / "rnaview"
+# rnaview_exec = RNAVIEW_EXEC
 
 def clear_intermediate_files(except_files=[]):
     # intermediate dir には他のゴミのファイルがあるので消しておく
@@ -117,8 +117,8 @@ def rnaview_wrapper(pdb_object, chain_id):
             cmd.save(pdb_path, pdb_object, format="pdb")
 
             result = subprocess.run(
-                [rnaview, "-p", "--pdb", pdb_path],
-                env={"RNAVIEW": RNAVIEW},
+                [RNAVIEW_EXEC, "-p", "--pdb", pdb_path],
+                env={"RNAVIEW": RNAVIEW_DIR},
                 cwd=INTERMEDIATE_DIR,
                 check=True
             )
@@ -146,7 +146,7 @@ def dssr_wrapper(pdb_object, chain_id):
             # DSSR実行（JSONフォーマットで出力）
             json_output_path = pathlib.Path(INTERMEDIATE_DIR) / (pathlib.Path(pdb_path).name + ".dssr.json")
             result = subprocess.run(
-                ["x3dna-dssr", f"-i={pdb_path}", "--json", f"-o={json_output_path}"],
+                [str(DSSR_EXEC), f"-i={pdb_path}", "--json", f"-o={json_output_path}"],
                 cwd=INTERMEDIATE_DIR,
                 check=True,
                 capture_output=True,
