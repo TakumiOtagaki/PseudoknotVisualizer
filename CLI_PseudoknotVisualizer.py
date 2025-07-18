@@ -126,6 +126,7 @@ def main():
 
     print("PseudoKnotVisualizer started.")
     CLI_PseudoKnotVisualizer(args.input, args.chain, args.format, args.output, args.model, args.parser)
+    print("PseudoKnotVisualizer finished: " + args.output)
 
 if __name__ == "__main__":
     main()
