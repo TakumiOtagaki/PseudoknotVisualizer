@@ -198,11 +198,11 @@ def main():
         if result is not None:
             results.append(result)
             successful_count += 1
-            print(f"✓ Successfully processed {pdb_file.name}")
-            print(f"  Total BP: {result['total_bp_count']}, Canonical: {result['total_canonical_bp_count']}, Layers: {result['pseudoknot_layer_count']}")
+            print(f"Successfully processed {pdb_file.name}")
+            print(f"Total BP: {result['total_bp_count']}, Canonical: {result['total_canonical_bp_count']}, Layers: {result['pseudoknot_layer_count']}")
         else:
             failed_count += 1
-            print(f"✗ Failed to process {pdb_file.name}")
+            print(f"Failed to process {pdb_file.name}")
     
     # 結果をJSONファイルに保存
     output_file = f"analysis/pseudoknot_analysis_{parser.lower()}.json"
