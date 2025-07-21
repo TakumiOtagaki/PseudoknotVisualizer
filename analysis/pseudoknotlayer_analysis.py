@@ -237,9 +237,9 @@ def main():
         return
     
     # 解析設定
-    parser = "RNAView"  # "RNAView" or "DSSR"
-    # parser = "DSSR"
-    
+    # parser = "RNAView"  # "RNAView" or "DSSR"
+    parser = "DSSR"
+
     print(f"Using parser: {parser}")
     print(f"Processing {len(pdb_files)} files...")
     
