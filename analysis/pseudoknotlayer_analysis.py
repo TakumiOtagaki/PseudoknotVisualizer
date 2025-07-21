@@ -4,12 +4,11 @@ Pseudoknot Layer Analysis Script
 このスクリプトはBGSUデータセットの全PDBファイルに対して：
 1. RNAView or DSSRで塩基対情報を取得
 2. PKextractorを使ってpseudoknot layerに分解
-3. 各レイヤーでのcanonical/non-canonical base pairの割合を計算
+3. 各レイヤーでのcanonical / non-canonical base pairの割合を計算
 
 $ cd PseudoknotVisualizer
 $ python analysis/pseudoknotlayer_analysis.py --parser [RNAView or DSSR] [--canonical-only]
 
-Date: 2025年7月21日
 """
 
 import sys
@@ -65,25 +64,13 @@ def analyze_single_pdb(pdb_file, parser="RNAView", canonical_only=True):
     # 自己ペア（i=j）を検出・除外
     all_bp_details_filtered, _, self_pairs_all = filter_self_pairs(all_bp_details, [(bp["position"][0], bp["position"][1]) for bp in all_bp_details])
     canonical_bp_details_filtered, canonical_bp_list_filtered, self_pairs = filter_self_pairs(canonical_bp_details, canonical_bp_list)
-    
-    has_self_pairs = len(self_pairs) > 0
-    
-    if has_self_pairs: 
-        print(f"Warning: Found {len(self_pairs)} self-pairs (i=j) in {pdb_file.name}: {self_pairs}")
-    
-    if not all_bp_details_filtered:
-        print(f"No valid base pairs found for {pdb_file.name} after removing self-pairs")
-    
-    # PKextractorでレイヤー分解（canonical BPのみ使用、自己ペアを除外）
-    print("Running PKextractor...")
 
+
+    # PKextractorでレイヤー分解（canonical BPのみ使用、自己ペアを除外）
     pk_layers = PKextractor(canonical_bp_list_filtered.copy())
 
-    print(f"Total pseudoknot layers extracted: {len(pk_layers)}")
-    
     # 各レイヤーの解析
     layer_analysis = []
-
     bp_position_dict = {
         tuple(bp_detail["position"]): bp_detail 
         for bp_detail in canonical_bp_details_filtered
