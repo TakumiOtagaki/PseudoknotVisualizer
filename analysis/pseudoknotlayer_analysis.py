@@ -7,7 +7,7 @@ Pseudoknot Layer Analysis Script
 3. 各レイヤーでのcanonical/non-canonical base pairの割合を計算
 
 $ cd PseudoknotVisualizer
-$ python analysis/pseudoknotlayer_analysis.py 
+$ python analysis/pseudoknotlayer_analysis.py --parser [RNAView or DSSR]
 
 Date: 2025年7月21日
 """
@@ -37,7 +37,7 @@ from rna import PKextractor
 # データセットディレクトリ
 DATASET_DIR = "analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396"
 
-def analyze_single_pdb(pdb_file, parser="RNAView"):
+def analyze_single_pdb(pdb_file, parser="RNAView", canonical_only=True):
     """
     単一のPDBファイルを解析
     
@@ -147,12 +147,10 @@ def main():
     
     # 結果を格納するリスト
     results = []
-    
-    # 各PDBファイルを処理（最初の5個をテスト用に制限）
-    print(f"Processing {len(pdb_files)} files...")
 
     for pdb_file in tqdm(pdb_files, desc="Processing PDB files", unit="file"):
-        result = analyze_single_pdb(pdb_file, parser)
+        result = analyze_single_pdb(pdb_file, args.parser, args.canonical_only)
+        # 解析結果がNoneの場合はエラーを投げる
         if result is None:
             raise ValueError(f"Failed to analyze {pdb_file.name}")
         results.append(result)
@@ -162,7 +160,6 @@ def main():
     with open(output_file, 'w') as f:
         json.dump(results, f, indent=2, ensure_ascii=False)
     
-    print(f"\n=== Analysis Complete ===")
     print(f"Results saved to: {output_file}")
 
 
