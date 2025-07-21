@@ -131,7 +131,8 @@ def analyze_single_pdb(pdb_file, parser="RNAView"):
         canonical_bp_df = canonical_extraction_from_dssr_df(all_bp_df)
     else:
         raise ValueError(f"Unsupported parser: {parser}")
-        
+    
+    print("RNAView or DSSR extraction complete.")
     # ベースペア詳細情報の準備
     def create_bp_details(df, parser_type):
         """DataFrameから詳細な塩基対情報を作成"""
@@ -164,7 +165,9 @@ def analyze_single_pdb(pdb_file, parser="RNAView"):
     
     # 全塩基対とcanonical塩基対の詳細情報を作成
     all_bp_details = create_bp_details(all_bp_df, parser)
+    print(f"Total base pairs found: {len(all_bp_details)}")
     canonical_bp_details = create_bp_details(canonical_bp_df, parser)
+    print(f"Total canonical base pairs found: {len(canonical_bp_details)}")
     
     # PKextractor用の位置情報のみのリスト
     canonical_bp_list = [(row["left_idx"], row["right_idx"]) for _, row in canonical_bp_df.iterrows()]
@@ -174,7 +177,9 @@ def analyze_single_pdb(pdb_file, parser="RNAView"):
         return None
     
     # PKextractorでレイヤー分解（canonical BPのみ使用）
+    print("Running PKextractor...")
     pk_layers = PKextractor(canonical_bp_list.copy()) if canonical_bp_list else []
+    print(f"Total pseudoknot layers extracted: {len(pk_layers)}")
     
     # 各レイヤーの解析
     layer_analysis = []
@@ -250,10 +255,12 @@ def main():
     
     # 各PDBファイルを処理（最初の5個をテスト用に制限）
     # for i, pdb_file in enumerate(pdb_files[:5]):  # テスト用に最初の5個のみ
+    pdb_files = [Path("analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/3A3A_1_A.pdb")]
     for i, pdb_file in enumerate(tqdm(pdb_files, desc="Processing PDB files", unit="file")):
         print(f"\n--- Processing {i+1}/5: {pdb_file.name} ---")
         
         result = analyze_single_pdb(pdb_file, parser)
+        print("hello")
         
         if result is not None:
             results.append(result)
