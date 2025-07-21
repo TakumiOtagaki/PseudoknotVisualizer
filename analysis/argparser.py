@@ -31,12 +31,14 @@ Examples:
     # パーサー選択オプション
     parser.add_argument(
         "--parser",
+        "-p",
         choices=["RNAView", "DSSR"],
         default="DSSR",
         help="RNA structure parser to use (default: DSSR)"
     )
     parser.add_argument(
         "--canonical-only",
+        "-c",
         action="store_true",
         help="Only analyze canonical base pairs (default: False)"
     )
