@@ -99,9 +99,11 @@ def extract_canonicalbp_from_dssr(input_file: str):
     """
     # データをロード
     df = load_dssr_data(input_file)
+    # print(f"data loaded; Total base pairs found: {len(df)}")
     
     # カノニカルベースペアを抽出
     canonical_df = canonical_extraction_from_dssr_df(df)
+    # print(f"canonical base pairs extracted; Total found: {len(canonical_df)}")
     
     return canonical_df
 
