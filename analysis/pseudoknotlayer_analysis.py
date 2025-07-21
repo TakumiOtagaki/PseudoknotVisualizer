@@ -116,7 +116,7 @@ def analyze_single_pdb(pdb_file, parser="RNAView", canonical_only=True):
         "parser": parser,
         "total_bp_count": len(all_bp_details_filtered),
         "total_canonical_bp_count": len(canonical_bp_details_filtered),
-        "self_pairs_count": len(self_pairs) if has_self_pairs else 0,
+        "self_pairs_count": len(self_pairs),
         "pseudoknot_layer_count": len(pk_layers),
         "all_base_pairs": all_bp_details_filtered,  # 自己ペアを除外した全塩基対の詳細情報
         "layers": layer_analysis,
