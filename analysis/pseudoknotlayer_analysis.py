@@ -67,30 +67,43 @@ def analyze_single_pdb(pdb_file, parser="RNAView", canonical_only=True):
 
 
     # PKextractorでレイヤー分解（canonical BPのみ使用、自己ペアを除外）
-    pk_layers = PKextractor(canonical_bp_list_filtered.copy())
+    if canonical_only:
+        pk_layers = PKextractor(canonical_bp_list_filtered.copy())
+        bp_position_dict = {
+            tuple(bp_detail["position"]): bp_detail
+            for bp_detail in canonical_bp_details_filtered
+        }
+    else:
+        pk_layers = PKextractor([(bp["position"][0], bp["position"][1]) for bp in all_bp_details_filtered.copy()])
+        bp_position_dict = {
+            tuple(bp_detail["position"]): bp_detail 
+            for bp_detail in all_bp_details_filtered
+        }
 
     # 各レイヤーの解析
     layer_analysis = []
-    bp_position_dict = {
-        tuple(bp_detail["position"]): bp_detail 
-        for bp_detail in canonical_bp_details_filtered
-    }
-    
     for layer_id, layer_bps in enumerate(pk_layers):
         # このレイヤーに含まれる塩基対の詳細情報を取得（自己ペアを除外）
         layer_bp_details = [
             bp_position_dict[bp_pos] for bp_pos in layer_bps if bp_pos in bp_position_dict
         ]
 
-        # このレイヤーの塩基対は全てcanonical（PKextractorがcanonical BPのみで動作するため）
-        layer_canonical_count = len(layer_bp_details)
-        
+        # canonical/non-canonicalの数をカウント
+        if canonical_only:
+            # canonical onlyの場合：全てがcanonical
+            layer_canonical_count = len(layer_bps)
+            layer_non_canonical_count = 0
+        else:
+            # all base pairsの場合：canonical/non-canonicalを区別してカウント
+            layer_canonical_count = sum(1 for bp in layer_bp_details if bp["is_canonical"])
+            layer_non_canonical_count = sum(1 for bp in layer_bp_details if not bp["is_canonical"])
+
         layer_analysis.append({
             "layer_id": layer_id,
-            "total_bp_count": layer_canonical_count,
+            "total_bp_count": len(layer_bp_details),
             "canonical_bp_count": layer_canonical_count,
-            "non_canonical_bp_count": 0,
-            # "base_pairs": layer_bp_details
+            "non_canonical_bp_count": layer_non_canonical_count,
+            "base_pairs": layer_bp_details
         })
         
     result = {
