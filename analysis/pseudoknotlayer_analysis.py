@@ -52,9 +52,6 @@ def analyze_single_pdb(pdb_file, parser="RNAView", canonical_only=True):
     display_chain_id = extract_chain_from_filename(pdb_file.name)
     # PDBファイルのREMARK 350から実際のチェーンIDを取得
     actual_chain_id = extract_actual_chain_from_pdb(pdb_file)
-    
-    print(f"Processing {pdb_file.name} with chain {actual_chain_id} (display: {display_chain_id}) using {parser}...")
-    
     # パーサーを実行して出力ファイルを取得
     output_file = run_parser_analysis(pdb_file, actual_chain_id, parser)
     
@@ -118,8 +115,8 @@ def analyze_single_pdb(pdb_file, parser="RNAView", canonical_only=True):
         "total_canonical_bp_count": len(canonical_bp_details_filtered),
         "self_pairs_count": len(self_pairs),
         "pseudoknot_layer_count": len(pk_layers),
-        "all_base_pairs": all_bp_details_filtered,  # 自己ペアを除外した全塩基対の詳細情報
         "layers": layer_analysis,
+        "all_base_pairs": all_bp_details_filtered,  # all pairs
     }
     return result
 
@@ -128,21 +125,11 @@ def main():
     # コマンドライン引数を解析
     args = parse_args()
     
-    print("=== Pseudoknot Layer Analysis ===")
-    print(f"Dataset directory: {DATASET_DIR}")
-    print(f"Selected parser: {args.parser}")
-    
     # PDBファイルリストを取得
-    pdb_files = get_pdb_files(DATASET_DIR)
-    print(f"Found {len(pdb_files)} PDB files to analyze.")
-    
+    pdb_files = get_pdb_files(DATASET_DIR) # Path object の list
     if not pdb_files:
         raise ValueError("No PDB files found in the dataset directory.")
-    
-    # 解析設定（コマンドライン引数から取得）
-    parser = args.parser
-    print(f"Using parser: {parser}")
-    
+
     # 結果を格納するリスト
     results = []
 
@@ -154,7 +141,7 @@ def main():
         results.append(result)
     
     # 結果をJSONファイルに保存
-    output_file = f"analysis/pseudoknot_analysis_{parser.lower()}.json"
+    output_file = f"analysis/pseudoknot_analysis_{args.parser.lower()}.json"
     with open(output_file, 'w') as f:
         json.dump(results, f, indent=2, ensure_ascii=False)
     
