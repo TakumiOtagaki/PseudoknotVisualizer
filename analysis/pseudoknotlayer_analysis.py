@@ -7,7 +7,7 @@ Pseudoknot Layer Analysis Script
 3. 各レイヤーでのcanonical/non-canonical base pairの割合を計算
 
 $ cd PseudoknotVisualizer
-$ python analysis/pseudoknotlayer_analysis.py --parser [RNAView or DSSR]
+$ python analysis/pseudoknotlayer_analysis.py --parser [RNAView or DSSR] [--canonical-only]
 
 Date: 2025年7月21日
 """
@@ -86,8 +86,6 @@ def analyze_single_pdb(pdb_file, parser="RNAView", canonical_only=True):
     
     # 各レイヤーの解析
     layer_analysis = []
-    total_canonical = len(canonical_bp_details_filtered)
-    total_all = len(all_bp_details_filtered)
 
     bp_position_dict = {
         tuple(bp_detail["position"]): bp_detail 
@@ -116,8 +114,8 @@ def analyze_single_pdb(pdb_file, parser="RNAView", canonical_only=True):
         "chain_id": display_chain_id,  # ファイル名から抽出したチェーンID（表示用）
         "actual_chain_id": actual_chain_id,  # 実際に処理で使用したチェーンID
         "parser": parser,
-        "total_bp_count": total_all,
-        "total_canonical_bp_count": total_canonical,
+        "total_bp_count": len(all_bp_details_filtered),
+        "total_canonical_bp_count": len(canonical_bp_details_filtered),
         "self_pairs_count": len(self_pairs) if has_self_pairs else 0,
         "pseudoknot_layer_count": len(pk_layers),
         "all_base_pairs": all_bp_details_filtered,  # 自己ペアを除外した全塩基対の詳細情報
