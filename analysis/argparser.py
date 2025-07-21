@@ -40,6 +40,7 @@ Examples:
         "--canonical-only",
         "-c",
         action="store_true",
+        default=True,
         help="Only analyze canonical base pairs (default: False)"
     )
     
