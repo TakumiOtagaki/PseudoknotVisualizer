@@ -1,5 +1,5 @@
 """
-Pseudoknot Layer Analysis Script
+Pseudoknot Layer Analysis Script (Parallelized)
 
 このスクリプトはBGSUデータセットの全PDBファイルに対して：
 1. RNAView or DSSRで塩基対情報を取得
@@ -8,12 +8,13 @@ Pseudoknot Layer Analysis Script
 
 $ cd PseudoknotVisualizer
 $ python analysis/pseudoknotlayer_analysis.py --parser [RNAView or DSSR] [--canonical-only]
-
 """
 
 import sys
 import json
 from pathlib import Path
+from functools import partial
+from multiprocessing import Pool, cpu_count
 from tqdm import tqdm
 
 script_dir = Path(__file__).parent.parent
@@ -39,13 +40,6 @@ DATASET_DIR = "analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396"
 def analyze_single_pdb(pdb_file, parser="RNAView", canonical_only=True):
     """
     単一のPDBファイルを解析
-    
-    Args:
-        pdb_file (Path): PDBファイルのパス
-        parser (str): "RNAView" or "DSSR"
-        
-    Returns:
-        dict: 解析結果
     """
     # チェーン情報を抽出（表示用）
     display_chain_id = extract_chain_from_filename(pdb_file.name)
@@ -53,100 +47,92 @@ def analyze_single_pdb(pdb_file, parser="RNAView", canonical_only=True):
     actual_chain_id = extract_actual_chain_from_pdb(pdb_file)
     # パーサーを実行して出力ファイルを取得
     output_file = run_parser_analysis(pdb_file, actual_chain_id, parser)
-    
+
     if output_file is None:
         print(f"Warning: {parser} output not found for {pdb_file.name}")
         raise ValueError(f"{parser} output not found for {pdb_file.name}")
-    
+
     # 出力ファイルを解析して共通フォーマットで取得
     all_bp_details, canonical_bp_details, canonical_bp_list = parse_output_file(output_file, parser)
-    
+
     # 自己ペア（i=j）を検出・除外
-    all_bp_details_filtered, _, self_pairs_all = filter_self_pairs(all_bp_details, [(bp["position"][0], bp["position"][1]) for bp in all_bp_details])
-    canonical_bp_details_filtered, canonical_bp_list_filtered, self_pairs = filter_self_pairs(canonical_bp_details, canonical_bp_list)
+    all_bp_filtered, _, self_pairs_all = filter_self_pairs(
+        all_bp_details,
+        [(bp["position"][0], bp["position"][1]) for bp in all_bp_details]
+    )
+    can_bp_filtered, can_bp_list_filtered, self_pairs = filter_self_pairs(
+        canonical_bp_details,
+        canonical_bp_list
+    )
 
-
-    # PKextractorでレイヤー分解（canonical BPのみ使用、自己ペアを除外）
+    # レイヤー分解
     if canonical_only:
-        pk_layers = PKextractor(canonical_bp_list_filtered.copy())
-        bp_position_dict = {
-            tuple(bp_detail["position"]): bp_detail
-            for bp_detail in canonical_bp_details_filtered
-        }
+        pk_layers = PKextractor(can_bp_list_filtered.copy())
+        bp_pos_dict = {tuple(bp["position"]): bp for bp in can_bp_filtered}
     else:
-        pk_layers = PKextractor([(bp["position"][0], bp["position"][1]) for bp in all_bp_details_filtered.copy()])
-        bp_position_dict = {
-            tuple(bp_detail["position"]): bp_detail 
-            for bp_detail in all_bp_details_filtered
-        }
+        pk_layers = PKextractor([(bp["position"][0], bp["position"][1]) for bp in all_bp_filtered.copy()])
+        bp_pos_dict = {tuple(bp["position"]): bp for bp in all_bp_filtered}
 
-    # 各レイヤーの解析
     layer_analysis = []
     for layer_id, layer_bps in enumerate(pk_layers):
-        # このレイヤーに含まれる塩基対の詳細情報を取得（自己ペアを除外）
-        layer_bp_details = [
-            bp_position_dict[bp_pos] for bp_pos in layer_bps if bp_pos in bp_position_dict
-        ]
-
-        # canonical/non-canonicalの数をカウント
+        details = [bp_pos_dict[pos] for pos in layer_bps if pos in bp_pos_dict]
         if canonical_only:
-            # canonical onlyの場合：全てがcanonical
-            layer_canonical_count = len(layer_bps)
-            layer_non_canonical_count = 0
+            canon_count = len(layer_bps)
+            noncanon_count = 0
         else:
-            # all base pairsの場合：canonical/non-canonicalを区別してカウント
-            layer_canonical_count = sum(1 for bp in layer_bp_details if bp["is_canonical"])
-            layer_non_canonical_count = sum(1 for bp in layer_bp_details if not bp["is_canonical"])
-
+            canon_count = sum(1 for bp in details if bp["is_canonical"])
+            noncanon_count = sum(1 for bp in details if not bp["is_canonical"])
         layer_analysis.append({
             "layer_id": layer_id,
-            "total_bp_count": len(layer_bp_details),
-            "canonical_bp_count": layer_canonical_count,
-            "non_canonical_bp_count": layer_non_canonical_count,
-            "base_pairs": layer_bp_details
+            "total_bp_count": len(details),
+            "canonical_bp_count": canon_count,
+            "non_canonical_bp_count": noncanon_count,
+            "base_pairs": details
         })
-        
-    result = {
+
+    return {
         "pdb_id": pdb_file.stem,
-        "chain_id": display_chain_id,  # ファイル名から抽出したチェーンID（表示用）
-        "actual_chain_id": actual_chain_id,  # 実際に処理で使用したチェーンID
+        "chain_id": display_chain_id,
+        "actual_chain_id": actual_chain_id,
         "parser": parser,
-        "total_bp_count": len(all_bp_details_filtered),
-        "total_canonical_bp_count": len(canonical_bp_details_filtered),
+        "total_bp_count": len(all_bp_filtered),
+        "total_canonical_bp_count": len(can_bp_filtered),
         "self_pairs_count": len(self_pairs),
         "pseudoknot_layer_count": len(pk_layers),
         "layers": layer_analysis,
-        "all_base_pairs": all_bp_details_filtered,  # all pairs
+        "all_base_pairs": all_bp_filtered # filtered: removed self-pairs
     }
-    return result
+
 
 def main():
-    """メイン実行関数"""
-    # コマンドライン引数を解析
     args = parse_args()
-    
-    # PDBファイルリストを取得
-    pdb_files = get_pdb_files(DATASET_DIR) # Path object の list
+    pdb_files = get_pdb_files(DATASET_DIR)
     if not pdb_files:
         raise ValueError("No PDB files found in the dataset directory.")
 
-    # 結果を格納するリスト
-    results = []
+    # プロセス数指定がなければCPUコア数を使用
+    n_procs = args.processes if hasattr(args, 'processes') and args.processes else cpu_count()
+    n_procs = min(n_procs, 5)  # プロセス数はファイル数以下に制限
 
-    for pdb_file in tqdm(pdb_files, desc="Processing PDB files", unit="file"):
-        result = analyze_single_pdb(pdb_file, args.parser, args.canonical_only)
-        # 解析結果がNoneの場合はエラーを投げる
-        if result is None:
-            raise ValueError(f"Failed to analyze {pdb_file.name}")
-        results.append(result)
-    
-    # 結果をJSONファイルに保存
+    # 並列で解析
+    process_func = partial(
+        analyze_single_pdb,
+        parser=args.parser,
+        canonical_only=args.canonical_only
+    )
+    with Pool(processes=n_procs) as pool:
+        results = list(tqdm(
+            pool.imap(process_func, pdb_files),
+            total=len(pdb_files),
+            desc="Processing PDB files",
+            unit="file"
+        ))
+
+    # 結果をJSONに保存
     output_file = f"analysis/pseudoknot_analysis_{args.parser.lower()}.json"
     with open(output_file, 'w') as f:
         json.dump(results, f, indent=2, ensure_ascii=False)
-    
     print(f"Results saved to: {output_file}")
-
 
 if __name__ == "__main__":
     main()
