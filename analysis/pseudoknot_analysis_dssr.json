@@ -1,0 +1,4493 @@
+[
+  {
+    "pdb_id": "157D_1_A-B",
+    "chain_id": "A",
+    "actual_chain_id": "A",
+    "parser": "DSSR",
+    "total_bp_count": 10,
+    "total_canonical_bp_count": 0,
+    "total_non_canonical_bp_count": 10,
+    "total_canonical_ratio": 0.0,
+    "total_non_canonical_ratio": 1.0,
+    "pseudoknot_layer_count": 0,
+    "all_base_pairs": [
+      {
+        "position": [
+          2,
+          23
+        ],
+        "residues": [
+          "G",
+          "C"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          3,
+          22
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          4,
+          21
+        ],
+        "residues": [
+          "G",
+          "A"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "08-VIII",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          5,
+          20
+        ],
+        "residues": [
+          "A",
+          "U"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "20-XX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          6,
+          19
+        ],
+        "residues": [
+          "A",
+          "U"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "20-XX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          7,
+          18
+        ],
+        "residues": [
+          "U",
+          "A"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "20-XX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          8,
+          17
+        ],
+        "residues": [
+          "U",
+          "A"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "20-XX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          9,
+          16
+        ],
+        "residues": [
+          "A",
+          "G"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "08-VIII",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          10,
+          15
+        ],
+        "residues": [
+          "G",
+          "C"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          11,
+          14
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      }
+    ],
+    "layers": [],
+    "has_exceptional_base_pairs": false,
+    "self_pairs_count": 0
+  },
+  {
+    "pdb_id": "1EHZ_1_A",
+    "chain_id": "A",
+    "actual_chain_id": "A",
+    "parser": "DSSR",
+    "total_bp_count": 23,
+    "total_canonical_bp_count": 18,
+    "total_non_canonical_bp_count": 5,
+    "total_canonical_ratio": 0.782608695652174,
+    "total_non_canonical_ratio": 0.21739130434782608,
+    "pseudoknot_layer_count": 2,
+    "all_base_pairs": [
+      {
+        "position": [
+          1,
+          72
+        ],
+        "residues": [
+          "G",
+          "C"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2,
+          71
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          3,
+          70
+        ],
+        "residues": [
+          "G",
+          "C"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          4,
+          69
+        ],
+        "residues": [
+          "G",
+          "U"
+        ],
+        "is_canonical": true,
+        "wc_type": "Wobble",
+        "saenger_id": "28-XXVIII",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          5,
+          68
+        ],
+        "residues": [
+          "A",
+          "U"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "20-XX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          6,
+          67
+        ],
+        "residues": [
+          "U",
+          "A"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "20-XX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          7,
+          66
+        ],
+        "residues": [
+          "U",
+          "A"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "20-XX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          8,
+          14
+        ],
+        "residues": [
+          "U",
+          "A"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "24-XXIV",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          8,
+          21
+        ],
+        "residues": [
+          "U",
+          "A"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "n/a",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          9,
+          23
+        ],
+        "residues": [
+          "A",
+          "A"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "02-II",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          11,
+          24
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          12,
+          23
+        ],
+        "residues": [
+          "U",
+          "A"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "20-XX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          13,
+          22
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          15,
+          48
+        ],
+        "residues": [
+          "G",
+          "C"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "22-XXII",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          19,
+          56
+        ],
+        "residues": [
+          "G",
+          "C"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          27,
+          43
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          28,
+          42
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          29,
+          41
+        ],
+        "residues": [
+          "A",
+          "U"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "20-XX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          33,
+          36
+        ],
+        "residues": [
+          "U",
+          "A"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "n/a",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          50,
+          64
+        ],
+        "residues": [
+          "U",
+          "A"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "20-XX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          51,
+          63
+        ],
+        "residues": [
+          "G",
+          "C"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          52,
+          62
+        ],
+        "residues": [
+          "U",
+          "A"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "20-XX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          53,
+          61
+        ],
+        "residues": [
+          "G",
+          "C"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      }
+    ],
+    "layers": [
+      {
+        "layer_id": 0,
+        "total_bp_count": 17,
+        "canonical_bp_count": 17,
+        "non_canonical_bp_count": 0
+      },
+      {
+        "layer_id": 1,
+        "total_bp_count": 1,
+        "canonical_bp_count": 1,
+        "non_canonical_bp_count": 0
+      }
+    ],
+    "has_exceptional_base_pairs": false,
+    "self_pairs_count": 0
+  },
+  {
+    "pdb_id": "1EVV_1_A",
+    "chain_id": "A",
+    "actual_chain_id": "A",
+    "parser": "DSSR",
+    "total_bp_count": 23,
+    "total_canonical_bp_count": 18,
+    "total_non_canonical_bp_count": 5,
+    "total_canonical_ratio": 0.782608695652174,
+    "total_non_canonical_ratio": 0.21739130434782608,
+    "pseudoknot_layer_count": 2,
+    "all_base_pairs": [
+      {
+        "position": [
+          1,
+          72
+        ],
+        "residues": [
+          "G",
+          "C"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2,
+          71
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          3,
+          70
+        ],
+        "residues": [
+          "G",
+          "C"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          4,
+          69
+        ],
+        "residues": [
+          "G",
+          "U"
+        ],
+        "is_canonical": true,
+        "wc_type": "Wobble",
+        "saenger_id": "28-XXVIII",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          5,
+          68
+        ],
+        "residues": [
+          "A",
+          "U"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "20-XX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          6,
+          67
+        ],
+        "residues": [
+          "U",
+          "A"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "20-XX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          7,
+          66
+        ],
+        "residues": [
+          "U",
+          "A"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "20-XX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          8,
+          14
+        ],
+        "residues": [
+          "U",
+          "A"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "24-XXIV",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          8,
+          21
+        ],
+        "residues": [
+          "U",
+          "A"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "n/a",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          9,
+          23
+        ],
+        "residues": [
+          "A",
+          "A"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "02-II",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          11,
+          24
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          12,
+          23
+        ],
+        "residues": [
+          "U",
+          "A"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "20-XX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          13,
+          22
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          15,
+          48
+        ],
+        "residues": [
+          "G",
+          "C"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "22-XXII",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          19,
+          56
+        ],
+        "residues": [
+          "G",
+          "C"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          27,
+          43
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          28,
+          42
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          29,
+          41
+        ],
+        "residues": [
+          "A",
+          "U"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "20-XX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          33,
+          36
+        ],
+        "residues": [
+          "U",
+          "A"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "n/a",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          50,
+          64
+        ],
+        "residues": [
+          "U",
+          "A"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "20-XX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          51,
+          63
+        ],
+        "residues": [
+          "G",
+          "C"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          52,
+          62
+        ],
+        "residues": [
+          "U",
+          "A"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "20-XX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          53,
+          61
+        ],
+        "residues": [
+          "G",
+          "C"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      }
+    ],
+    "layers": [
+      {
+        "layer_id": 0,
+        "total_bp_count": 17,
+        "canonical_bp_count": 17,
+        "non_canonical_bp_count": 0
+      },
+      {
+        "layer_id": 1,
+        "total_bp_count": 1,
+        "canonical_bp_count": 1,
+        "non_canonical_bp_count": 0
+      }
+    ],
+    "has_exceptional_base_pairs": false,
+    "self_pairs_count": 0
+  },
+  {
+    "pdb_id": "1FG0_1_A",
+    "chain_id": "A",
+    "actual_chain_id": "A",
+    "parser": "DSSR",
+    "total_bp_count": 231,
+    "total_canonical_bp_count": 144,
+    "total_non_canonical_bp_count": 87,
+    "total_canonical_ratio": 0.6233766233766234,
+    "total_non_canonical_ratio": 0.37662337662337664,
+    "pseudoknot_layer_count": 2,
+    "all_base_pairs": [
+      {
+        "position": [
+          2063,
+          2083
+        ],
+        "residues": [
+          "U",
+          "A"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "n/a",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2064,
+          2081
+        ],
+        "residues": [
+          "U",
+          "A"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "20-XX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2065,
+          2080
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2066,
+          2079
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2067,
+          2078
+        ],
+        "residues": [
+          "A",
+          "U"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "20-XX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2068,
+          2077
+        ],
+        "residues": [
+          "G",
+          "C"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2069,
+          2074
+        ],
+        "residues": [
+          "U",
+          "A"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "24-XXIV",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2072,
+          2490
+        ],
+        "residues": [
+          "G",
+          "A"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "n/a",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2084,
+          2660
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2085,
+          2659
+        ],
+        "residues": [
+          "A",
+          "U"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "20-XX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2086,
+          2658
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2087,
+          2657
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2088,
+          2656
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2089,
+          2655
+        ],
+        "residues": [
+          "A",
+          "U"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "20-XX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2090,
+          2654
+        ],
+        "residues": [
+          "G",
+          "C"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2091,
+          2653
+        ],
+        "residues": [
+          "G",
+          "A"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "08-VIII",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2092,
+          2093
+        ],
+        "residues": [
+          "G",
+          "G"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "n/a",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2092,
+          2652
+        ],
+        "residues": [
+          "G",
+          "U"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "n/a",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2093,
+          2652
+        ],
+        "residues": [
+          "G",
+          "U"
+        ],
+        "is_canonical": true,
+        "wc_type": "Wobble",
+        "saenger_id": "28-XXVIII",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2094,
+          2651
+        ],
+        "residues": [
+          "G",
+          "C"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2095,
+          2612
+        ],
+        "residues": [
+          "A",
+          "A"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "05-V",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2095,
+          2650
+        ],
+        "residues": [
+          "A",
+          "U"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "20-XX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2097,
+          2647
+        ],
+        "residues": [
+          "G",
+          "C"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2098,
+          2646
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2102,
+          2486
+        ],
+        "residues": [
+          "G",
+          "A"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "08-VIII",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2103,
+          2538
+        ],
+        "residues": [
+          "A",
+          "A"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "n/a",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2104,
+          2485
+        ],
+        "residues": [
+          "C",
+          "A"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "n/a",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2104,
+          2536
+        ],
+        "residues": [
+          "C",
+          "C"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "n/a",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2105,
+          2481
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "n/a",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2106,
+          2480
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2106,
+          2484
+        ],
+        "residues": [
+          "C",
+          "U"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "n/a",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2107,
+          2479
+        ],
+        "residues": [
+          "U",
+          "A"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "20-XX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2108,
+          2478
+        ],
+        "residues": [
+          "A",
+          "U"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "20-XX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2109,
+          2467
+        ],
+        "residues": [
+          "U",
+          "A"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "21-XXI",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2110,
+          2477
+        ],
+        "residues": [
+          "G",
+          "C"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2111,
+          2476
+        ],
+        "residues": [
+          "G",
+          "C"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2112,
+          2473
+        ],
+        "residues": [
+          "A",
+          "U"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "20-XX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2113,
+          2472
+        ],
+        "residues": [
+          "G",
+          "C"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2114,
+          2471
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "n/a",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2115,
+          2470
+        ],
+        "residues": [
+          "U",
+          "A"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "20-XX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2115,
+          2632
+        ],
+        "residues": [
+          "U",
+          "G"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "n/a",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2116,
+          2118
+        ],
+        "residues": [
+          "U",
+          "A"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "23-XXIII",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2118,
+          2276
+        ],
+        "residues": [
+          "A",
+          "U"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "20-XX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2119,
+          2271
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "n/a",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2119,
+          2275
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2120,
+          2274
+        ],
+        "residues": [
+          "U",
+          "A"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "20-XX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2121,
+          2273
+        ],
+        "residues": [
+          "G",
+          "C"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2122,
+          2272
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2123,
+          2270
+        ],
+        "residues": [
+          "A",
+          "G"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "11-XI",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2124,
+          2269
+        ],
+        "residues": [
+          "G",
+          "C"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2125,
+          2268
+        ],
+        "residues": [
+          "G",
+          "C"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2126,
+          2267
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2127,
+          2266
+        ],
+        "residues": [
+          "U",
+          "A"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "20-XX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2128,
+          2265
+        ],
+        "residues": [
+          "G",
+          "U"
+        ],
+        "is_canonical": true,
+        "wc_type": "Wobble",
+        "saenger_id": "28-XXVIII",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2129,
+          2264
+        ],
+        "residues": [
+          "U",
+          "A"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "20-XX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2130,
+          2263
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2131,
+          2262
+        ],
+        "residues": [
+          "G",
+          "C"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2132,
+          2261
+        ],
+        "residues": [
+          "C",
+          "C"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "n/a",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2133,
+          2260
+        ],
+        "residues": [
+          "U",
+          "A"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "n/a",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2134,
+          2241
+        ],
+        "residues": [
+          "G",
+          "C"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2135,
+          2240
+        ],
+        "residues": [
+          "A",
+          "U"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "20-XX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2136,
+          2239
+        ],
+        "residues": [
+          "G",
+          "C"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2242,
+          2258
+        ],
+        "residues": [
+          "U",
+          "A"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "24-XXIV",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2244,
+          2257
+        ],
+        "residues": [
+          "A",
+          "G"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "11-XI",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2244,
+          2259
+        ],
+        "residues": [
+          "A",
+          "C"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "n/a",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2245,
+          2256
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2245,
+          2259
+        ],
+        "residues": [
+          "C",
+          "C"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "n/a",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2246,
+          2255
+        ],
+        "residues": [
+          "U",
+          "A"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "20-XX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2247,
+          2254
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2248,
+          2253
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2249,
+          2252
+        ],
+        "residues": [
+          "G",
+          "A"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "11-XI",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2271,
+          2274
+        ],
+        "residues": [
+          "G",
+          "A"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "n/a",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2276,
+          2469
+        ],
+        "residues": [
+          "U",
+          "A"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "n/a",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2277,
+          2470
+        ],
+        "residues": [
+          "U",
+          "A"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "23-XXIII",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2278,
+          2471
+        ],
+        "residues": [
+          "U",
+          "G"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "n/a",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2279,
+          2292
+        ],
+        "residues": [
+          "G",
+          "C"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2280,
+          2290
+        ],
+        "residues": [
+          "A",
+          "U"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "20-XX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2281,
+          2289
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2288,
+          2309
+        ],
+        "residues": [
+          "G",
+          "C"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2289,
+          2291
+        ],
+        "residues": [
+          "G",
+          "A"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "n/a",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2293,
+          2315
+        ],
+        "residues": [
+          "G",
+          "C"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2294,
+          2314
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2295,
+          2313
+        ],
+        "residues": [
+          "G",
+          "C"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2295,
+          2361
+        ],
+        "residues": [
+          "G",
+          "A"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "n/a",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2296,
+          2312
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2297,
+          2311
+        ],
+        "residues": [
+          "U",
+          "A"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "20-XX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2298,
+          2310
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2299,
+          2308
+        ],
+        "residues": [
+          "G",
+          "U"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "n/a",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2300,
+          2307
+        ],
+        "residues": [
+          "A",
+          "A"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "02-II",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2301,
+          2306
+        ],
+        "residues": [
+          "A",
+          "U"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "21-XXI",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2314,
+          2425
+        ],
+        "residues": [
+          "G",
+          "A"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "n/a",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2316,
+          2464
+        ],
+        "residues": [
+          "G",
+          "C"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2317,
+          2359
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2318,
+          2421
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2319,
+          2420
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2321,
+          2378
+        ],
+        "residues": [
+          "A",
+          "U"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "21-XXI",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2321,
+          2380
+        ],
+        "residues": [
+          "A",
+          "A"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "02-II",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2322,
+          2421
+        ],
+        "residues": [
+          "U",
+          "G"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "n/a",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2323,
+          2377
+        ],
+        "residues": [
+          "G",
+          "U"
+        ],
+        "is_canonical": true,
+        "wc_type": "Wobble",
+        "saenger_id": "28-XXVIII",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2324,
+          2376
+        ],
+        "residues": [
+          "G",
+          "C"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2325,
+          2375
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2326,
+          2374
+        ],
+        "residues": [
+          "U",
+          "A"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "20-XX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2327,
+          2373
+        ],
+        "residues": [
+          "A",
+          "U"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "20-XX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2328,
+          2372
+        ],
+        "residues": [
+          "U",
+          "A"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "20-XX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2329,
+          2371
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2330,
+          2369
+        ],
+        "residues": [
+          "U",
+          "A"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "24-XXIV",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2331,
+          2355
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2332,
+          2352
+        ],
+        "residues": [
+          "A",
+          "G"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "11-XI",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2333,
+          2351
+        ],
+        "residues": [
+          "G",
+          "C"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2334,
+          2350
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2335,
+          2349
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2336,
+          2348
+        ],
+        "residues": [
+          "G",
+          "C"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2337,
+          2347
+        ],
+        "residues": [
+          "G",
+          "C"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2338,
+          2346
+        ],
+        "residues": [
+          "G",
+          "C"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2356,
+          2369
+        ],
+        "residues": [
+          "A",
+          "A"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "01-I",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2357,
+          2366
+        ],
+        "residues": [
+          "G",
+          "C"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2358,
+          2365
+        ],
+        "residues": [
+          "U",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Wobble",
+        "saenger_id": "28-XXVIII",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2360,
+          2426
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2362,
+          2424
+        ],
+        "residues": [
+          "A",
+          "U"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "20-XX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2363,
+          2423
+        ],
+        "residues": [
+          "G",
+          "C"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2364,
+          2422
+        ],
+        "residues": [
+          "A",
+          "U"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "20-XX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2365,
+          2370
+        ],
+        "residues": [
+          "G",
+          "A"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "n/a",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2379,
+          2408
+        ],
+        "residues": [
+          "G",
+          "A"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "n/a",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2381,
+          2407
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2382,
+          2406
+        ],
+        "residues": [
+          "A",
+          "U"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "20-XX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2383,
+          2405
+        ],
+        "residues": [
+          "G",
+          "C"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2384,
+          2404
+        ],
+        "residues": [
+          "U",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Wobble",
+        "saenger_id": "28-XXVIII",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2385,
+          2403
+        ],
+        "residues": [
+          "G",
+          "C"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2386,
+          2402
+        ],
+        "residues": [
+          "U",
+          "A"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "20-XX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2387,
+          2401
+        ],
+        "residues": [
+          "U",
+          "A"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "20-XX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2388,
+          2400
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2389,
+          2399
+        ],
+        "residues": [
+          "U",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Wobble",
+        "saenger_id": "28-XXVIII",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2390,
+          2398
+        ],
+        "residues": [
+          "U",
+          "A"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "n/a",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2391,
+          2397
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "n/a",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2404,
+          2419
+        ],
+        "residues": [
+          "G",
+          "U"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "n/a",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2409,
+          2418
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2410,
+          2417
+        ],
+        "residues": [
+          "G",
+          "C"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2411,
+          2416
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2412,
+          2415
+        ],
+        "residues": [
+          "G",
+          "A"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "n/a",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2427,
+          2462
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "n/a",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2428,
+          2462
+        ],
+        "residues": [
+          "G",
+          "G"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "n/a",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2428,
+          2466
+        ],
+        "residues": [
+          "G",
+          "G"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "04-IV",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2429,
+          2461
+        ],
+        "residues": [
+          "A",
+          "U"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "24-XXIV",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2432,
+          2459
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2433,
+          2458
+        ],
+        "residues": [
+          "A",
+          "U"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "20-XX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2434,
+          2457
+        ],
+        "residues": [
+          "A",
+          "U"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "20-XX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2435,
+          2456
+        ],
+        "residues": [
+          "U",
+          "A"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "20-XX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2436,
+          2455
+        ],
+        "residues": [
+          "U",
+          "A"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "20-XX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2438,
+          2454
+        ],
+        "residues": [
+          "G",
+          "C"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2439,
+          2453
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2440,
+          2452
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2441,
+          2451
+        ],
+        "residues": [
+          "U",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Wobble",
+        "saenger_id": "28-XXVIII",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2442,
+          2450
+        ],
+        "residues": [
+          "G",
+          "C"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2471,
+          2633
+        ],
+        "residues": [
+          "G",
+          "A"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "n/a",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2473,
+          2475
+        ],
+        "residues": [
+          "U",
+          "C"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "n/a",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2482,
+          2486
+        ],
+        "residues": [
+          "G",
+          "A"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "n/a",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2485,
+          2536
+        ],
+        "residues": [
+          "A",
+          "C"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "25-XXV",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2488,
+          2534
+        ],
+        "residues": [
+          "A",
+          "C"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "n/a",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2489,
+          2533
+        ],
+        "residues": [
+          "G",
+          "C"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2490,
+          2531
+        ],
+        "residues": [
+          "A",
+          "U"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "20-XX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2491,
+          2530
+        ],
+        "residues": [
+          "G",
+          "C"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2492,
+          2529
+        ],
+        "residues": [
+          "U",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Wobble",
+        "saenger_id": "28-XXVIII",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2493,
+          2494
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "n/a",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2494,
+          2528
+        ],
+        "residues": [
+          "G",
+          "U"
+        ],
+        "is_canonical": true,
+        "wc_type": "Wobble",
+        "saenger_id": "28-XXVIII",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2495,
+          2525
+        ],
+        "residues": [
+          "U",
+          "G"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "n/a",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2495,
+          2527
+        ],
+        "residues": [
+          "U",
+          "U"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "16-XVI",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2496,
+          2524
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2497,
+          2523
+        ],
+        "residues": [
+          "A",
+          "U"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "20-XX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2498,
+          2522
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2499,
+          2521
+        ],
+        "residues": [
+          "U",
+          "A"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "20-XX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2500,
+          2520
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2501,
+          2519
+        ],
+        "residues": [
+          "G",
+          "C"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2502,
+          2518
+        ],
+        "residues": [
+          "C",
+          "C"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "n/a",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2503,
+          2517
+        ],
+        "residues": [
+          "A",
+          "A"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "n/a",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2504,
+          2516
+        ],
+        "residues": [
+          "A",
+          "G"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "11-XI",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2505,
+          2515
+        ],
+        "residues": [
+          "G",
+          "C"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2506,
+          2514
+        ],
+        "residues": [
+          "A",
+          "U"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "20-XX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2507,
+          2513
+        ],
+        "residues": [
+          "G",
+          "A"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "11-XI",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2510,
+          2564
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "22-XXII",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2511,
+          2516
+        ],
+        "residues": [
+          "A",
+          "G"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "n/a",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2525,
+          2527
+        ],
+        "residues": [
+          "G",
+          "U"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "n/a",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2532,
+          2533
+        ],
+        "residues": [
+          "A",
+          "C"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "n/a",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2540,
+          2645
+        ],
+        "residues": [
+          "G",
+          "U"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "n/a",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2541,
+          2618
+        ],
+        "residues": [
+          "U",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Wobble",
+        "saenger_id": "28-XXVIII",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2541,
+          2619
+        ],
+        "residues": [
+          "U",
+          "U"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "n/a",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2542,
+          2588
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "n/a",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2542,
+          2616
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "n/a",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2542,
+          2617
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2543,
+          2615
+        ],
+        "residues": [
+          "G",
+          "U"
+        ],
+        "is_canonical": true,
+        "wc_type": "Wobble",
+        "saenger_id": "28-XXVIII",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2544,
+          2614
+        ],
+        "residues": [
+          "G",
+          "C"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2545,
+          2613
+        ],
+        "residues": [
+          "U",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Wobble",
+        "saenger_id": "28-XXVIII",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2546,
+          2610
+        ],
+        "residues": [
+          "U",
+          "U"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "16-XVI",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2547,
+          2609
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2548,
+          2606
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2549,
+          2605
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2550,
+          2604
+        ],
+        "residues": [
+          "U",
+          "A"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "20-XX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2551,
+          2603
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2552,
+          2602
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2554,
+          2556
+        ],
+        "residues": [
+          "U",
+          "C"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "n/a",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2555,
+          2577
+        ],
+        "residues": [
+          "C",
+          "A"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "n/a",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2555,
+          2580
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2556,
+          2579
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2557,
+          2578
+        ],
+        "residues": [
+          "U",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Wobble",
+        "saenger_id": "28-XXVIII",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2558,
+          2575
+        ],
+        "residues": [
+          "G",
+          "C"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2559,
+          2574
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2560,
+          2573
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2561,
+          2572
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2562,
+          2571
+        ],
+        "residues": [
+          "G",
+          "C"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2563,
+          2570
+        ],
+        "residues": [
+          "U",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Wobble",
+        "saenger_id": "28-XXVIII",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2579,
+          2599
+        ],
+        "residues": [
+          "G",
+          "A"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "n/a",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2580,
+          2600
+        ],
+        "residues": [
+          "G",
+          "A"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "n/a",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2581,
+          2602
+        ],
+        "residues": [
+          "U",
+          "G"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "n/a",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2582,
+          2596
+        ],
+        "residues": [
+          "G",
+          "A"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "08-VIII",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2583,
+          2595
+        ],
+        "residues": [
+          "A",
+          "U"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "20-XX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2584,
+          2594
+        ],
+        "residues": [
+          "G",
+          "C"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2585,
+          2593
+        ],
+        "residues": [
+          "G",
+          "C"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2586,
+          2592
+        ],
+        "residues": [
+          "U",
+          "G"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "n/a",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2587,
+          2591
+        ],
+        "residues": [
+          "U",
+          "C"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "n/a",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2588,
+          2617
+        ],
+        "residues": [
+          "G",
+          "G"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "n/a",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2597,
+          2601
+        ],
+        "residues": [
+          "U",
+          "A"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "24-XXIV",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2611,
+          2616
+        ],
+        "residues": [
+          "G",
+          "G"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "n/a",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2622,
+          2643
+        ],
+        "residues": [
+          "A",
+          "G"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "11-XI",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2623,
+          2641
+        ],
+        "residues": [
+          "G",
+          "C"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2624,
+          2640
+        ],
+        "residues": [
+          "A",
+          "U"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "20-XX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2625,
+          2639
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2626,
+          2638
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2627,
+          2636
+        ],
+        "residues": [
+          "G",
+          "C"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2628,
+          2635
+        ],
+        "residues": [
+          "U",
+          "A"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "20-XX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2629,
+          2634
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2630,
+          2633
+        ],
+        "residues": [
+          "G",
+          "A"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "11-XI",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          2649,
+          2651
+        ],
+        "residues": [
+          "A",
+          "C"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "n/a",
+        "base_pair_type": "non-canonical"
+      }
+    ],
+    "layers": [
+      {
+        "layer_id": 0,
+        "total_bp_count": 138,
+        "canonical_bp_count": 138,
+        "non_canonical_bp_count": 0
+      },
+      {
+        "layer_id": 1,
+        "total_bp_count": 6,
+        "canonical_bp_count": 6,
+        "non_canonical_bp_count": 0
+      }
+    ],
+    "has_exceptional_base_pairs": false,
+    "self_pairs_count": 0
+  },
+  {
+    "pdb_id": "1FIR_1_A",
+    "chain_id": "A",
+    "actual_chain_id": "A",
+    "parser": "DSSR",
+    "total_bp_count": 24,
+    "total_canonical_bp_count": 17,
+    "total_non_canonical_bp_count": 7,
+    "total_canonical_ratio": 0.7083333333333334,
+    "total_non_canonical_ratio": 0.2916666666666667,
+    "pseudoknot_layer_count": 2,
+    "all_base_pairs": [
+      {
+        "position": [
+          1,
+          72
+        ],
+        "residues": [
+          "G",
+          "C"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          2,
+          71
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          3,
+          70
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          4,
+          69
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          5,
+          68
+        ],
+        "residues": [
+          "G",
+          "C"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          7,
+          66
+        ],
+        "residues": [
+          "A",
+          "U"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "20-XX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          8,
+          14
+        ],
+        "residues": [
+          "U",
+          "A"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "24-XXIV",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          8,
+          21
+        ],
+        "residues": [
+          "U",
+          "A"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "n/a",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          9,
+          23
+        ],
+        "residues": [
+          "A",
+          "A"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "02-II",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          11,
+          24
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          12,
+          23
+        ],
+        "residues": [
+          "U",
+          "A"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "20-XX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          13,
+          22
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          14,
+          21
+        ],
+        "residues": [
+          "A",
+          "A"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "n/a",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          19,
+          56
+        ],
+        "residues": [
+          "G",
+          "C"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          26,
+          44
+        ],
+        "residues": [
+          "A",
+          "G"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "08-VIII",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          28,
+          42
+        ],
+        "residues": [
+          "C",
+          "G"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          29,
+          41
+        ],
+        "residues": [
+          "A",
+          "U"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "20-XX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          30,
+          40
+        ],
+        "residues": [
+          "G",
+          "C"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          32,
+          38
+        ],
+        "residues": [
+          "C",
+          "A"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "n/a",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          33,
+          36
+        ],
+        "residues": [
+          "U",
+          "U"
+        ],
+        "is_canonical": false,
+        "wc_type": "Non-WC",
+        "saenger_id": "n/a",
+        "base_pair_type": "non-canonical"
+      },
+      {
+        "position": [
+          50,
+          64
+        ],
+        "residues": [
+          "A",
+          "U"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "20-XX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          51,
+          63
+        ],
+        "residues": [
+          "G",
+          "C"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          52,
+          62
+        ],
+        "residues": [
+          "G",
+          "C"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      },
+      {
+        "position": [
+          53,
+          61
+        ],
+        "residues": [
+          "G",
+          "C"
+        ],
+        "is_canonical": true,
+        "wc_type": "Watson-Crick",
+        "saenger_id": "19-XIX",
+        "base_pair_type": "canonical"
+      }
+    ],
+    "layers": [
+      {
+        "layer_id": 0,
+        "total_bp_count": 16,
+        "canonical_bp_count": 16,
+        "non_canonical_bp_count": 0
+      },
+      {
+        "layer_id": 1,
+        "total_bp_count": 1,
+        "canonical_bp_count": 1,
+        "non_canonical_bp_count": 0
+      }
+    ],
+    "has_exceptional_base_pairs": false,
+    "self_pairs_count": 0
+  }
+]
