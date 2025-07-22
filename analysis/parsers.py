@@ -15,10 +15,8 @@ import pandas as pd
 script_dir = Path(__file__).parent.parent
 sys.path.insert(0, str(script_dir))
 
-from addressRNAviewOutput import load_rnaview_data, canonical_extraction_from_rnaview_df
-from addressDSSROutput import load_dssr_data, raw_df_processing
-
-
+from addressRNAviewOutput import load_rnaview_data
+from addressDSSROutput import load_dssr_data
 
 # def raw_DSSR_df_processing(df: pd.DataFrame):
 #     """
@@ -41,7 +39,7 @@ from addressDSSROutput import load_dssr_data, raw_df_processing
 #     result_df = processed_df[["left_resi", "left_idx", "right_resi", "right_idx", "chain1", "chain2", "is_canonical", "saenger"]]
 #     return result_df
 
-def df_processing(df: pd.Dataframe, parser_type: str):
+def raw_df_processing(df: pd.Dataframe, parser_type: str):
     """
     DataFrameから詳細な塩基対情報を共通フォーマットで作成
     
@@ -79,31 +77,29 @@ def df_processing(df: pd.Dataframe, parser_type: str):
     return bp_details
 
 
-def parse_rnaview_output(output_file_path):
-    """
-    RNAView出力ファイルを解析して共通フォーマットで返す
+# def parse_rnaview_output(output_file_path):
+#     """
+#     RNAView出力ファイルを解析して共通フォーマットで返す
     
-    Args:
-        output_file_path (str or Path): RNAView出力ファイルのパス
+#     Args:
+#         output_file_path (str or Path): RNAView出力ファイルのパス
         
-    Returns:
-        tuple: (全塩基対詳細情報, canonical塩基対詳細情報, canonical塩基対リスト)
-    """
-    # データをロード
-    all_bp_df = load_rnaview_data(str(output_file_path))
-    # canonical_bp_df = canonical_extraction_from_rnaview_df(all_bp_df)
-    all_bp_df = raw_df_processing(all_bp_df)
+#     Returns:
+#         tuple: (全塩基対詳細情報, canonical塩基対詳細情報, canonical塩基対リスト)
+#     """
+#     # データをロード
+#     all_bp_df = load_rnaview_data(str(output_file_path))
+#     # canonical_bp_df = canonical_extraction_from_rnaview_df(all_bp_df)
+#     all_bp_df = raw_df_processing(all_bp_df)
     
-    # 詳細情報を作成
-    all_bp_details = create_bp_details(all_bp_df, "RNAView")
-    canonical_bp_details = create_bp_details(canonical_bp_df, "RNAView")
+#     # 詳細情報を作成
+#     all_bp_details = create_bp_details(all_bp_df, "RNAView")
+#     canonical_bp_details = create_bp_details(canonical_bp_df, "RNAView")
     
-    # PKextractor用の位置情報のみのリスト
-    canonical_bp_list = [(row["left_idx"], row["right_idx"]) for _, row in canonical_bp_df.iterrows()]
+#     # PKextractor用の位置情報のみのリスト
+#     canonical_bp_list = [(row["left_idx"], row["right_idx"]) for _, row in canonical_bp_df.iterrows()]
     
-    return all_bp_details, canonical_bp_details, canonical_bp_list
-
-
+#     return all_bp_details, canonical_bp_details, canonical_bp_list
 
 
 def parse_output_file(output_file_path, parser_type):
@@ -115,13 +111,13 @@ def parse_output_file(output_file_path, parser_type):
         parser_type (str): "RNAView" or "DSSR"
         
     Returns:
-        tuple: (全塩基対詳細情報, canonical塩基対詳細情報, canonical塩基対リスト)
+        tuple: 全塩基対詳細情報
     """
     if parser_type.upper() == "RNAVIEW":
-        raw_df = parse_rnaview_output(output_file_path)
+        raw_df = load_rnaview_data(str(output_file_path))
     elif parser_type.upper() == "DSSR":
         raw_df = load_dssr_data(str(output_file_path))
-    processed_df = raw_df_processing(raw_df, "DSSR")
+    processed_df = raw_df_processing(raw_df, parser_type)
     return processed_df
 
 
