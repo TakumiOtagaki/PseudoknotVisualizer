@@ -105,17 +105,15 @@ def run_rnaview_analysis(pdb_file_path, chain_id):
     print(f"Running RNAView for {pdb_file.name} with chain {chain_id}...")
     
     # RNAViewを実行
-    CLI_rnaview(str(pdb_file), chain_id)
+    raw_df = CLI_rnaview(str(pdb_file), chain_id)
     
     # 出力ファイルパスを構築
     output_file = Path(f"intermediate/{pdb_file.name}.out")
     
-    if output_file.exists():
-        print(f"RNAView output generated: {output_file}")
-        return output_file
-    else:
-        print(f"Warning: RNAView output not found for {pdb_file.name}")
-        return None
+    if not output_file.exists():
+        raise FileNotFoundError(f"RNAView output not found for {pdb_file.name}")
+    print(f"RNAView output generated: {output_file}")
+    return output_file, raw_df
 
 
 def run_dssr_analysis(pdb_file_path, chain_id):
@@ -133,17 +131,16 @@ def run_dssr_analysis(pdb_file_path, chain_id):
     print(f"Running DSSR for {pdb_file.name} with chain {chain_id}...")
     
     # DSSRを実行
-    CLI_dssr(str(pdb_file), chain_id)
+    raw_df = CLI_dssr(str(pdb_file), chain_id)
     
     # 出力ファイルパスを構築
     output_file = Path(f"intermediate/{pdb_file.name}.dssr.json")
     
-    if output_file.exists():
-        print(f"DSSR output generated: {output_file}")
-        return output_file
-    else:
-        print(f"Warning: DSSR output not found for {pdb_file.name}")
-        return None
+    if not output_file.exists():
+        raise FileNotFoundError(f"DSSR output not found for {pdb_file.name}")
+    print(f"DSSR output generated: {output_file}")
+    print(f"Warning: DSSR output not found for {pdb_file.name}")
+    return output_file, raw_df
 
 
 def run_parser_analysis(pdb_file_path, chain_id, parser="RNAView"):

@@ -43,6 +43,13 @@ Examples:
         default=False,
         help="Only analyze canonical base pairs (default: False)"
     )
+    parser.add_argument(
+        "--ncpus",
+        "-n",
+        type=int,
+        default=1,
+        help="Number of CPU cores to use for parallel processing (default: 1)"
+    )
     
     return parser
 

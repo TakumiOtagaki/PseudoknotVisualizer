@@ -31,9 +31,9 @@ def raw_df_processing(df: pd.DataFrame, parser_type: str):
     Returns:
         list: 塩基対詳細情報のリスト
     """
-    print(f"DataFrame shape: {df.shape}")
-    print(f"Columns: {df.columns.tolist()}")
-    print(f"First few rows:\n{df.head()}")
+    # print(f"DataFrame shape: {df.shape}")
+    # print(f"Columns: {df.columns.tolist()}")
+    # print(f"First few rows:\n{df.head()}")
 
     bp_details = []
     for _, row in df.iterrows():
@@ -52,7 +52,6 @@ def raw_df_processing(df: pd.DataFrame, parser_type: str):
             is_canonical = False
             # wc_type = "Unknown"
             saenger = ""
-        print("row:", row)
         bp_details.append({
             "position": [int(row["left_idx"]), int(row["right_idx"])],
             "residues": [row["left_resi"], row["right_resi"]],

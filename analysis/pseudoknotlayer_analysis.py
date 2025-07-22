@@ -65,36 +65,41 @@ def analyze_single_pdb(pdb_file, parser="RNAView", canonical_only=True):
     print(f"Analyzing {pdb_file.name} (Chain: {display_chain_id}, Actual Chain: {actual_chain_id})")
     print("processed_df:\n", processed_df)
     print(f"all base pairs found: {len(processed_df)}")
-    print(f"canonical base pairs found: {len(processed_df[processed_df['is_canonical']])}")
-    sys.exit()
-    # レイヤー分解
+    # 以下のコードは、dict が空の時にエラーになる。defaultdict を使えば問題ないが、未実装です。
+    # print(f"canonical base pairs found: {len(processed_df[processed_df['is_canonical']])}")
+
+    canonical_processed_df = processed_df[processed_df["is_canonical"]]
+    # sys.exit()    # レイヤー分解
     if canonical_only:
-        canonical_processed_df = processed_df[processed_df["is_canonical"]]
-        bp_pos_dict = {tuple(bp["position"]): bp for bp in canonical_processed_df}
-        # もし共通している (i, j) と (i, j') のような塩基対があれば、error という扱いにして飛ばす
+        # もし共通している (i, j) と (i, j') のような塩s基対があれば、error という扱いにして飛ばす
         basepair_list = [ (bp[0], bp[1]) for bp in canonical_processed_df["position"]]
     else:
         all_bp_filtered = [(bp[0], bp[1]) for bp in processed_df["position"]]
-        bp_pos_dict = {tuple(bp["position"]): bp for bp in processed_df}
-
+        basepair_list = [ (bp[0], bp[1]) for bp in processed_df["position"]]
+    # key: pair (i, j) , value: base pair details
+    details_dict = {(bp[0][0], bp[0][1]): {
+            "positions": bp[0], "residues": bp, "is_canonical": bp[2], "saenger_id": bp[3]
+        } for bp in processed_df.values.tolist()
+    }
+    print(f"Total base pairs found: {details_dict}")
     print("layer decomposed")
     pk_layers = PKextractor(basepair_list.copy())
+    sys.exit()
     
     layer_analysis = []
     for layer_id, layer_bps in enumerate(pk_layers):
-        details = [bp_pos_dict[pos] for pos in layer_bps if pos in bp_pos_dict]
         if canonical_only:
             canon_count = len(layer_bps)
             noncanon_count = 0
         else:
-            canon_count = sum(1 for bp in details if bp["is_canonical"])
-            noncanon_count = sum(1 for bp in details if not bp["is_canonical"])
+            canon_count = sum(1 for bp in layer_bps if details_dict[bp]["is_canonical"])
+            noncanon_count = sum(1 for bp in layer_bps if not details_dict[bp]["is_canonical"])
         layer_analysis.append({
             "layer_id": layer_id,
-            "total_bp_count": len(details),
+            "total_bp_count": len(layer_bps),
+            "basepair_details": [details_dict[bp] for bp in layer_bps],
             "canonical_bp_count": canon_count,
             "non_canonical_bp_count": noncanon_count,
-            "base_pairs": details
         })
 
     return {
@@ -103,25 +108,26 @@ def analyze_single_pdb(pdb_file, parser="RNAView", canonical_only=True):
         "actual_chain_id": actual_chain_id,
         "parser": parser,
         "total_bp_count": len(all_bp_filtered),
-        "total_canonical_bp_count": len(can_bp_filtered),
-        "self_pairs_count": len(self_pairs),
+        "total_canonical_bp_count": len(canonical_processed_df),
         "pseudoknot_layer_count": len(pk_layers),
         "layers": layer_analysis,
-        "all_base_pairs": all_bp_filtered # filtered: removed self-pairs
+        "all_base_pairs": all_bp_filtered, # filtered: removed self-pairs
+        "abnormal_pairs": abnormal_pairs,
+        # "details": details_dict.values
     }
 
 
 def main():
     args = parse_args()
     pdb_files = get_pdb_files(DATASET_DIR)
-    pdb_files = [Path("analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/1O9M_1_A-B.pdb")]
+    # pdb_files = [Path("analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/1O9M_1_A-B.pdb")]
 
     if not pdb_files:
         raise ValueError("No PDB files found in the dataset directory.")
 
     # プロセス数指定がなければCPUコア数を使用
     n_procs = args.processes if hasattr(args, 'processes') and args.processes else cpu_count()
-    n_procs = min(n_procs, 1)  
+    n_procs = min(n_procs, args.ncpus)  
 
     # 並列で解析
     process_func = partial(
