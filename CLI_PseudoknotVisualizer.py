@@ -74,18 +74,24 @@ def CLI_dssr(struct_file, chain_id):
     copied_file = pathlib.Path(INTERMEDIATE_DIR) / pathlib.Path(struct_file).name
     shutil.copy2(struct_file, copied_file)
 
-    print(f"DSSR starts with {struct_file} and chain {chain_id}")
+    print(f"DSSR starts with {struct_file}")
     
     # DSSR実行（JSONフォーマットで出力）
     json_output_path = pathlib.Path(INTERMEDIATE_DIR) / (pathlib.Path(struct_file).name + ".dssr.json")
     result = subprocess.run(
-        [DSSR_EXEC, f"-i={str(copied_file)}", "--json", f"-o={str(json_output_path)}"],
+        [str(DSSR_EXEC), f"-i={str(copied_file)}", "--json", f"-o={str(json_output_path)}"],
         cwd=INTERMEDIATE_DIR,
         check=True,
         capture_output=True,
         text=True
     )
+    # if result.returncode != 0:
+    #     raise Exception("DSSR failed")
+        # エラー内容を出力
     if result.returncode != 0:
+        print(f"DSSR failed with return code: {result.returncode}")
+        print(f"stdout: {result.stdout}")
+        print(f"stderr: {result.stderr}")
         raise Exception("DSSR failed")
 
     print("DSSR done.")
