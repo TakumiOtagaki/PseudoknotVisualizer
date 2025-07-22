@@ -77,7 +77,7 @@ def PKextractor(BPL, compression=True):
         raise ValueError("BPL contains self-pairs (i, i). Please remove them before extracting pseudoknot layers.")
     
     PK_layers = []
-    if len(BPL) > 300: print("Warning: BPL is too large. This may take a long time to process.")
+    if len(BPL) > 300: print(f"Warning: BPL is too large {len(BPL)}. This may take a long time to process.")
     counter = 0
     while BPL:
         # initialization:

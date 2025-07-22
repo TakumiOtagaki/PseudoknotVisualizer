@@ -128,17 +128,20 @@ def filter_abnormal_pairs(processed_df: pd.DataFrame):
     # sys.exit()
 
     # (i, j) と (i, j') のような塩基対を検出
-    for i, bp1 in enumerate(processed_dict):
-        for j in range(i + 1, len(processed_dict)):
-            bp2 = processed_dict[j]
-            if bp1["position"][0] == bp2["position"][0] and bp1["position"][1] == bp2["position"][1]:
+    dup_canonical_pairs = set()
+    for i, bp1 in enumerate(processed_dict_filtered):
+        for j in range(i + 1, len(processed_dict_filtered)):
+            bp2 = processed_dict_filtered[j]
+            if (set(bp1["position"]) & set(bp2["position"])):
                 # 同じ位置のペアが見つかった
                 if bp1["is_canonical"] and not bp2["is_canonical"]:
-                    abnormal_pairs.append(bp1)
-                elif not bp1["is_canonical"] and bp2["is_canonical"]:
                     abnormal_pairs.append(bp2)
+                elif not bp1["is_canonical"] and bp2["is_canonical"]:
+                    abnormal_pairs.append(bp1)
                 elif bp1["is_canonical"] and bp2["is_canonical"]:
-                    raise ValueError("Both pairs are canonical")
+                    # raise ValueError("Both pairs are canonical")
+                    dup_canonical_pairs.add((bp1["position"][0], bp1["position"][1]))
+                    dup_canonical_pairs.add((bp2["position"][0], bp2["position"][1]))
                 else:
                     # 両方とも non-canonical ならば無視
                     abnormal_pairs.append(bp1)
@@ -147,7 +150,7 @@ def filter_abnormal_pairs(processed_df: pd.DataFrame):
     bp_details_filtered = [bp for bp in processed_dict_filtered if bp["position"] not in abnormal_pairs]
     bp_details_filtered_df = pd.DataFrame(bp_details_filtered)
     if bp_details_filtered_df.empty:
-        return pd.DataFrame(columns=["position", "residues", "is_canonical", "saenger_id"]), abnormal_pairs
+        return pd.DataFrame(columns=["position", "residues", "is_canonical", "saenger_id"]), abnormal_pairs, dup_canonical_pairs
     print(f"Filtered out {len(abnormal_pairs)} abnormal pairs")
     print(f"Remaining pairs: {len(bp_details_filtered)}")
-    return bp_details_filtered_df, abnormal_pairs
+    return bp_details_filtered_df, abnormal_pairs, dup_canonical_pairs

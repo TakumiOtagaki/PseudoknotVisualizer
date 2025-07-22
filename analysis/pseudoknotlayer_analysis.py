@@ -62,7 +62,7 @@ def analyze_single_pdb(pdb_file, parser="RNAView", canonical_only=True):
     print(f"Processed DataFrame for {pdb_file.name}:\n", processed_df)
 
     # 自己ペア（i=j）を検出・除外
-    processed_df, abnormal_pairs = filter_abnormal_pairs(processed_df)
+    processed_df, abnormal_pairs, dup_canonical_pairs = filter_abnormal_pairs(processed_df)
 
     print(f"Analyzing {pdb_file.name} (Chain: {display_chain_id}, Actual Chain: {actual_chain_id})")
     print("processed_df:\n", processed_df.head())
@@ -83,6 +83,9 @@ def analyze_single_pdb(pdb_file, parser="RNAView", canonical_only=True):
     # print(f"Total base pairs found: {details_dict}")
     print("base pair list:")
     for bp in basepair_list:
+        print(f"  {bp} ")
+    print("duplicated canonical pairs:")
+    for bp in dup_canonical_pairs:
         print(f"  {bp} ")
     pk_layers = PKextractor(basepair_list.copy())
     print("layer decomposed")    
@@ -114,14 +117,15 @@ def analyze_single_pdb(pdb_file, parser="RNAView", canonical_only=True):
         "layers": layer_analysis,
         "all_base_pairs": processed_df["position"].tolist(),  # filtered: removed self-pairs
         "abnormal_pairs": abnormal_pairs,
-        # "details": details_dict.values
+        # "details": details_dict.values,
+        "dup_canonical_pairs": list(dup_canonical_pairs) if dup_canonical_pairs else [],
     }
 
 
 def main():
     args = parse_args()
     pdb_files = get_pdb_files(DATASET_DIR)
-    pdb_files = [Path("analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/1O9M_1_A-B.pdb")]
+    # pdb_files = [Path("analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/1O9M_1_A-B.pdb")]
     # pdb_files = pdb_files[:10]
     if not pdb_files:
         raise ValueError("No PDB files found in the dataset directory.")
