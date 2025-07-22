@@ -22,6 +22,7 @@ from addressDSSROutput import load_dssr_data
 def raw_df_processing(df: pd.DataFrame, parser_type: str):
     """
     DataFrameから詳細な塩基対情報を共通フォーマットで作成
+    is_canonicalフラグを追加し、Saenger分類に基づいて塩基対を分類
     
     Args:
         df (pandas.DataFrame): 塩基対データのDataFrame
