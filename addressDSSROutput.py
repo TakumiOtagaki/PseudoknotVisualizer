@@ -109,9 +109,9 @@ def extract_canonicalbp_from_dssr(df: pd.DataFrame):
 
 
 # 後方互換性のため、元の関数名も残す
-def extract_base_pairs_from_dssr(input_file: str):
-    """後方互換性のための関数（extract_canonicalbp_from_dssrの別名）"""
-    return extract_canonicalbp_from_dssr(input_file)
+# def extract_base_pairs_from_dssr(input_file: str):
+#     """後方互換性のための関数（extract_canonicalbp_from_dssrの別名）"""
+#     return extract_canonicalbp_from_dssr(input_file)
 
 
 if __name__ == "__main__":
