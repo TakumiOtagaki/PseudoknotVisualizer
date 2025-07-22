@@ -135,17 +135,17 @@ def filter_abnormal_pairs(processed_df: pd.DataFrame):
             if (set(bp1["position"]) & set(bp2["position"])):
                 # 同じ位置のペアが見つかった
                 if bp1["is_canonical"] and not bp2["is_canonical"]:
-                    abnormal_pairs.append(bp2)
+                    abnormal_pairs.append(bp2["position"])
                 elif not bp1["is_canonical"] and bp2["is_canonical"]:
-                    abnormal_pairs.append(bp1)
+                    abnormal_pairs.append(bp1["position"])
                 elif bp1["is_canonical"] and bp2["is_canonical"]:
                     # raise ValueError("Both pairs are canonical")
                     dup_canonical_pairs.add((bp1["position"][0], bp1["position"][1]))
                     dup_canonical_pairs.add((bp2["position"][0], bp2["position"][1]))
                 else:
                     # 両方とも non-canonical ならば無視
-                    abnormal_pairs.append(bp1)
-                    abnormal_pairs.append(bp2)
+                    abnormal_pairs.append(bp1["position"])
+                    abnormal_pairs.append(bp2["position"])
 
     bp_details_filtered = [bp for bp in processed_dict_filtered if bp["position"] not in abnormal_pairs]
     bp_details_filtered_df = pd.DataFrame(bp_details_filtered)
