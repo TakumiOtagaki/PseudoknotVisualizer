@@ -59,23 +59,23 @@ def load_dssr_data(input_file: str):
     return df
 
 
-def raw_df_processing(df: pd.DataFrame):
-    """
-    DSSRの生データを処理して、必要なカラムのみを抽出し、カノニカルベースペアのフラグを追加
-    samle chain におけるものだけを取り出すことにしている
-    """
+# def raw_DSSR_df_processing(df: pd.DataFrame):
+#     """
+#     DSSRの生データを処理して、必要なカラムのみを抽出し、カノニカルベースペアのフラグを追加
+#     samle chain におけるものだけを取り出すことにしている
+#     """
 
-    if df.empty:
-        return pd.DataFrame(columns=["left_resi", "left_idx", "right_resi", "right_idx", "chain1", "chain2", "is_canonical", "saenger_id"])
+#     if df.empty:
+#         return pd.DataFrame(columns=["left_resi", "left_idx", "right_resi", "right_idx", "chain1", "chain2", "is_canonical", "saenger_id"])
     
-    # 同一チェーン内のベースペアのみを考慮
-    same_chain_df = df[df["chain1"] == df["chain2"]]
+#     # 同一チェーン内のベースペアのみを考慮
+#     same_chain_df = df[df["chain1"] == df["chain2"]]
     
-    # Saenger番号によるカノニカルベースペアの判定
-    # processed_df = same_chain_df[same_chain_df["saenger"].isin(["19-XIX", "20-XX", "28-XXVIII"])]
-    processed_df = same_chain_df.copy()
-    processed_df["is_canonical"] = same_chain_df["saenger"].isin(["19-XIX", "20-XX", "28-XXVIII"])
+#     # Saenger番号によるカノニカルベースペアの判定
+#     # processed_df = same_chain_df[same_chain_df["saenger"].isin(["19-XIX", "20-XX", "28-XXVIII"])]
+#     processed_df = same_chain_df.copy()
+#     processed_df["is_canonical"] = same_chain_df["saenger"].isin(["19-XIX", "20-XX", "28-XXVIII"])
     
-    # 必要なカラムのみを選択
-    result_df = processed_df[["left_resi", "left_idx", "right_resi", "right_idx", "chain1", "chain2", "is_canonical", "saenger"]]
-    return result_df
+#     # 必要なカラムのみを選択
+#     result_df = processed_df[["left_resi", "left_idx", "right_resi", "right_idx", "chain1", "chain2", "is_canonical", "saenger"]]
+#     return result_df
