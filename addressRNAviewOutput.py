@@ -69,74 +69,69 @@ def load_rnaview_data(input_file: str):
     return df
 
 
-def canonical_extraction_from_rnaview_df(df: pd.DataFrame):
-    """
-    RNAView DataFrameからカノニカルベースペアのみを抽出してフィルタリング
+# def canonical_extraction_from_rnaview_df(df: pd.DataFrame):
+#     """
+#     RNAView DataFrameからカノニカルベースペアのみを抽出してフィルタリング
     
-    Args:
-        df (pd.DataFrame): load_rnaview_data()で取得したDataFrame
+#     Args:
+#         df (pd.DataFrame): load_rnaview_data()で取得したDataFrame
         
-    Returns:
-        pd.DataFrame: フィルタリングされたベースペア情報
-                     カラム: ["left_resi", "left_idx", "right_resi", "right_idx"]
-    """
-    if df.empty:
-        return pd.DataFrame(columns=["left_resi", "left_idx", "right_resi", "right_idx"])
+#     Returns:
+#         pd.DataFrame: フィルタリングされたベースペア情報
+#                      カラム: ["left_resi", "left_idx", "right_resi", "right_idx"]
+#     """
+#     if df.empty:
+#         return pd.DataFrame(columns=["left_resi", "left_idx", "right_resi", "right_idx"])
     
-    # 同一チェーン内のベースペアのみを考慮
-    same_chain_df = df[df["chain1"] == df["chain2"]]
+#     # 同一チェーン内のベースペアのみを考慮
+#     same_chain_df = df[df["chain1"] == df["chain2"]]
     
-    # Saenger番号によるカノニカルベースペアの判定
-    canonical_df = same_chain_df[same_chain_df["saenger"].isin(["XX", "XIX", "XXVIII"])]
+#     # Saenger番号によるカノニカルベースペアの判定
+#     canonical_df = same_chain_df[same_chain_df["saenger"].isin(["XX", "XIX", "XXVIII"])]
     
-    # 必要なカラムのみを選択
-    result_df = canonical_df[["left_resi", "left_idx", "right_resi", "right_idx"]].copy()
+#     # 必要なカラムのみを選択
+#     result_df = canonical_df[["left_resi", "left_idx", "right_resi", "right_idx"]].copy()
     
-    return result_df
+#     return result_df
 
 
-def extract_canonicalbp_from_rnaview(df: pd.DataFrame):
-    """
-    RNAView出力からカノニカルベースペア情報を抽出し、フィルタリングする
-    （従来のextract_base_pairs_from_rnaview関数の置き換え）
+# def extract_canonicalbp_from_rnaview(df: pd.DataFrame):
+#     """
+#     RNAView出力からカノニカルベースペア情報を抽出し、フィルタリングする
+#     （従来のextract_base_pairs_from_rnaview関数の置き換え）
     
-    Args:
-        input_file (str): RNAViewの出力ファイルパス
+#     Args:
+#         input_file (str): RNAViewの出力ファイルパス
         
-    Returns:
-        pd.DataFrame: フィルタリングされたベースペア情報
-                     カラム: ["left_resi", "left_idx", "right_resi", "right_idx"]
-    """
-    # データをロード
-    # df = load_rnaview_data(input_file)
+#     Returns:
+#         pd.DataFrame: フィルタリングされたベースペア情報
+#                      カラム: ["left_resi", "left_idx", "right_resi", "right_idx"]
+#     """
+#     # データをロード
+#     # df = load_rnaview_data(input_file)
     
-    # カノニカルベースペアを抽出
-    canonical_df = canonical_extraction_from_rnaview_df(df)
+#     # カノニカルベースペアを抽出
+#     canonical_df = canonical_extraction_from_rnaview_df(df)
     
-    return canonical_df
+#     return canonical_df
 
 
-# 後方互換性のため、元の関数名も残す
-# def extract_base_pairs_from_rnaview(input_file: str):
-#     """後方互換性のための関数（extract_canonicalbp_from_rnaviewの別名）"""
-#     return extract_canonicalbp_from_rnaview(input_file)
 
-
-if __name__ == "__main__":
-    rnaview_output = "test/1KPD.pdb.out"
+# if __name__ == "__main__":
+#     rnaview_output = "test/1KPD.pdb.out"
     
-    # データローディングのテスト
-    print("=== Testing data loading ===")
-    full_df = load_rnaview_data(rnaview_output)
-    print(f"Total base pairs found: {len(full_df)}")
-    print(full_df.head())
+#     # データローディングのテスト
+#     print("=== Testing data loading ===")
+#     full_df = load_rnaview_data(rnaview_output)
+#     print(f"Total base pairs found: {len(full_df)}")
+#     print(full_df.head())
     
-    print("\n=== Testing canonical extraction ===")
-    canonical_df = canonical_extraction_from_rnaview_df(full_df)
-    print(f"Canonical base pairs found: {len(canonical_df)}")
-    print(canonical_df)
+#     print("\n=== Testing canonical extraction ===")
+#     canonical_df = canonical_extraction_from_rnaview_df(full_df)
+#     print(f"Canonical base pairs found: {len(canonical_df)}")
+#     print(canonical_df)
     
-    print("\n=== Testing integrated function ===")
-    integrated_df = extract_canonicalbp_from_rnaview(rnaview_output)
-    print(f"Integrated function result: {len(integrated_df)}")
-    print(integrated_df)
+#     print("\n=== Testing integrated function ===")
+#     integrated_df = extract_canonicalbp_from_rnaview(rnaview_output)
+#     print(f"Integrated function result: {len(integrated_df)}")
+#     print(integrated_df)
