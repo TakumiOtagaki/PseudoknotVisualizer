@@ -109,7 +109,6 @@ def run_rnaview_analysis(pdb_file_path, chain_id):
     
     # 出力ファイルパスを構築
     output_file = Path(f"intermediate/{pdb_file.name}.out")
-    
     if not output_file.exists():
         raise FileNotFoundError(f"RNAView output not found for {pdb_file.name}")
     print(f"RNAView output generated: {output_file}")
@@ -125,7 +124,7 @@ def run_dssr_analysis(pdb_file_path, chain_id):
         chain_id (str): チェーンID
         
     Returns:
-        Path: DSSR出力ファイルのパス（存在しない場合はNone）
+        Path: DSSR出力ファイルのパス（存在しない場合はNone）, raw_df: pd.DataFrame
     """
     pdb_file = Path(pdb_file_path)
     print(f"Running DSSR for {pdb_file.name} with chain {chain_id}...")
@@ -156,8 +155,7 @@ def run_parser_analysis(pdb_file_path, chain_id, parser="RNAView"):
         Path: 出力ファイルのパス（存在しない場合はNone）
     """
     if parser.upper() == "RNAVIEW":
-        return run_rnaview_analysis(pdb_file_path, chain_id)
+        output_file, raw_df = run_rnaview_analysis(pdb_file_path, chain_id)
     elif parser.upper() == "DSSR":
-        return run_dssr_analysis(pdb_file_path, chain_id)
-    else:
-        raise ValueError(f"Unsupported parser: {parser}")
+        output_file, raw_df = run_dssr_analysis(pdb_file_path, chain_id)
+    return output_file, raw_df
