@@ -38,6 +38,9 @@ from rna import PKextractor
 
 # データセットディレクトリ
 DATASET_DIR = "analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396"
+remove_files = [
+    "/large/otgk/PseudoknotVisualizer/intermediate/PDB_00003OK4_1_2.pdb"
+]
 
 def analyze_single_pdb(pdb_file, parser="RNAView", canonical_only=True):
     """
@@ -125,7 +128,9 @@ def analyze_single_pdb(pdb_file, parser="RNAView", canonical_only=True):
 def main():
     args = parse_args()
     pdb_files = get_pdb_files(DATASET_DIR)
+    pdb_files = [pdb_file for pdb_file in pdb_files if pdb_file not in remove_files]
     # pdb_files = [Path("analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/1O9M_1_A-B.pdb")]
+    # pdb_files = [Path("analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/PDB_00003OK4_1_2.pdb")]
     # pdb_files = pdb_files[:10]
     if not pdb_files:
         raise ValueError("No PDB files found in the dataset directory.")
