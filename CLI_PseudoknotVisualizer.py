@@ -3,7 +3,7 @@ from coloring import CLI_coloring_canonical, load_colors_from_json
 from argparser import argparser, args_validation
 from config import RNAVIEW_DIR, RNAVIEW_EXEC, PseudoKnotVisualizer_DIR, INTERMEDIATE_DIR, DSSR_EXEC
 from rna import PKextractor
-from addressRNAviewOutput import extract_base_pairs_from_rnaview
+from addressRNAviewOutput import extract_base_pairs_from_rnaview, load_rnaview_data
 from addressDSSROutput import extract_base_pairs_from_dssr
 from Bio.PDB import PDBParser, PDBIO
 from Bio.PDB.MMCIFParser import MMCIFParser
@@ -62,9 +62,11 @@ def CLI_rnaview(struct_file, chain_id):
 
     print("rnaview done.")
     result_file = pathlib.Path(INTERMEDIATE_DIR) / (pathlib.Path(struct_file).name + ".out")
-    valid_bps_df = extract_base_pairs_from_rnaview(result_file)
-    print(valid_bps_df)
-    BPL = [(row["left_idx"], row["right_idx"]) for _, row in valid_bps_df.iterrows()]
+    df = load_rnaview_data(result_file)
+    # valid_bps_df = extract_base_pairs_from_rnaview(df)
+    # print(valid_bps_df)
+    # BPL = [(row["left_idx"], row["right_idx"]) for _, row in valid_bps_df.iterrows()]
+    BPL = [(row["left_idx"], row["right_idx"]) for _, row in df.iterrows()]
 
     return BPL
 

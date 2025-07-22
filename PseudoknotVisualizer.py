@@ -7,8 +7,8 @@ from pymol import cmd
 import tempfile
 import subprocess
 
-from addressRNAviewOutput import extract_base_pairs_from_rnaview
-from addressDSSROutput import extract_base_pairs_from_dssr
+from addressRNAviewOutput import extract_base_pairs_from_rnaview, load_rnaview_data
+from addressDSSROutput import extract_base_pairs_from_dssr, load_dssr_data
 import pathlib
 
 # DEBUG = True
@@ -132,7 +132,8 @@ def rnaview_wrapper(pdb_object, chain_id):
 
     # result_file = INTERMEDIATE_DIR + pdb_path.split("/")[-1] + ".out"
     result_file = pathlib.Path(INTERMEDIATE_DIR) / (pathlib.Path(pdb_path).name + ".out")
-    valid_bps_df = extract_base_pairs_from_rnaview(result_file) # pandas
+    df = load_rnaview_data(result_file)
+    valid_bps_df = extract_base_pairs_from_rnaview(df) # pandas
     print(valid_bps_df)
     BPL = [(row["left_idx"], row["right_idx"]) for _, row in valid_bps_df.iterrows()]
 
@@ -160,7 +161,8 @@ def dssr_wrapper(pdb_object, chain_id):
     except Exception as e:
         raise Exception("DSSR failed or Exporting PDB failed: " + str(e))
 
-    valid_bps_df = extract_base_pairs_from_dssr(json_output_path)
+    df = load_dssr_data(json_output_path)
+    valid_bps_df = extract_base_pairs_from_dssr(df)
     print(valid_bps_df)
     BPL = [(row["left_idx"], row["right_idx"]) for _, row in valid_bps_df.iterrows()]
 

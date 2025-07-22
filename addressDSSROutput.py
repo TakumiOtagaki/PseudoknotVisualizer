@@ -85,7 +85,7 @@ def canonical_extraction_from_dssr_df(df: pd.DataFrame):
     return result_df
 
 
-def extract_canonicalbp_from_dssr(input_file: str):
+def extract_canonicalbp_from_dssr(df: pd.DataFrame):
     """
     DSSR JSON出力からカノニカルベースペア情報を抽出し、フィルタリングする
     （従来のextract_base_pairs_from_dssr関数の置き換え）
@@ -98,7 +98,7 @@ def extract_canonicalbp_from_dssr(input_file: str):
                      カラム: ["left_resi", "left_idx", "right_resi", "right_idx"]
     """
     # データをロード
-    df = load_dssr_data(input_file)
+    # df = load_dssr_data(input_file)
     # print(f"data loaded; Total base pairs found: {len(df)}")
     
     # カノニカルベースペアを抽出

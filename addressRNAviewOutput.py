@@ -95,7 +95,7 @@ def canonical_extraction_from_rnaview_df(df: pd.DataFrame):
     return result_df
 
 
-def extract_canonicalbp_from_rnaview(input_file: str):
+def extract_canonicalbp_from_rnaview(df: pd.DataFrame):
     """
     RNAView出力からカノニカルベースペア情報を抽出し、フィルタリングする
     （従来のextract_base_pairs_from_rnaview関数の置き換え）
@@ -108,7 +108,7 @@ def extract_canonicalbp_from_rnaview(input_file: str):
                      カラム: ["left_resi", "left_idx", "right_resi", "right_idx"]
     """
     # データをロード
-    df = load_rnaview_data(input_file)
+    # df = load_rnaview_data(input_file)
     
     # カノニカルベースペアを抽出
     canonical_df = canonical_extraction_from_rnaview_df(df)
