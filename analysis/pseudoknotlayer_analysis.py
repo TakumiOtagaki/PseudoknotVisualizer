@@ -56,7 +56,7 @@ def analyze_single_pdb(pdb_file, parser="RNAView", canonical_only=True):
 
     # 出力ファイルを解析して共通フォーマットで取得
     # raw_df = parse_output_file(output_file, parser)
-    print("raw_df:\n", raw_df)
+    print("raw_df:\n", raw_df.head())
     processed_df = raw_df_processing(raw_df, parser)
     print(f"Processed DataFrame for {pdb_file.name}:\n", processed_df)
 
@@ -64,11 +64,9 @@ def analyze_single_pdb(pdb_file, parser="RNAView", canonical_only=True):
     processed_df, abnormal_pairs = filter_abnormal_pairs(processed_df)
 
     print(f"Analyzing {pdb_file.name} (Chain: {display_chain_id}, Actual Chain: {actual_chain_id})")
-    print("processed_df:\n", processed_df)
+    print("processed_df:\n", processed_df.head())
     print(f"all base pairs found: {len(processed_df)}")
     # 以下のコードは、dict が空の時にエラーになる。defaultdict を使えば問題ないが、未実装です。
-    # print(f"canonical base pairs found: {len(processed_df[processed_df['is_canonical']])}")
-    print("columns:", processed_df.columns)
 
     canonical_processed_df = processed_df[processed_df["is_canonical"]] if not processed_df.empty else pd.DataFrame(columns=processed_df.columns)
     if canonical_only:
@@ -81,10 +79,10 @@ def analyze_single_pdb(pdb_file, parser="RNAView", canonical_only=True):
             "position": bp[0], "residues": bp, "is_canonical": bp[2], "saenger_id": bp[3]
         } for bp in processed_df.values.tolist()
     }
-    print(f"Total base pairs found: {details_dict}")
-    print("layer decomposed")
+    print(f"Total base pairs found: {details_dict[:10]}")
     pk_layers = PKextractor(basepair_list.copy())
-    
+    print("layer decomposed")    
+
     layer_analysis = []
     for layer_id, layer_bps in enumerate(pk_layers):
         if canonical_only:
