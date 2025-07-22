@@ -70,17 +70,16 @@ def analyze_single_pdb(pdb_file, parser="RNAView", canonical_only=True):
     # レイヤー分解
     if canonical_only:
         canonical_processed_df = processed_df[processed_df["is_canonical"]]
+        bp_pos_dict = {tuple(bp["position"]): bp for bp in canonical_processed_df}
         # もし共通している (i, j) と (i, j') のような塩基対があれば、error という扱いにして飛ばす
-        # return
         basepair_list = [ (bp[0], bp[1]) for bp in canonical_processed_df["position"]]
     else:
-        print("Hello")
-        # return
         all_bp_filtered = [(bp[0], bp[1]) for bp in processed_df["position"]]
-        
+        bp_pos_dict = {tuple(bp["position"]): bp for bp in processed_df}
+
     print("layer decomposed")
     pk_layers = PKextractor(basepair_list.copy())
-    bp_pos_dict = {tuple(bp["position"]): bp for bp in canonical_processed_df}
+    
     layer_analysis = []
     for layer_id, layer_bps in enumerate(pk_layers):
         details = [bp_pos_dict[pos] for pos in layer_bps if pos in bp_pos_dict]

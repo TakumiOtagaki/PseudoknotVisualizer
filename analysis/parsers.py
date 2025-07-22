@@ -99,15 +99,17 @@ def filter_abnormal_pairs(processed_df: pd.DataFrame):
         tuple: (basepair details without abnormal pairs, abnormal pairs list)
 
     """
+    processed_dict = processed_df.to_dict(orient='records')
+    print(f"Processed dict: {processed_dict}")
     # 自己ペア（i=j）を検出
-    abnormal_pairs = [bp["position"] for bp in processed_df if bp["position"][0] == bp["position"][1]]
-    processed_df_filtered = [bp for bp in processed_df if bp["position"][0] != bp["position"][1]]
+    abnormal_pairs = [bp["position"] for bp in processed_dict if bp["position"][0] == bp["position"][1]]
+    processed_dict_filtered = [bp for bp in processed_dict if bp["position"][0] != bp["position"][1]]
 
 
     # (i, j) と (i, j') のような塩基対を検出
-    for i, bp1 in enumerate(processed_df):
-        for j in range(i + 1, len(processed_df)):
-            bp2 = processed_df[j]
+    for i, bp1 in enumerate(processed_dict):
+        for j in range(i + 1, len(processed_dict)):
+            bp2 = processed_dict[j]
             if bp1["position"][0] == bp2["position"][0] and bp1["position"][1] == bp2["position"][1]:
                 # 同じ位置のペアが見つかった
                 if bp1["is_canonical"] and not bp2["is_canonical"]:
@@ -121,7 +123,8 @@ def filter_abnormal_pairs(processed_df: pd.DataFrame):
                     abnormal_pairs.append(bp1)
                     abnormal_pairs.append(bp2)
 
-    bp_details_filtered = [bp for bp in processed_df_filtered if bp not in abnormal_pairs]
+    bp_details_filtered = [bp for bp in processed_dict_filtered if bp not in abnormal_pairs]
+    bp_details_filtered_df = pd.DataFrame(bp_details_filtered)
     print(f"Filtered out {len(abnormal_pairs)} abnormal pairs")
     print(f"Remaining pairs: {len(bp_details_filtered)}")
-    return bp_details_filtered, abnormal_pairs
+    return bp_details_filtered_df, abnormal_pairs
