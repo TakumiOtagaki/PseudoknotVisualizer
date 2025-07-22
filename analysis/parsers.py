@@ -107,6 +107,25 @@ def filter_abnormal_pairs(processed_df: pd.DataFrame):
     abnormal_pairs = [bp["position"] for bp in processed_dict if bp["position"][0] == bp["position"][1]]
     processed_dict_filtered = [bp for bp in processed_dict if bp["position"][0] != bp["position"][1]]
 
+    print(processed_df["position"].values)
+    base_pairs = processed_df["position"].values.tolist()
+    base_pairs = [tuple(bp) for bp in base_pairs]
+    print(f"Base pairs: {base_pairs}")
+    for bp in processed_df.values:
+        # print("hello")
+        left_idx_tmp, right_idx_tmp = tuple(bp[0])
+        left_idx = min(left_idx_tmp, right_idx_tmp)
+        right_idx = max(left_idx_tmp, right_idx_tmp)
+        # is_canonical = bp[2]
+        print(f"left_idx: {left_idx}, right_idx: {right_idx}")
+        if (right_idx, left_idx) in base_pairs:
+            print(f"Switched pair found: {(left_idx, right_idx)} and {(right_idx, left_idx)}")
+            abnormal_pairs.append([right_idx, left_idx])
+        # bp[position][0] と bp[position][1] を入れ替えて残りはそのままにしたものが存在していたら一方だけにする
+        # bp_pos_switched = (bp["position"][1], bp["position"][0])
+        # if bp_pos_switched in processed_dict_filtered:
+        #     processed_dict_filtered.remove(bp_pos_switched)
+    # sys.exit()
 
     # (i, j) と (i, j') のような塩基対を検出
     for i, bp1 in enumerate(processed_dict):
@@ -125,7 +144,7 @@ def filter_abnormal_pairs(processed_df: pd.DataFrame):
                     abnormal_pairs.append(bp1)
                     abnormal_pairs.append(bp2)
 
-    bp_details_filtered = [bp for bp in processed_dict_filtered if bp not in abnormal_pairs]
+    bp_details_filtered = [bp for bp in processed_dict_filtered if bp["position"] not in abnormal_pairs]
     bp_details_filtered_df = pd.DataFrame(bp_details_filtered)
     if bp_details_filtered_df.empty:
         return pd.DataFrame(columns=["position", "residues", "is_canonical", "saenger_id"]), abnormal_pairs

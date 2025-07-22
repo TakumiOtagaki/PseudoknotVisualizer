@@ -83,6 +83,9 @@ def PKextractor(BPL, compression=True):
         # initialization:
         counter += 1
         print(f"Processing layer {counter}...")
+        if counter > 15:
+            raise ValueError("Too many layers detected. This may indicate an issue with the input data.")
+
         if compression:
             BPL, inv_hash, L = BasePairList_compression(BPL)
         else:

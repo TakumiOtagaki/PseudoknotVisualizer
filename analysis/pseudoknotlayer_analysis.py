@@ -49,6 +49,7 @@ def analyze_single_pdb(pdb_file, parser="RNAView", canonical_only=True):
     actual_chain_id = extract_actual_chain_from_pdb(pdb_file)
     # パーサーを実行して出力ファイルを取得
     output_file, raw_df = run_parser_analysis(pdb_file, actual_chain_id, parser)
+    print(f"Output file for {pdb_file.name}: {output_file}")
 
     if output_file is None:
         print(f"Warning: {parser} output not found for {pdb_file.name}")
@@ -79,7 +80,10 @@ def analyze_single_pdb(pdb_file, parser="RNAView", canonical_only=True):
             "position": bp[0], "residues": bp, "is_canonical": bp[2], "saenger_id": bp[3]
         } for bp in processed_df.values.tolist()
     }
-    print(f"Total base pairs found: {details_dict[:10]}")
+    # print(f"Total base pairs found: {details_dict}")
+    print("base pair list:")
+    for bp in basepair_list:
+        print(f"  {bp} ")
     pk_layers = PKextractor(basepair_list.copy())
     print("layer decomposed")    
 
@@ -117,8 +121,8 @@ def analyze_single_pdb(pdb_file, parser="RNAView", canonical_only=True):
 def main():
     args = parse_args()
     pdb_files = get_pdb_files(DATASET_DIR)
-    # pdb_files = [Path("analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/1O9M_1_A-B.pdb")]
-
+    pdb_files = [Path("analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/1O9M_1_A-B.pdb")]
+    # pdb_files = pdb_files[:10]
     if not pdb_files:
         raise ValueError("No PDB files found in the dataset directory.")
 
