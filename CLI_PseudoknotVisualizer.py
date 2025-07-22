@@ -89,10 +89,11 @@ def CLI_dssr(struct_file, chain_id):
         capture_output=True,
         text=True
     )
+    print(f"command: \n {str(DSSR_EXEC)} -i={str(copied_file)} --json -o={str(json_output_path)}")
     # if result.returncode != 0:
     #     raise Exception("DSSR failed")
         # エラー内容を出力
-    if result.returncode != 0:
+    if result.returncode != 0 or not json_output_path.exists():
         print(f"DSSR failed with return code: {result.returncode}")
         print(f"stdout: {result.stdout}")
         print(f"stderr: {result.stderr}")
