@@ -61,7 +61,10 @@ def raw_df_processing(df: pd.DataFrame, parser_type: str):
         })
     # position の left について昇順にソート
     bp_details.sort(key=lambda x: x["position"][0])
-    # pandas dataframe にして返す
+    # 空の場合は空のDataFrameを返す
+    raw_df = pd.DataFrame(bp_details)
+    if raw_df.empty:
+        return pd.DataFrame(columns=["position", "residues", "is_canonical", "saenger_id"])
     return pd.DataFrame(bp_details)
 
 
@@ -124,6 +127,8 @@ def filter_abnormal_pairs(processed_df: pd.DataFrame):
 
     bp_details_filtered = [bp for bp in processed_dict_filtered if bp not in abnormal_pairs]
     bp_details_filtered_df = pd.DataFrame(bp_details_filtered)
+    if bp_details_filtered_df.empty:
+        return pd.DataFrame(columns=["position", "residues", "is_canonical", "saenger_id"]), abnormal_pairs
     print(f"Filtered out {len(abnormal_pairs)} abnormal pairs")
     print(f"Remaining pairs: {len(bp_details_filtered)}")
     return bp_details_filtered_df, abnormal_pairs

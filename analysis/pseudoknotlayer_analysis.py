@@ -14,6 +14,7 @@ import sys
 import json
 from pathlib import Path
 from functools import partial
+import pandas as pd
 from multiprocessing import Pool, cpu_count
 from tqdm import tqdm
 
@@ -47,14 +48,14 @@ def analyze_single_pdb(pdb_file, parser="RNAView", canonical_only=True):
     # PDBファイルのREMARK 350から実際のチェーンIDを取得
     actual_chain_id = extract_actual_chain_from_pdb(pdb_file)
     # パーサーを実行して出力ファイルを取得
-    output_file = run_parser_analysis(pdb_file, actual_chain_id, parser)
+    output_file, raw_df = run_parser_analysis(pdb_file, actual_chain_id, parser)
 
     if output_file is None:
         print(f"Warning: {parser} output not found for {pdb_file.name}")
         raise ValueError(f"{parser} output not found for {pdb_file.name}")
 
     # 出力ファイルを解析して共通フォーマットで取得
-    raw_df = parse_output_file(output_file, parser)
+    # raw_df = parse_output_file(output_file, parser)
     print("raw_df:\n", raw_df)
     processed_df = raw_df_processing(raw_df, parser)
     print(f"Processed DataFrame for {pdb_file.name}:\n", processed_df)
@@ -67,24 +68,22 @@ def analyze_single_pdb(pdb_file, parser="RNAView", canonical_only=True):
     print(f"all base pairs found: {len(processed_df)}")
     # 以下のコードは、dict が空の時にエラーになる。defaultdict を使えば問題ないが、未実装です。
     # print(f"canonical base pairs found: {len(processed_df[processed_df['is_canonical']])}")
+    print("columns:", processed_df.columns)
 
-    canonical_processed_df = processed_df[processed_df["is_canonical"]]
-    # sys.exit()    # レイヤー分解
+    canonical_processed_df = processed_df[processed_df["is_canonical"]] if not processed_df.empty else pd.DataFrame(columns=processed_df.columns)
     if canonical_only:
         # もし共通している (i, j) と (i, j') のような塩s基対があれば、error という扱いにして飛ばす
         basepair_list = [ (bp[0], bp[1]) for bp in canonical_processed_df["position"]]
     else:
-        all_bp_filtered = [(bp[0], bp[1]) for bp in processed_df["position"]]
         basepair_list = [ (bp[0], bp[1]) for bp in processed_df["position"]]
     # key: pair (i, j) , value: base pair details
     details_dict = {(bp[0][0], bp[0][1]): {
-            "positions": bp[0], "residues": bp, "is_canonical": bp[2], "saenger_id": bp[3]
+            "position": bp[0], "residues": bp, "is_canonical": bp[2], "saenger_id": bp[3]
         } for bp in processed_df.values.tolist()
     }
     print(f"Total base pairs found: {details_dict}")
     print("layer decomposed")
     pk_layers = PKextractor(basepair_list.copy())
-    sys.exit()
     
     layer_analysis = []
     for layer_id, layer_bps in enumerate(pk_layers):
@@ -107,11 +106,11 @@ def analyze_single_pdb(pdb_file, parser="RNAView", canonical_only=True):
         "chain_id": display_chain_id,
         "actual_chain_id": actual_chain_id,
         "parser": parser,
-        "total_bp_count": len(all_bp_filtered),
+        "total_bp_count": len(processed_df),
         "total_canonical_bp_count": len(canonical_processed_df),
         "pseudoknot_layer_count": len(pk_layers),
         "layers": layer_analysis,
-        "all_base_pairs": all_bp_filtered, # filtered: removed self-pairs
+        "all_base_pairs": processed_df["position"].tolist(),  # filtered: removed self-pairs
         "abnormal_pairs": abnormal_pairs,
         # "details": details_dict.values
     }
@@ -136,15 +135,21 @@ def main():
         canonical_only=args.canonical_only
     )
     process_func(pdb_files[0])  # テスト用に最初のファイルだけ実行
-    return
+    # return
 
-    with Pool(processes=n_procs) as pool:
-        results = list(tqdm(
-            pool.imap(process_func, pdb_files),
-            total=len(pdb_files),
-            desc="Processing PDB files",
-            unit="file"
-        ))
+    # with Pool(processes=n_procs) as pool:
+    #     results = list(tqdm(
+    #         pool.imap(process_func, pdb_files),
+    #         total=len(pdb_files),
+    #         desc="Processing PDB files",
+    #         unit="file"
+    #     ))
+    results = []
+    for pdb_file in tqdm(pdb_files, desc="Processing PDB files", unit="file"):
+        result = process_func(pdb_file)
+        results.append(result)
+        print(f"Processed {pdb_file.name}: {result['total_bp_count']} base pairs found.")
+        print("-" * 40)
 
     # 結果をJSONに保存
     output_file = f"analysis/pseudoknot_analysis_{args.parser.lower()}.json"
