@@ -1,6 +1,7 @@
 from PseudoknotVisualizer import clear_intermediate_files, colors
 from coloring import CLI_coloring_canonical, load_colors_from_json
 from argparser import argparser, args_validation
+from analysis.parsers import raw_df_processing, filter_abnormal_pairs
 from config import RNAVIEW_DIR, RNAVIEW_EXEC, PseudoKnotVisualizer_DIR, INTERMEDIATE_DIR, DSSR_EXEC
 from rna import PKextractor
 from addressRNAviewOutput import load_rnaview_data #, extract_base_pairs_from_rnaview,
@@ -108,16 +109,17 @@ def CLI_dssr(struct_file, chain_id):
 def CLI_PseudoKnotVisualizer(pdb_file, chain_id, format, output_file, model_id, parser="RNAView"):
     # パーサーの選択に応じてベースペアを抽出
     if parser.upper() == "DSSR":
-        df = CLI_dssr(pdb_file, chain_id)
-        valid_bps_df = extract_canonicalbp_from_dssr(df)
-        BPL = [(row["left_idx"], row["right_idx"]) for _, row in valid_bps_df.iterrows()]
+        raw_df = CLI_dssr(pdb_file, chain_id)
+    
     elif parser.upper() == "RNAVIEW":
-        df = CLI_rnaview(pdb_file, chain_id)
-        valid_bps_df = extract_canonicalbp_from_rnaview(df)
-        BPL = [(row["left_idx"], row["right_idx"]) for _, row in valid_bps_df.iterrows()]
+        raw_df = CLI_rnaview(pdb_file, chain_id)
     else:
         raise ValueError(f"Unsupported parser: {parser}. Use 'DSSR' or 'RNAView'.")
-    
+
+    processed_df = raw_df_processing(raw_df, parser)
+    # remove abnormal pairs
+    processed_df, abnormal_pairs = filter_abnormal_pairs(processed_df)
+    BPL = [(row["left_idx"], row["right_idx"]) for _, row in processed_df.iterrows()]
     pdb_id = os.path.splitext(os.path.basename(pdb_file))[0]
     PKlayers = PKextractor(BPL)
 
