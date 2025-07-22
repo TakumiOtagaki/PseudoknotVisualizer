@@ -56,10 +56,9 @@ def raw_df_processing(df: pd.Dataframe, parser_type: str):
             "saenger_id": saenger
         })
     # position の left について昇順にソート
-    bp_details.sort(key=lambda x: (x["position"][0], x["position"][1])) 
+    bp_details.sort(key=lambda x: x["position"][0])
     # pandas dataframe にして返す
-    bp_details = pd.DataFrame(bp_details)
-    return bp_details
+    return pd.DataFrame(bp_details)
 
 
 def parse_output_file(output_file_path, parser_type):
