@@ -70,8 +70,10 @@ def analyze_single_pdb(pdb_file, parser="RNAView", canonical_only=True):
         pk_layers = PKextractor(can_bp_list_filtered.copy())
         bp_pos_dict = {tuple(bp["position"]): bp for bp in can_bp_filtered}
     else:
+        print("Hello")
         pk_layers = PKextractor([(bp["position"][0], bp["position"][1]) for bp in all_bp_filtered.copy()])
         bp_pos_dict = {tuple(bp["position"]): bp for bp in all_bp_filtered}
+    print("layer decomposed")
 
     layer_analysis = []
     for layer_id, layer_bps in enumerate(pk_layers):
@@ -107,12 +109,14 @@ def analyze_single_pdb(pdb_file, parser="RNAView", canonical_only=True):
 def main():
     args = parse_args()
     pdb_files = get_pdb_files(DATASET_DIR)
+    pdb_files = [Path("analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/1O9M_1_A-B.pdb")]
+
     if not pdb_files:
         raise ValueError("No PDB files found in the dataset directory.")
 
     # プロセス数指定がなければCPUコア数を使用
     n_procs = args.processes if hasattr(args, 'processes') and args.processes else cpu_count()
-    n_procs = min(n_procs, 5)  # プロセス数はファイル数以下に制限
+    n_procs = min(n_procs, 1)  
 
     # 並列で解析
     process_func = partial(
@@ -120,6 +124,8 @@ def main():
         parser=args.parser,
         canonical_only=args.canonical_only
     )
+    process_func(pdb_files[0])  # テスト用に最初のファイルだけ実行
+    return
     with Pool(processes=n_procs) as pool:
         results = list(tqdm(
             pool.imap(process_func, pdb_files),

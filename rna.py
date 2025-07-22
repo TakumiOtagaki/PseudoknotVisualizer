@@ -71,6 +71,7 @@ def PK_traceback(gamma, BPL, L):
 
 
 def PKextractor(BPL, compression=True):
+    if BPL is None or len(BPL) == 0: return []
     # BPL のなかで (i, j) s.t. i = j となるものは除外する...
     if [bp for bp in BPL if bp[0] == bp[1]] : 
         raise ValueError("BPL contains self-pairs (i, i). Please remove them before extracting pseudoknot layers.")
