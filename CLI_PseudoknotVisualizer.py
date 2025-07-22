@@ -3,8 +3,8 @@ from coloring import CLI_coloring_canonical, load_colors_from_json
 from argparser import argparser, args_validation
 from config import RNAVIEW_DIR, RNAVIEW_EXEC, PseudoKnotVisualizer_DIR, INTERMEDIATE_DIR, DSSR_EXEC
 from rna import PKextractor
-from addressRNAviewOutput import extract_base_pairs_from_rnaview, load_rnaview_data
-from addressDSSROutput import extract_base_pairs_from_dssr
+from addressRNAviewOutput import load_rnaview_data, extract_canonicalbp_from_rnaview #, extract_base_pairs_from_rnaview,
+from addressDSSROutput import load_dssr_data, extract_canonicalbp_from_dssr #, extract_base_pairs_from_dssr,
 from Bio.PDB import PDBParser, PDBIO
 from Bio.PDB.MMCIFParser import MMCIFParser
 from Bio.PDB.mmcifio import MMCIFIO
@@ -63,12 +63,13 @@ def CLI_rnaview(struct_file, chain_id):
     print("rnaview done.")
     result_file = pathlib.Path(INTERMEDIATE_DIR) / (pathlib.Path(struct_file).name + ".out")
     df = load_rnaview_data(result_file)
-    # valid_bps_df = extract_base_pairs_from_rnaview(df)
+    # valid_bps_df = extract_canonicalbp_from_rnaview(df)
     # print(valid_bps_df)
     # BPL = [(row["left_idx"], row["right_idx"]) for _, row in valid_bps_df.iterrows()]
-    BPL = [(row["left_idx"], row["right_idx"]) for _, row in df.iterrows()]
+    # BPL = [(row["left_idx"], row["right_idx"]) for _, row in df.iterrows()]
 
-    return BPL
+    # return BPL
+    return df
 
 def CLI_dssr(struct_file, chain_id):
     """CLI version of DSSR wrapper"""
@@ -97,18 +98,23 @@ def CLI_dssr(struct_file, chain_id):
         raise Exception("DSSR failed")
 
     print("DSSR done.")
-    valid_bps_df = extract_base_pairs_from_dssr(json_output_path)
-    print(valid_bps_df)
-    BPL = [(row["left_idx"], row["right_idx"]) for _, row in valid_bps_df.iterrows()]
+    df = load_dssr_data(json_output_path)
+    # valid_bps_df = extract_canonicalbp_from_dssr(json_output_path)
+    # print(valid_bps_df)
+    # BPL = [(row["left_idx"], row["right_idx"]) for _, row in valid_bps_df.iterrows()]
 
-    return BPL
+    return df
 
 def CLI_PseudoKnotVisualizer(pdb_file, chain_id, format, output_file, model_id, parser="RNAView"):
     # パーサーの選択に応じてベースペアを抽出
     if parser.upper() == "DSSR":
-        BPL = CLI_dssr(pdb_file, chain_id)
+        df = CLI_dssr(pdb_file, chain_id)
+        valid_bps_df = extract_canonicalbp_from_dssr(df)
+        BPL = [(row["left_idx"], row["right_idx"]) for _, row in valid_bps_df.iterrows()]
     elif parser.upper() == "RNAVIEW":
-        BPL = CLI_rnaview(pdb_file, chain_id)
+        df = CLI_rnaview(pdb_file, chain_id)
+        valid_bps_df = extract_canonicalbp_from_rnaview(df)
+        BPL = [(row["left_idx"], row["right_idx"]) for _, row in valid_bps_df.iterrows()]
     else:
         raise ValueError(f"Unsupported parser: {parser}. Use 'DSSR' or 'RNAView'.")
     
