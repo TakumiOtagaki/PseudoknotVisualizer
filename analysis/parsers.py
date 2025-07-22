@@ -46,6 +46,7 @@ def raw_df_processing(df: pd.Dataframe, parser_type: str):
         else:
             is_canonical = False
             # wc_type = "Unknown"
+            saenger = ""
 
         bp_details.append({
             "position": [int(row["left_idx"]), int(row["right_idx"])],
