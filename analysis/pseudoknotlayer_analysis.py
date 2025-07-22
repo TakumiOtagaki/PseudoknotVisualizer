@@ -29,7 +29,8 @@ from analysis.io_utils import (
 )
 from analysis.parsers import (
     parse_output_file,
-    filter_abnormal_pairs
+    filter_abnormal_pairs,
+    raw_df_processing
 )
 from analysis.argparser import parse_args
 from rna import PKextractor
@@ -53,14 +54,13 @@ def analyze_single_pdb(pdb_file, parser="RNAView", canonical_only=True):
         raise ValueError(f"{parser} output not found for {pdb_file.name}")
 
     # 出力ファイルを解析して共通フォーマットで取得
-    processed_df = parse_output_file(output_file, parser)
+    raw_df = parse_output_file(output_file, parser)
+    print("raw_df:\n", raw_df)
+    processed_df = raw_df_processing(raw_df, parser)
+    print(f"Processed DataFrame for {pdb_file.name}:\n", processed_df)
 
     # 自己ペア（i=j）を検出・除外
     processed_df, abnormal_pairs = filter_abnormal_pairs(processed_df)
-    # can_bp_filtered, can_bp_list_filtered, self_pairs = filter_self_pairs(
-    #     canonical_bp_details,
-    #     canonical_bp_list
-    # )
 
     print(f"Analyzing {pdb_file.name} (Chain: {display_chain_id}, Actual Chain: {actual_chain_id})")
     print("processed_df:\n", processed_df)
@@ -72,17 +72,15 @@ def analyze_single_pdb(pdb_file, parser="RNAView", canonical_only=True):
         canonical_processed_df = processed_df[processed_df["is_canonical"]]
         # もし共通している (i, j) と (i, j') のような塩基対があれば、error という扱いにして飛ばす
         # return
-        can_bp_list_filtered = [ (bp[0], bp[1]) for bp in canonical_processed_df["position"]]
-        pk_layers = PKextractor(can_bp_list_filtered.copy())
-        bp_pos_dict = {tuple(bp["position"]): bp for bp in canonical_processed_df}
+        basepair_list = [ (bp[0], bp[1]) for bp in canonical_processed_df["position"]]
     else:
         print("Hello")
         # return
-        all_bp_filtered = [tuple(sorted([bp["position"][0], bp["position"][1]])) for bp in all_bp_filtered if bp]
-        pk_layers = PKextractor([(bp["position"][0], bp["position"][1]) for bp in all_bp_filtered.copy()])
-        bp_pos_dict = {tuple(bp["position"]): bp for bp in all_bp_filtered}
+        all_bp_filtered = [(bp[0], bp[1]) for bp in processed_df["position"]]
+        
     print("layer decomposed")
-
+    pk_layers = PKextractor(basepair_list.copy())
+    bp_pos_dict = {tuple(bp["position"]): bp for bp in canonical_processed_df}
     layer_analysis = []
     for layer_id, layer_bps in enumerate(pk_layers):
         details = [bp_pos_dict[pos] for pos in layer_bps if pos in bp_pos_dict]
@@ -134,6 +132,7 @@ def main():
     )
     process_func(pdb_files[0])  # テスト用に最初のファイルだけ実行
     return
+
     with Pool(processes=n_procs) as pool:
         results = list(tqdm(
             pool.imap(process_func, pdb_files),

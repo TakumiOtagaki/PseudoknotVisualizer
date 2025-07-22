@@ -31,6 +31,10 @@ def raw_df_processing(df: pd.DataFrame, parser_type: str):
     Returns:
         list: 塩基対詳細情報のリスト
     """
+    print(f"DataFrame shape: {df.shape}")
+    print(f"Columns: {df.columns.tolist()}")
+    print(f"First few rows:\n{df.head()}")
+
     bp_details = []
     for _, row in df.iterrows():
         if parser_type.upper() == "RNAVIEW":
@@ -48,7 +52,7 @@ def raw_df_processing(df: pd.DataFrame, parser_type: str):
             is_canonical = False
             # wc_type = "Unknown"
             saenger = ""
-
+        print("row:", row)
         bp_details.append({
             "position": [int(row["left_idx"]), int(row["right_idx"])],
             "residues": [row["left_resi"], row["right_resi"]],
@@ -77,16 +81,16 @@ def parse_output_file(output_file_path, parser_type):
         raw_df = load_rnaview_data(str(output_file_path))
     elif parser_type.upper() == "DSSR":
         raw_df = load_dssr_data(str(output_file_path))
-    processed_df = raw_df_processing(raw_df, parser_type)
-    return processed_df
+    # processed_df = raw_df_processing(raw_df, parser_type)
+    return raw_df
 
 
-def filter_abnormal_pairs(processed_df):
+def filter_abnormal_pairs(processed_df: pd.DataFrame):
     """
     自己ペア（i=j）を除外したリストを作成
     
     Args:
-        bp_details (list): 塩基対詳細情報のリスト
+        processed_df (pd.DataFrame): 塩基対詳細情報のDataFrame
         - (i, i) のような self pairing を除外
         - (i, j) と (i, j') のような塩基対があれば、一方が canonical base pair ならば、そちらを残す。
             - 両方とも non-canonical ならば両方とも無視する。
