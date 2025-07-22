@@ -3,8 +3,8 @@ from coloring import CLI_coloring_canonical, load_colors_from_json
 from argparser import argparser, args_validation
 from config import RNAVIEW_DIR, RNAVIEW_EXEC, PseudoKnotVisualizer_DIR, INTERMEDIATE_DIR, DSSR_EXEC
 from rna import PKextractor
-from addressRNAviewOutput import load_rnaview_data, extract_canonicalbp_from_rnaview #, extract_base_pairs_from_rnaview,
-from addressDSSROutput import load_dssr_data, extract_canonicalbp_from_dssr #, extract_base_pairs_from_dssr,
+from addressRNAviewOutput import load_rnaview_data #, extract_base_pairs_from_rnaview,
+from addressDSSROutput import load_dssr_data #, extract_base_pairs_from_dssr,
 from Bio.PDB import PDBParser, PDBIO
 from Bio.PDB.MMCIFParser import MMCIFParser
 from Bio.PDB.mmcifio import MMCIFIO

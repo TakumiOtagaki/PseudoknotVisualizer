@@ -19,7 +19,7 @@ from addressRNAviewOutput import load_rnaview_data
 from addressDSSROutput import load_dssr_data
 
 
-def raw_df_processing(df: pd.Dataframe, parser_type: str):
+def raw_df_processing(df: pd.DataFrame, parser_type: str):
     """
     DataFrameから詳細な塩基対情報を共通フォーマットで作成
     
@@ -119,4 +119,4 @@ def filter_abnormal_pairs(processed_df):
     bp_details_filtered = [bp for bp in processed_df_filtered if bp not in abnormal_pairs]
     print(f"Filtered out {len(abnormal_pairs)} abnormal pairs")
     print(f"Remaining pairs: {len(bp_details_filtered)}")
-    return bp_details_filtered
+    return bp_details_filtered, abnormal_pairs

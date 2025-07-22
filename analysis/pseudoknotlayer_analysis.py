@@ -53,29 +53,28 @@ def analyze_single_pdb(pdb_file, parser="RNAView", canonical_only=True):
         raise ValueError(f"{parser} output not found for {pdb_file.name}")
 
     # 出力ファイルを解析して共通フォーマットで取得
-    all_bp_details, canonical_bp_details, canonical_bp_list = parse_output_file(output_file, parser)
+    processed_df = parse_output_file(output_file, parser)
 
     # 自己ペア（i=j）を検出・除外
-    all_bp_filtered, _, self_pairs_all = filter_abnormal_pairs(
-        all_bp_details,
-        [(bp["position"][0], bp["position"][1]) for bp in all_bp_details]
-    )
+    processed_df, abnormal_pairs = filter_abnormal_pairs(processed_df)
     # can_bp_filtered, can_bp_list_filtered, self_pairs = filter_self_pairs(
     #     canonical_bp_details,
     #     canonical_bp_list
     # )
 
     print(f"Analyzing {pdb_file.name} (Chain: {display_chain_id}, Actual Chain: {actual_chain_id})")
-    print(f"canonical base pairs found: {can_bp_filtered}")
-    print(f"all base pairs found: {all_bp_filtered}")
-
+    print("processed_df:\n", processed_df)
+    print(f"all base pairs found: {len(processed_df)}")
+    print(f"canonical base pairs found: {len(processed_df[processed_df['is_canonical']])}")
+    sys.exit()
     # レイヤー分解
     if canonical_only:
+        canonical_processed_df = processed_df[processed_df["is_canonical"]]
         # もし共通している (i, j) と (i, j') のような塩基対があれば、error という扱いにして飛ばす
         # return
-        can_bp_list_filtered = [tuple(sorted([bp[0], bp[1]])) for bp in can_bp_filtered if bp]
+        can_bp_list_filtered = [ (bp[0], bp[1]) for bp in canonical_processed_df["position"]]
         pk_layers = PKextractor(can_bp_list_filtered.copy())
-        bp_pos_dict = {tuple(bp["position"]): bp for bp in can_bp_filtered}
+        bp_pos_dict = {tuple(bp["position"]): bp for bp in canonical_processed_df}
     else:
         print("Hello")
         # return
