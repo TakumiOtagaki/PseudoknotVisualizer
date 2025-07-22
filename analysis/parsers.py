@@ -74,8 +74,7 @@ def df_processing(df: pd.Dataframe, parser_type: str):
             "residues": [row["left_resi"], row["right_resi"]],
             "is_canonical": is_canonical,
             # "wc_type": wc_type,
-            "saenger_id": saenger,
-            "base_pair_type": "canonical" if is_canonical else "non-canonical"
+            "saenger_id": saenger
         })
     return bp_details
 
@@ -105,30 +104,6 @@ def parse_rnaview_output(output_file_path):
     return all_bp_details, canonical_bp_details, canonical_bp_list
 
 
-def parse_dssr_output(output_file_path):
-    """
-    DSSR出力ファイルを解析して共通フォーマットで返す
-    
-    Args:
-        output_file_path (str or Path): DSSR出力ファイルのパス
-        
-    Returns:
-        tuple: (全塩基対詳細情報, canonical塩基対詳細情報, canonical塩基対リスト)
-    """
-    # データをロード
-    all_bp_df = load_dssr_data(str(output_file_path))
-    print(all_bp_df)
-    sys.exit()
-    canonical_bp_df = canonical_extraction_from_dssr_df(all_bp_df)
-    
-    # 詳細情報を作成
-    all_bp_details = create_bp_details(all_bp_df, "DSSR")
-    canonical_bp_details = create_bp_details(canonical_bp_df, "DSSR")
-    
-    # PKextractor用の位置情報のみのリスト
-    canonical_bp_list = [(row["left_idx"], row["right_idx"]) for _, row in canonical_bp_df.iterrows()]
-    
-    return all_bp_details, canonical_bp_details, canonical_bp_list
 
 
 def parse_output_file(output_file_path, parser_type):
@@ -143,11 +118,11 @@ def parse_output_file(output_file_path, parser_type):
         tuple: (全塩基対詳細情報, canonical塩基対詳細情報, canonical塩基対リスト)
     """
     if parser_type.upper() == "RNAVIEW":
-        return parse_rnaview_output(output_file_path)
+        raw_df = parse_rnaview_output(output_file_path)
     elif parser_type.upper() == "DSSR":
-        return parse_dssr_output(output_file_path)
-    else:
-        raise ValueError(f"Unsupported parser: {parser_type}")
+        raw_df = load_dssr_data(str(output_file_path))
+    processed_df = raw_df_processing(raw_df, "DSSR")
+    return processed_df
 
 
 def filter_abnormal_pairs(bp_details):
