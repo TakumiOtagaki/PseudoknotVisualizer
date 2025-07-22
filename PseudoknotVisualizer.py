@@ -7,8 +7,8 @@ from pymol import cmd
 import tempfile
 import subprocess
 
-from addressRNAviewOutput import extract_base_pairs_from_rnaview, load_rnaview_data
-from addressDSSROutput import extract_base_pairs_from_dssr, load_dssr_data
+from addressRNAviewOutput import extract_canonicalbp_from_rnaview, load_rnaview_data
+from addressDSSROutput import extract_canonicalbp_from_dssr, load_dssr_data
 import pathlib
 
 # DEBUG = True

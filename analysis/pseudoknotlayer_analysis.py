@@ -29,7 +29,7 @@ from analysis.io_utils import (
 )
 from analysis.parsers import (
     parse_output_file,
-    filter_self_pairs
+    filter_abnormal_pairs
 )
 from analysis.argparser import parse_args
 from rna import PKextractor
@@ -56,21 +56,30 @@ def analyze_single_pdb(pdb_file, parser="RNAView", canonical_only=True):
     all_bp_details, canonical_bp_details, canonical_bp_list = parse_output_file(output_file, parser)
 
     # 自己ペア（i=j）を検出・除外
-    all_bp_filtered, _, self_pairs_all = filter_self_pairs(
+    all_bp_filtered, _, self_pairs_all = filter_abnormal_pairs(
         all_bp_details,
         [(bp["position"][0], bp["position"][1]) for bp in all_bp_details]
     )
-    can_bp_filtered, can_bp_list_filtered, self_pairs = filter_self_pairs(
-        canonical_bp_details,
-        canonical_bp_list
-    )
+    # can_bp_filtered, can_bp_list_filtered, self_pairs = filter_self_pairs(
+    #     canonical_bp_details,
+    #     canonical_bp_list
+    # )
+
+    print(f"Analyzing {pdb_file.name} (Chain: {display_chain_id}, Actual Chain: {actual_chain_id})")
+    print(f"canonical base pairs found: {can_bp_filtered}")
+    print(f"all base pairs found: {all_bp_filtered}")
 
     # レイヤー分解
     if canonical_only:
+        # もし共通している (i, j) と (i, j') のような塩基対があれば、error という扱いにして飛ばす
+        # return
+        can_bp_list_filtered = [tuple(sorted([bp[0], bp[1]])) for bp in can_bp_filtered if bp]
         pk_layers = PKextractor(can_bp_list_filtered.copy())
         bp_pos_dict = {tuple(bp["position"]): bp for bp in can_bp_filtered}
     else:
         print("Hello")
+        # return
+        all_bp_filtered = [tuple(sorted([bp["position"][0], bp["position"][1]])) for bp in all_bp_filtered if bp]
         pk_layers = PKextractor([(bp["position"][0], bp["position"][1]) for bp in all_bp_filtered.copy()])
         bp_pos_dict = {tuple(bp["position"]): bp for bp in all_bp_filtered}
     print("layer decomposed")

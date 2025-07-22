@@ -9,16 +9,39 @@ Date: 2025年7月21日
 
 import sys
 from pathlib import Path
+import pandas as pd
 
 # プロジェクトルートをパスに追加
 script_dir = Path(__file__).parent.parent
 sys.path.insert(0, str(script_dir))
 
 from addressRNAviewOutput import load_rnaview_data, canonical_extraction_from_rnaview_df
-from addressDSSROutput import load_dssr_data, canonical_extraction_from_dssr_df
+from addressDSSROutput import load_dssr_data, raw_df_processing
 
 
-def create_bp_details(df, parser_type):
+
+# def raw_DSSR_df_processing(df: pd.DataFrame):
+#     """
+#     DSSRの生データを処理して、必要なカラムのみを抽出し、カノニカルベースペアのフラグを追加
+#     samle chain におけるものだけを取り出すことにしている
+#     """
+
+#     if df.empty:
+#         return pd.DataFrame(columns=["left_resi", "left_idx", "right_resi", "right_idx", "chain1", "chain2", "is_canonical", "saenger_id"])
+    
+#     # 同一チェーン内のベースペアのみを考慮
+#     same_chain_df = df[df["chain1"] == df["chain2"]]
+    
+#     # Saenger番号によるカノニカルベースペアの判定
+#     # processed_df = same_chain_df[same_chain_df["saenger"].isin(["19-XIX", "20-XX", "28-XXVIII"])]
+#     processed_df = same_chain_df.copy()
+#     processed_df["is_canonical"] = same_chain_df["saenger"].isin(["19-XIX", "20-XX", "28-XXVIII"])
+    
+#     # 必要なカラムのみを選択
+#     result_df = processed_df[["left_resi", "left_idx", "right_resi", "right_idx", "chain1", "chain2", "is_canonical", "saenger"]]
+#     return result_df
+
+def df_processing(df: pd.Dataframe, parser_type: str):
     """
     DataFrameから詳細な塩基対情報を共通フォーマットで作成
     
@@ -35,22 +58,22 @@ def create_bp_details(df, parser_type):
             # RNAViewのSaenger分類を判定
             saenger = row.get("saenger", "")
             is_canonical = saenger in ["XX", "XIX", "XXVIII"]
-            wc_type = "Watson-Crick" if saenger in ["XIX", "XX"] else "Wobble" if saenger == "XXVIII" else "Non-WC"
+            # wc_type = "Watson-Crick" if saenger in ["XIX", "XX"] else "Wobble" if saenger == "XXVIII" else "Non-WC"
             
         elif parser_type.upper() == "DSSR":
             # DSSRのSaenger分類を判定
             saenger = row.get("saenger", "")
             is_canonical = saenger in ["19-XIX", "20-XX", "28-XXVIII"]
-            wc_type = "Watson-Crick" if saenger in ["19-XIX", "20-XX"] else "Wobble" if saenger == "28-XXVIII" else "Non-WC"
+            # wc_type = "Watson-Crick" if saenger in ["19-XIX", "20-XX"] else "Wobble" if saenger == "28-XXVIII" else "Non-WC"
         else:
             is_canonical = False
-            wc_type = "Unknown"
+            # wc_type = "Unknown"
         
         bp_details.append({
             "position": [int(row["left_idx"]), int(row["right_idx"])],
             "residues": [row["left_resi"], row["right_resi"]],
             "is_canonical": is_canonical,
-            "wc_type": wc_type,
+            # "wc_type": wc_type,
             "saenger_id": saenger,
             "base_pair_type": "canonical" if is_canonical else "non-canonical"
         })
@@ -69,7 +92,8 @@ def parse_rnaview_output(output_file_path):
     """
     # データをロード
     all_bp_df = load_rnaview_data(str(output_file_path))
-    canonical_bp_df = canonical_extraction_from_rnaview_df(all_bp_df)
+    # canonical_bp_df = canonical_extraction_from_rnaview_df(all_bp_df)
+    all_bp_df = raw_df_processing(all_bp_df)
     
     # 詳細情報を作成
     all_bp_details = create_bp_details(all_bp_df, "RNAView")
@@ -93,6 +117,8 @@ def parse_dssr_output(output_file_path):
     """
     # データをロード
     all_bp_df = load_dssr_data(str(output_file_path))
+    print(all_bp_df)
+    sys.exit()
     canonical_bp_df = canonical_extraction_from_dssr_df(all_bp_df)
     
     # 詳細情報を作成
@@ -124,7 +150,7 @@ def parse_output_file(output_file_path, parser_type):
         raise ValueError(f"Unsupported parser: {parser_type}")
 
 
-def filter_self_pairs(bp_details, bp_list):
+def filter_abnormal_pairs(bp_details):
     """
     自己ペア（i=j）を除外したリストを作成
     
@@ -132,14 +158,33 @@ def filter_self_pairs(bp_details, bp_list):
         bp_details (list): 塩基対詳細情報のリスト
         bp_list (list): 塩基対位置のリスト
         
+        - (i, i) のような self pairing を除外
+        - (i, j) と (i, j') のような塩基対があれば、一方が canonical base pair ならば、そちらを残す。
+            - 両方とも non-canonical ならば両方とも無視する。
+            - 両方とも canonical ならば、raise Error
     Returns:
-        tuple: (フィルタリング後の詳細情報, フィルタリング後の位置リスト, 自己ペアリスト)
+        tuple: (basepair details without abnormal pairs, abnormal pairs list)
+
     """
     # 自己ペア（i=j）を検出
-    self_pairs = [bp for bp in bp_list if bp[0] == bp[1]]
-    
-    # 自己ペアを除外したリストを作成
+    abnormal_pairs = [bp["position"] for bp in bp_details if bp["position"][0] == bp["position"][1]]
     bp_details_filtered = [bp for bp in bp_details if bp["position"][0] != bp["position"][1]]
-    bp_list_filtered = [bp for bp in bp_list if bp[0] != bp[1]]
-    
-    return bp_details_filtered, bp_list_filtered, self_pairs
+
+
+    # (i, j) と (i, j') のような塩基対を検出
+    for i, bp1 in enumerate(bp_details):
+        for j in range(i + 1, len(bp_details)):
+            bp2 = bp_details[j]
+            if bp1["position"][0] == bp2["position"][0] and bp1["position"][1] == bp2["position"][1]:
+                # 同じ位置のペアが見つかった
+                if bp1["is_canonical"] and not bp2["is_canonical"]:
+                    abnormal_pairs.append(bp1)
+                elif not bp1["is_canonical"] and bp2["is_canonical"]:
+                    abnormal_pairs.append(bp2)
+                elif bp1["is_canonical"] and bp2["is_canonical"]:
+                    raise ValueError("Both pairs are canonical")
+                else:
+                    # 両方とも non-canonical ならば無視
+                    continue
+
+    return bp_details_filtered, self_pairs, abnormal_pairs

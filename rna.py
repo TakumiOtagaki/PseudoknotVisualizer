@@ -78,8 +78,11 @@ def PKextractor(BPL, compression=True):
     
     PK_layers = []
     if len(BPL) > 300: print("Warning: BPL is too large. This may take a long time to process.")
+    counter = 0
     while BPL:
         # initialization:
+        counter += 1
+        print(f"Processing layer {counter}...")
         if compression:
             BPL, inv_hash, L = BasePairList_compression(BPL)
         else:
