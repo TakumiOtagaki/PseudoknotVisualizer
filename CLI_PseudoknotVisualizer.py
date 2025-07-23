@@ -97,7 +97,9 @@ def CLI_dssr(struct_file, chain_id):
         print(f"DSSR failed with return code: {result.returncode}")
         print(f"stdout: {result.stdout}")
         print(f"stderr: {result.stderr}")
-        raise Exception("DSSR failed")
+        return load_dssr_data(json_output_path)
+        # raise Exception("DSSR failed")
+    # print(f"DSSR output generated: {json_output_path}")
 
     print("DSSR done.")
     df = load_dssr_data(json_output_path)

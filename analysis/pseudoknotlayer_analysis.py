@@ -38,8 +38,8 @@ from rna import PKextractor
 
 # データセットディレクトリ
 DATASET_DIR = "analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396"
-remove_files = [
-    "/large/otgk/PseudoknotVisualizer/intermediate/PDB_00003OK4_1_2.pdb"
+REMOVE_FILES = [
+    "PDB_00003OK4_1_2.pdb"
 ]
 
 def analyze_single_pdb(pdb_file, parser="RNAView", canonical_only=True):
@@ -54,9 +54,10 @@ def analyze_single_pdb(pdb_file, parser="RNAView", canonical_only=True):
     output_file, raw_df = run_parser_analysis(pdb_file, actual_chain_id, parser)
     print(f"Output file for {pdb_file.name}: {output_file}")
 
-    if output_file is None:
+    output_exists = output_file.exists()
+    if not output_file.exists():
         print(f"Warning: {parser} output not found for {pdb_file.name}")
-        raise ValueError(f"{parser} output not found for {pdb_file.name}")
+        # raise ValueError(f"{parser} output not found for {pdb_file.name}")
 
     # 出力ファイルを解析して共通フォーマットで取得
     # raw_df = parse_output_file(output_file, parser)
@@ -117,6 +118,7 @@ def analyze_single_pdb(pdb_file, parser="RNAView", canonical_only=True):
         "total_bp_count": len(processed_df),
         "total_canonical_bp_count": len(canonical_processed_df),
         "pseudoknot_layer_count": len(pk_layers),
+        "output_exists": output_exists,
         "layers": layer_analysis,
         "all_base_pairs": processed_df["position"].tolist(),  # filtered: removed self-pairs
         "abnormal_pairs": abnormal_pairs,
@@ -128,7 +130,7 @@ def analyze_single_pdb(pdb_file, parser="RNAView", canonical_only=True):
 def main():
     args = parse_args()
     pdb_files = get_pdb_files(DATASET_DIR)
-    pdb_files = [pdb_file for pdb_file in pdb_files if pdb_file not in remove_files]
+    pdb_files = [pdb_file for pdb_file in pdb_files if pdb_file.name not in REMOVE_FILES]
     # pdb_files = [Path("analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/1O9M_1_A-B.pdb")]
     # pdb_files = [Path("analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/PDB_00003OK4_1_2.pdb")]
     # pdb_files = pdb_files[:10]

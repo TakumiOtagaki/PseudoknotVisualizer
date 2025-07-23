@@ -14,6 +14,9 @@ def load_dssr_data(input_file: str):
                      カラム: ["nt1", "nt2", "chain1", "chain2", "left_resi", "left_idx", 
                             "right_resi", "right_idx", "bp", "name", "saenger", "LW", "DSSR"]
     """
+    if not input_file.exists():
+        return pd.DataFrame(columns=["nt1", "nt2", "chain1", "chain2", "left_resi", "left_idx", 
+                                     "right_resi", "right_idx", "bp", "name", "saenger", "LW", "DSSR"])
     with open(input_file, 'r') as infile:
         data = json.load(infile)
 

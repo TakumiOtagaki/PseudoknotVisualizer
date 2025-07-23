@@ -139,7 +139,7 @@ def run_dssr_analysis(pdb_file_path, chain_id):
     
     if not output_file.exists():
         print(f"Warning: DSSR output not found for {pdb_file}")
-        raise FileNotFoundError(f"DSSR output not found for {pdb_file.name}")
+        # raise FileNotFoundError(f"DSSR output not found for {pdb_file.name}")
     print(f"DSSR output generated: \n{output_file}")
     print(f"Warning: DSSR output not found for {pdb_file.name}")
     return output_file, raw_df
