@@ -70,6 +70,26 @@ def is_pure_rna(pdb_object, chain=None):
     # ループを抜けた = 問題ある残基が見つからなかった場合
     return True
 
+def check_residues_start_from_one(pdb_object, chain):
+    """
+    指定したpdb_objectの chain のレジデュー番号が1から始まっているかをチェックする。
+    """
+    model = cmd.get_model(f"{pdb_object} and chain {chain}")
+    resi_list = []
+    for atom in model.atom:
+        try:
+            r = int(atom.resi)
+            if r not in resi_list:
+                resi_list.append(r)
+        except ValueError:
+            raise ValueError(f"Invalid residue number format in {pdb_object} chain {chain}: {atom.resi}")
+            pass
+    
+    if not resi_list:
+        return False
+    
+    return min(resi_list) == 1
+
 def auto_renumber_residues(pdb_object, chain):
     """
     指定したpdb_objectの chain に対して、
@@ -111,8 +131,8 @@ def auto_renumber_residues(pdb_object, chain):
         f"resi=str(int(resi)-{offset})"
     )
     
-    # sort して整合性を取っておく (resi 順序などが正しく並ぶように)
-    cmd.sort(pdb_object)
+    # チェーン間の干渉を避けるため、全体のソートは削除
+    # cmd.sort(pdb_object)
 
 def rnaview_wrapper(pdb_object, chain):
     try:
@@ -198,9 +218,13 @@ def PseudoKnotVisualizer(pdb_object, chain=None, auto_renumber=True, only_pure_r
         print(f"Chain {chain} is not found in the pdb object.")
         print(f"Available chains are: {', '.join(cmd.get_chains(pdb_object))}")
         return
-    # ★ ここで自動でレジデュー番号を補正する
-    if auto_renumber:
-        auto_renumber_residues(pdb_object, chain)
+    # ★ RNAViewを使用する場合のみ、レジデュー番号をチェックして必要に応じて補正
+    if auto_renumber and parser.upper() == "RNAVIEW":
+        if not check_residues_start_from_one(pdb_object, chain):
+            print(f"[PseudoKnotVisualizer] Chain {chain}: レジデュー番号が1から始まっていないため、RNAView用に補正します。")
+            auto_renumber_residues(pdb_object, chain)
+        else:
+            print(f"[PseudoKnotVisualizer] Chain {chain}: レジデュー番号は1から始まっています。")
     if only_pure_rna:
         if not is_pure_rna(pdb_object, chain):
             print("The structure contains non-standard RNA bases or other molecules.")
