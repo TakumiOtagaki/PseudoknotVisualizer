@@ -131,11 +131,14 @@ def main():
     args = parse_args()
     pdb_files = get_pdb_files(DATASET_DIR)
     pdb_files = [pdb_file for pdb_file in pdb_files if pdb_file.name not in REMOVE_FILES]
+    # pdb_files = pdb_files[:10]
     # pdb_files = [Path("analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/1O9M_1_A-B.pdb")]
     # pdb_files = [Path("analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/PDB_00003OK4_1_2.pdb")]
     # pdb_files = pdb_files[:10]
     if not pdb_files:
         raise ValueError("No PDB files found in the dataset directory.")
+    print("canonical only:", args.canonical_only)
+    # sys.exit()
 
     # プロセス数指定がなければCPUコア数を使用
     n_procs = args.processes if hasattr(args, 'processes') and args.processes else cpu_count()
@@ -166,6 +169,8 @@ def main():
 
     # 結果をJSONに保存
     output_file = f"analysis/pseudoknot_analysis_{args.parser.lower()}.json"
+    if args.canonical_only:
+        output_file = output_file.replace(".json", "_canonical_only.json")
     with open(output_file, 'w') as f:
         json.dump(results, f, indent=2, ensure_ascii=False)
     print(f"Results saved to: {output_file}")
