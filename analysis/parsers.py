@@ -1,12 +1,3 @@
-"""
-Parsers for RNA Structure Analysis
-
-RNAView/DSSRの出力データを読み込み、共通フォーマットに変換
-
-Author: PseudoknotVisualizer Analysis
-Date: 2025年7月21日
-"""
-
 import sys
 from pathlib import Path
 import pandas as pd
