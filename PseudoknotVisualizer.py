@@ -1,6 +1,7 @@
 from config import RNAVIEW_DIR, RNAVIEW_EXEC, PseudoKnotVisualizer_DIR, INTERMEDIATE_DIR, DSSR_EXEC
 from coloring import coloring_canonical, load_colors_from_json
 from argparser import argparser, args_validation
+from analysis.parsers import raw_df_processing, filter_abnormal_pairs
 from rna import PKextractor
 import os
 from pymol import cmd
@@ -132,12 +133,13 @@ def rnaview_wrapper(pdb_object, chain_id):
 
     # result_file = INTERMEDIATE_DIR + pdb_path.split("/")[-1] + ".out"
     result_file = pathlib.Path(INTERMEDIATE_DIR) / (pathlib.Path(pdb_path).name + ".out")
-    df = load_rnaview_data(result_file)
-    valid_bps_df = extract_base_pairs_from_rnaview(df) # pandas
-    print(valid_bps_df)
-    BPL = [(row["left_idx"], row["right_idx"]) for _, row in valid_bps_df.iterrows()]
+    raw_df = load_rnaview_data(result_file)
+    # processed_df = raw_df_processing(raw_df, "RNAView")
+    # processed_df, abnormal_pairs, dup_canonical_pairs = filter_abnormal_pairs(processed_df)
+    # print(processed_df)
+    # BPL = [tuple(row["position"]) for _, row in processed_df.iterrows()]
 
-    return BPL
+    return raw_df
 
 
 def dssr_wrapper(pdb_object, chain_id):
@@ -161,12 +163,12 @@ def dssr_wrapper(pdb_object, chain_id):
     except Exception as e:
         raise Exception("DSSR failed or Exporting PDB failed: " + str(e))
 
-    df = load_dssr_data(json_output_path)
-    valid_bps_df = extract_base_pairs_from_dssr(df)
-    print(valid_bps_df)
-    BPL = [(row["left_idx"], row["right_idx"]) for _, row in valid_bps_df.iterrows()]
-
-    return BPL
+    raw_df = load_dssr_data(json_output_path)
+    # processed_df = raw_df_processing(raw_df, "DSSR")
+    # processed_df, abnormal_pairs, dup_canonical_pairs = filter_abnormal_pairs(processed_df)
+    # print(processed_df)
+    # BPL = [tuple(row["position"]) for _, row in processed_df.iterrows()]
+    return raw_df
 
 
 def PseudoKnotVisualizer(pdb_object, chain_id=None, auto_renumber=True, only_pure_rna=False, non_precoloring=False, selection=True, parser="RNAView"):
@@ -209,11 +211,16 @@ def PseudoKnotVisualizer(pdb_object, chain_id=None, auto_renumber=True, only_pur
     
     # パーサーの選択に応じてベースペアを抽出
     if parser.upper() == "DSSR":
-        BPL = dssr_wrapper(pdb_object, chain_id)
+        raw_df = dssr_wrapper(pdb_object, chain_id)
     elif parser.upper() == "RNAVIEW":
-        BPL = rnaview_wrapper(pdb_object, chain_id)
+        raw_df = rnaview_wrapper(pdb_object, chain_id)
     else:
         raise ValueError(f"Unsupported parser: {parser}. Use 'DSSR' or 'RNAView'.")
+    
+    processed_df = raw_df_processing(raw_df, parser)
+    processed_df, abnormal_pairs, dup_canonical_pairs = filter_abnormal_pairs(processed_df)
+    print(processed_df)
+    BPL = [tuple(row["position"]) for _, row in processed_df.iterrows()]
     
     print(f"extracted base pairs: {BPL}")
     PKlayers = PKextractor(BPL)
