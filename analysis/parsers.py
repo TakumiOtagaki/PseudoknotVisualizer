@@ -108,10 +108,6 @@ def filter_abnormal_pairs(processed_df: pd.DataFrame):
         if (right_idx, left_idx) in base_pairs:
             print(f"Switched pair found: {(left_idx, right_idx)} and {(right_idx, left_idx)}")
             abnormal_pairs.append([right_idx, left_idx])
-        # bp[position][0] と bp[position][1] を入れ替えて残りはそのままにしたものが存在していたら一方だけにする
-        # bp_pos_switched = (bp["position"][1], bp["position"][0])
-        # if bp_pos_switched in processed_dict_filtered:
-        #     processed_dict_filtered.remove(bp_pos_switched)
 
     # (i, j) と (i, j') のような塩基対を検出
     dup_canonical_pairs = set()
