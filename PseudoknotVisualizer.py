@@ -31,15 +31,15 @@ def clear_intermediate_files(except_files=[]):
                 os.remove(pathlib.Path(INTERMEDIATE_DIR) / f)
     return
 
-def is_pure_rna(pdb_object, chain_id=None):
+def is_pure_rna(pdb_object, chain=None):
     """
-    指定した pdb_object( + chain_id) が
+    指定した pdb_object( + chain) が
     ・標準的な RNA 塩基 (A, C, G, U, I)
     ・あるいは水分子やイオンなど (HOH, MG, NA, K, CL, etc.)
     以外を一切含まない場合に True を返す関数。
     
     - pdb_object: PyMOL上にロードされているオブジェクト名 (例: "1ABC")
-    - chain_id: チェーンID を文字列で指定 (例: "A"). 
+    - chain: チェーンID を文字列で指定 (例: "A"). 
                 Noneの場合は全チェーンを対象にチェックする。
     """
     # ▼ ここに標準的な RNA の残基名を定義 (実際にはより多くの修飾などがある場合は追加)
@@ -51,8 +51,8 @@ def is_pure_rna(pdb_object, chain_id=None):
 
     # チェーンを指定したい場合は selection を絞る
     selection = pdb_object
-    if chain_id:
-        selection = f"{pdb_object} and chain {chain_id}"
+    if chain:
+        selection = f"{pdb_object} and chain {chain}"
 
     # PyMOLの model を取得
     model = cmd.get_model(selection)
@@ -70,14 +70,14 @@ def is_pure_rna(pdb_object, chain_id=None):
     # ループを抜けた = 問題ある残基が見つからなかった場合
     return True
 
-def auto_renumber_residues(pdb_object, chain_id):
+def auto_renumber_residues(pdb_object, chain):
     """
-    指定したpdb_objectの chain_id に対して、
+    指定したpdb_objectの chain に対して、
     レジデュー番号の最小値が1でない場合に、自動で 1 から始まるように再番号付けする。
     例: min_resiが100の場合、 100 -> 1, 101 -> 2, ... のようにalterする。
     """
-    # pdb_object and chain_id のアトム情報を取得
-    model = cmd.get_model(f"{pdb_object} and chain {chain_id}")
+    # pdb_object and chain のアトム情報を取得
+    model = cmd.get_model(f"{pdb_object} and chain {chain}")
 
     # ユニークな整数レジデュー番号のみを収集 (insertion codeなどは一旦無視)
     resi_list = []
@@ -92,7 +92,7 @@ def auto_renumber_residues(pdb_object, chain_id):
 
     if not resi_list:
         # 見つからなかった場合はスキップ
-        print(f"[auto_renumber_residues] {pdb_object}, chain {chain_id} でレジデュー番号が見つかりませんでした。")
+        print(f"[auto_renumber_residues] {pdb_object}, chain {chain} でレジデュー番号が見つかりませんでした。")
         return
 
     min_resi = min(resi_list)
@@ -103,18 +103,18 @@ def auto_renumber_residues(pdb_object, chain_id):
     # (min_resi - 1) を引くことによって、最小値を1に合わせる
     offset = min_resi - 1
     
-    print(f"[auto_renumber_residues] renumbering chain {chain_id} by offset={offset} (min_resi was {min_resi})")
+    print(f"[auto_renumber_residues] renumbering chain {chain} by offset={offset} (min_resi was {min_resi})")
     
     # alter で一括変更 (resiを int(resi)-offset に置き換える)
     cmd.alter(
-        f"{pdb_object} and chain {chain_id}",
+        f"{pdb_object} and chain {chain}",
         f"resi=str(int(resi)-{offset})"
     )
     
     # sort して整合性を取っておく (resi 順序などが正しく並ぶように)
     cmd.sort(pdb_object)
 
-def rnaview_wrapper(pdb_object, chain_id):
+def rnaview_wrapper(pdb_object, chain):
     try:
         with tempfile.NamedTemporaryFile(delete=False, suffix=".pdb", dir=INTERMEDIATE_DIR) as tmp_pdb:
             pdb_path = tmp_pdb.name # tmp.pdb is created and deleted automatically after the block.
@@ -142,7 +142,7 @@ def rnaview_wrapper(pdb_object, chain_id):
     return raw_df
 
 
-def dssr_wrapper(pdb_object, chain_id):
+def dssr_wrapper(pdb_object, chain):
     """DSSR wrapper function to extract base pairs"""
     try:
         with tempfile.NamedTemporaryFile(delete=False, suffix=".pdb", dir=INTERMEDIATE_DIR) as tmp_pdb:
@@ -171,12 +171,12 @@ def dssr_wrapper(pdb_object, chain_id):
     return raw_df
 
 
-def PseudoKnotVisualizer(pdb_object, chain_id=None, auto_renumber=True, only_pure_rna=False, non_precoloring=False, selection=True, parser="RNAView"):
+def PseudoKnotVisualizer(pdb_object, chain=None, auto_renumber=True, only_pure_rna=False, non_precoloring=False, selection=True, parser="RNAView"):
     """
     PseudoKnotVisualizer: Visualizing Pseudo Knots in RNA structure.
-    Usage: pkv pdb_object [,chain_id]
+    Usage: pkv pdb_object [,chain]
      - pdb_object(str): PDB object name
-     - chain_id(str) : Chain ID of the RNA structure.
+     - chain(str) : Chain ID of the RNA structure.
         If not specified, all chains will be analyzed.
      - auto_renumber(bool) [auto_renumber: True]: If True, automatically renumber residues from 1,
         to avoid the error caused by non-sequential residue numbers in the input PDB file.
@@ -186,34 +186,32 @@ def PseudoKnotVisualizer(pdb_object, chain_id=None, auto_renumber=True, only_pur
     """
     #  - selection(bool): If True, selection will be created for each layer: pdb_object_pkorder0, pdb_object_pkorder1, pdb_object_pkorder2, ...
 
-    # precoloring = 
     print("version ", PseudoKnotVisualizer_DIR / "VERSION.txt")
     
-    
-    if chain_id is None:
+    if chain is None:
         chains = cmd.get_chains(pdb_object)
         print("Chain ID is not specified and there are multiple chains. All chains ID will be analyzed: " + ", ".join(chains))
-        for chain_id in chains:
-            PseudoKnotVisualizer(pdb_object, chain_id, auto_renumber, only_pure_rna, non_precoloring, selection, parser)
+        for chain in chains:
+            PseudoKnotVisualizer(pdb_object, chain, auto_renumber, only_pure_rna, non_precoloring, selection, parser)
         return
-    elif chain_id not in cmd.get_chains(pdb_object):
-        print(f"Chain {chain_id} is not found in the pdb object.")
+    elif chain not in cmd.get_chains(pdb_object):
+        print(f"Chain {chain} is not found in the pdb object.")
         print(f"Available chains are: {', '.join(cmd.get_chains(pdb_object))}")
         return
     # ★ ここで自動でレジデュー番号を補正する
     if auto_renumber:
-        auto_renumber_residues(pdb_object, chain_id)
+        auto_renumber_residues(pdb_object, chain)
     if only_pure_rna:
-        if not is_pure_rna(pdb_object, chain_id):
+        if not is_pure_rna(pdb_object, chain):
             print("The structure contains non-standard RNA bases or other molecules.")
             print("If you want to analyze them, please set pure_rna=False.")
             return
     
     # パーサーの選択に応じてベースペアを抽出
     if parser.upper() == "DSSR":
-        raw_df = dssr_wrapper(pdb_object, chain_id)
+        raw_df = dssr_wrapper(pdb_object, chain)
     elif parser.upper() == "RNAVIEW":
-        raw_df = rnaview_wrapper(pdb_object, chain_id)
+        raw_df = rnaview_wrapper(pdb_object, chain)
     else:
         raise ValueError(f"Unsupported parser: {parser}. Use 'DSSR' or 'RNAView'.")
     
@@ -228,7 +226,7 @@ def PseudoKnotVisualizer(pdb_object, chain_id=None, auto_renumber=True, only_pur
     if not non_precoloring:
         # 全て white にする
         print("Precoloring all atoms to white.")
-        cmd.color("white", f"{pdb_object} and chain {chain_id}")
+        cmd.color("white", f"{pdb_object} and chain {chain}")
         pass
     for depth, PKlayer in enumerate(PKlayers):
         # color = str(depth + 1)
@@ -241,13 +239,15 @@ def PseudoKnotVisualizer(pdb_object, chain_id=None, auto_renumber=True, only_pur
             all_residues.extend([str(i), str(j)])
         selection_str = "+".join(all_residues)
         
-        # coloring_canonical(pdb_object, chain_id, selection_str, color)
+        # coloring_canonical(pdb_object, chain, selection_str, color)
         for i, j in PKlayer:
-            coloring_canonical(pdb_object, chain_id, i, color)
-            coloring_canonical(pdb_object, chain_id, j, color)
+            coloring_canonical(pdb_object, chain, i, color)
+            coloring_canonical(pdb_object, chain, j, color)
         if selection:
-            print(f"Creating selection: {pdb_object}_l{depth}")
-            cmd.create(f"{pdb_object}_l{depth}", f"{pdb_object} and chain {chain_id} and resi {selection_str}")
+            # print(f"Creating selection: {pdb_object}_l{depth}")
+            command = f"select {pdb_object}_l{depth}, {pdb_object} and chain {chain} and resi {selection_str}"
+            cmd.create(f"{pdb_object}_l{depth}", f"{pdb_object} and chain {chain} and resi {selection_str}")
+            print(command)
         print(f"Layer {depth + 1}: (i, j) = {PKlayer}")
     print("Coloring done.")
     print(f"Depth is {len(PKlayers)}")
