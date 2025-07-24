@@ -8,8 +8,6 @@ from addressRNAviewOutput import load_rnaview_data #, extract_base_pairs_from_rn
 from addressDSSROutput import load_dssr_data #, extract_base_pairs_from_dssr,
 from Bio.PDB import PDBParser, PDBIO
 from Bio.PDB.MMCIFParser import MMCIFParser
-from Bio.PDB.mmcifio import MMCIFIO
-import tempfile
 import subprocess
 import os
 import pathlib
@@ -32,9 +30,9 @@ def CLI_rnaview(struct_file, chain_id):
         raise ValueError("Input file should be .cif or .pdb")
 
     structure = parser.get_structure("structure", struct_file)
+
     chain_structure = structure[0]
     selected_chain = None
-
     for chain in chain_structure:
         if chain.id == chain_id:
             selected_chain = chain
@@ -51,7 +49,6 @@ def CLI_rnaview(struct_file, chain_id):
     copied_file = pathlib.Path(INTERMEDIATE_DIR) / pathlib.Path(struct_file).name
     shutil.copy2(struct_file, copied_file)
 
-
     result = subprocess.run(
         [RNAVIEW_EXEC, "-p", arg, copied_file],
         env={"RNAVIEW": RNAVIEW_DIR},
@@ -64,12 +61,6 @@ def CLI_rnaview(struct_file, chain_id):
     print("rnaview done.")
     result_file = pathlib.Path(INTERMEDIATE_DIR) / (pathlib.Path(struct_file).name + ".out")
     df = load_rnaview_data(result_file)
-    # valid_bps_df = extract_canonicalbp_from_rnaview(df)
-    # print(valid_bps_df)
-    # BPL = [(row["left_idx"], row["right_idx"]) for _, row in valid_bps_df.iterrows()]
-    # BPL = [(row["left_idx"], row["right_idx"]) for _, row in df.iterrows()]
-
-    # return BPL
     return df
 
 def CLI_dssr(struct_file, chain_id):
@@ -90,23 +81,14 @@ def CLI_dssr(struct_file, chain_id):
         text=True
     )
     print(f"command: \n {str(DSSR_EXEC)} -i={str(copied_file)} --json -o={str(json_output_path)}")
-    # if result.returncode != 0:
-    #     raise Exception("DSSR failed")
-        # エラー内容を出力
     if result.returncode != 0 or not json_output_path.exists():
         print(f"DSSR failed with return code: {result.returncode}")
         print(f"stdout: {result.stdout}")
         print(f"stderr: {result.stderr}")
         return load_dssr_data(json_output_path)
-        # raise Exception("DSSR failed")
-    # print(f"DSSR output generated: {json_output_path}")
 
     print("DSSR done.")
     df = load_dssr_data(json_output_path)
-    # valid_bps_df = extract_canonicalbp_from_dssr(json_output_path)
-    # print(valid_bps_df)
-    # BPL = [(row["left_idx"], row["right_idx"]) for _, row in valid_bps_df.iterrows()]
-
     return df
 
 def CLI_PseudoKnotVisualizer(pdb_file, chain_id, format, output_file, model_id, parser="RNAView"):
@@ -116,13 +98,11 @@ def CLI_PseudoKnotVisualizer(pdb_file, chain_id, format, output_file, model_id, 
     
     elif parser.upper() == "RNAVIEW":
         raw_df = CLI_rnaview(pdb_file, chain_id)
-    else:
-        raise ValueError(f"Unsupported parser: {parser}. Use 'DSSR' or 'RNAView'.")
-
     processed_df = raw_df_processing(raw_df, parser)
     # remove abnormal pairs
-    processed_df, abnormal_pairs = filter_abnormal_pairs(processed_df)
-    BPL = [(row["left_idx"], row["right_idx"]) for _, row in processed_df.iterrows()]
+    processed_df, abnormal_pairs, dup_canonical_pairs = filter_abnormal_pairs(processed_df)
+    # print(f"Processed DataFrame:\n{processed_df.head()}")
+    BPL = [tuple(row["position"]) for _, row in processed_df.iterrows()]
     pdb_id = os.path.splitext(os.path.basename(pdb_file))[0]
     PKlayers = PKextractor(BPL)
 
@@ -135,8 +115,6 @@ def CLI_PseudoKnotVisualizer(pdb_file, chain_id, format, output_file, model_id, 
     print("Coloring done.")
     print(f"Depth is {len(PKlayers)}")
     print(f"Output script is saved as {output_file}")
-    
-    clear_intermediate_files()
     return
 
 def main():

@@ -82,7 +82,7 @@ def PKextractor(BPL, compression=True):
     while BPL:
         # initialization:
         counter += 1
-        print(f"Processing layer {counter}...")
+        # print(f"Processing layer {counter}...")
         if counter > 15:
             raise ValueError("Too many layers detected. This may indicate an issue with the input data.")
 
