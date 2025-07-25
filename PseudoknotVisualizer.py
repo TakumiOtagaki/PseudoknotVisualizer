@@ -230,15 +230,13 @@ def PseudoKnotVisualizer(pdb_object, chain=None, parser="RNAView", auto_renumber
     
     processed_df = raw_df_processing(raw_df, parser)
     processed_df, abnormal_pairs, dup_canonical_pairs = filter_abnormal_pairs(processed_df)
-    print(processed_df)
+    # print(processed_df)
     BPL = [tuple(row["position"]) for _, row in processed_df.iterrows()]
-    
-    print(f"extracted base pairs: {BPL}")
+    # print(f"extracted base pairs: {BPL}")
     PKlayers = PKextractor(BPL)
-    print("skip_precoloring: ", skip_precoloring)
+
     if not skip_precoloring:
-        # 全て white にする
-        print("Precoloring all atoms to white.")
+        print(f"Precoloring all atoms to white since skip_precoloring is {skip_precoloring}")
         cmd.color("white", f"{pdb_object} and chain {chain}")
     for depth, PKlayer in enumerate(PKlayers):
         color = colors[str(depth + 1)]
