@@ -149,7 +149,7 @@ for parser in parsers:
                         autopct='%1.1f%%',
                         labels=['Canonical', 'Non-Canonical'],
                         startangle=90,
-                        title=f'{title} {parser} {"Multilayer" if multilayer else "Single-layer"} ({variant})'
+                        title=f'{title} {parser} {"Multilayer" if multilayer else "Single-layer"} '
                     )
                     plt.ylabel('')
                     plt.tight_layout()
