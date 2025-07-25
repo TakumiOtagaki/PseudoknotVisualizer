@@ -178,7 +178,7 @@ def dssr_wrapper(pdb_object, chain):
     return raw_df
 
 
-def PseudoKnotVisualizer(pdb_object, chain=None, parser="RNAView", auto_renumber=True, only_pure_rna=False, skip_precoloring=False, selection=True):
+def PseudoKnotVisualizer(pdb_object, parser="RNAView", chain=None, auto_renumber=True, only_pure_rna=False, skip_precoloring=False, selection=True):
     """
     PseudoKnotVisualizer: Visualizing Pseudo Knots in RNA structure.
     Usage: pkv pdb_object, chain=A, parser=RNAView
@@ -193,12 +193,14 @@ def PseudoKnotVisualizer(pdb_object, chain=None, parser="RNAView", auto_renumber
      - selection(bool): If True, selection will be created for each layer: pdb_object_pkorder0, pdb_object_pkorder1, pdb_object_pkorder2, ...
     """
     print("version ", PseudoKnotVisualizer_DIR / "VERSION.txt")
+    print(f"arguments: pdb_object={pdb_object}, chain={chain}, parser={parser}, auto_renumber={auto_renumber}, only_pure_rna={only_pure_rna}, skip_precoloring={skip_precoloring}, selection={selection}")
     
     if chain is None:
         chains = cmd.get_chains(pdb_object)
         print("Chain ID is not specified and there are multiple chains. All chains ID will be analyzed: " + ", ".join(chains))
         for chain in chains:
-            PseudoKnotVisualizer(pdb_object, chain, auto_renumber, only_pure_rna, skip_precoloring, selection, parser)
+            # PseudoKnotVisualizer(pdb_object, chain, auto_renumber, only_pure_rna, skip_precoloring, selection, parser)
+            PseudoKnotVisualizer(pdb_object, parser, chain, auto_renumber, only_pure_rna, skip_precoloring, selection)
         return
     elif chain not in cmd.get_chains(pdb_object):
         print(f"Chain {chain} is not found in the pdb object.")
