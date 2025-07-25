@@ -16,8 +16,6 @@ import pathlib
 DEBUG = False
 
 colors = load_colors_from_json(PseudoKnotVisualizer_DIR / "colors.json")
-# rnaview = os.path.join(RNAVIEW_PATH, "rnaview")
-# rnaview_exec = RNAVIEW_EXEC
 
 def clear_intermediate_files(except_files=[]):
     # intermediate dir には他のゴミのファイルがあるので消しておく
@@ -154,11 +152,6 @@ def rnaview_wrapper(pdb_object, chain):
     # result_file = INTERMEDIATE_DIR + pdb_path.split("/")[-1] + ".out"
     result_file = pathlib.Path(INTERMEDIATE_DIR) / (pathlib.Path(pdb_path).name + ".out")
     raw_df = load_rnaview_data(result_file)
-    # processed_df = raw_df_processing(raw_df, "RNAView")
-    # processed_df, abnormal_pairs, dup_canonical_pairs = filter_abnormal_pairs(processed_df)
-    # print(processed_df)
-    # BPL = [tuple(row["position"]) for _, row in processed_df.iterrows()]
-
     return raw_df
 
 
@@ -184,25 +177,21 @@ def dssr_wrapper(pdb_object, chain):
         raise Exception("DSSR failed or Exporting PDB failed: " + str(e))
 
     raw_df = load_dssr_data(json_output_path)
-    # processed_df = raw_df_processing(raw_df, "DSSR")
-    # processed_df, abnormal_pairs, dup_canonical_pairs = filter_abnormal_pairs(processed_df)
-    # print(processed_df)
-    # BPL = [tuple(row["position"]) for _, row in processed_df.iterrows()]
     return raw_df
 
 
-def PseudoKnotVisualizer(pdb_object, chain=None, auto_renumber=True, only_pure_rna=False, non_precoloring=False, selection=True, parser="RNAView"):
+def PseudoKnotVisualizer(pdb_object, chain=None, parser="RNAView", auto_renumber=True, only_pure_rna=False, skip_precoloring=False, selection=True):
     """
     PseudoKnotVisualizer: Visualizing Pseudo Knots in RNA structure.
-    Usage: pkv pdb_object [,chain]
+    Usage: pkv pdb_object, chain=A, parser=RNAView
      - pdb_object(str): PDB object name
      - chain(str) : Chain ID of the RNA structure.
         If not specified, all chains will be analyzed.
+     - parser(str) [default: "RNAView"]: Structure parser to use ("DSSR" or "RNAView").
      - auto_renumber(bool) [auto_renumber: True]: If True, automatically renumber residues from 1,
         to avoid the error caused by non-sequential residue numbers in the input PDB file.
      - only_pure_rna(bool) [default: False]: If True, only standard RNA bases (A, C, G, U, I) are analyzed.
-     - non_precoloring(bool) [default: False]: If True, all atoms are not colored 'white' before coloring the base pairs.
-     - parser(str) [default: "RNAView"]: Structure parser to use ("DSSR" or "RNAView").
+     - skip_precoloring(bool) [default: False]: If True, all atoms are not colored 'white' before coloring the base pairs.
     """
     #  - selection(bool): If True, selection will be created for each layer: pdb_object_pkorder0, pdb_object_pkorder1, pdb_object_pkorder2, ...
 
@@ -212,7 +201,7 @@ def PseudoKnotVisualizer(pdb_object, chain=None, auto_renumber=True, only_pure_r
         chains = cmd.get_chains(pdb_object)
         print("Chain ID is not specified and there are multiple chains. All chains ID will be analyzed: " + ", ".join(chains))
         for chain in chains:
-            PseudoKnotVisualizer(pdb_object, chain, auto_renumber, only_pure_rna, non_precoloring, selection, parser)
+            PseudoKnotVisualizer(pdb_object, chain, auto_renumber, only_pure_rna, skip_precoloring, selection, parser)
         return
     elif chain not in cmd.get_chains(pdb_object):
         print(f"Chain {chain} is not found in the pdb object.")
@@ -246,14 +235,12 @@ def PseudoKnotVisualizer(pdb_object, chain=None, auto_renumber=True, only_pure_r
     
     print(f"extracted base pairs: {BPL}")
     PKlayers = PKextractor(BPL)
-    print("non_precoloring: ", non_precoloring)
-    if not non_precoloring:
+    print("skip_precoloring: ", skip_precoloring)
+    if not skip_precoloring:
         # 全て white にする
         print("Precoloring all atoms to white.")
         cmd.color("white", f"{pdb_object} and chain {chain}")
-        pass
     for depth, PKlayer in enumerate(PKlayers):
-        # color = str(depth + 1)
         color = colors[str(depth + 1)]
         print(f"Coloring layer {depth + 1} with color: {color}")
         
@@ -263,7 +250,6 @@ def PseudoKnotVisualizer(pdb_object, chain=None, auto_renumber=True, only_pure_r
             all_residues.extend([str(i), str(j)])
         selection_str = "+".join(all_residues)
         
-        # coloring_canonical(pdb_object, chain, selection_str, color)
         for i, j in PKlayer:
             coloring_canonical(pdb_object, chain, i, color)
             coloring_canonical(pdb_object, chain, j, color)
@@ -284,10 +270,5 @@ cmd.extend("PseudoKnotVisualizer", PseudoKnotVisualizer)
 cmd.extend("pkv", PseudoKnotVisualizer)
 
 if __name__ == "__main__":
-    # clear_intermediate_files()
-    # BPL = rnaview_wrapper("1KPD", "A")
-    # print(BPL)
-    # PKlayers = PKextractor(BPL)
-    # print(PKlayers)
     pass
 
