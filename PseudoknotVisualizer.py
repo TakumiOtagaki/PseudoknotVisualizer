@@ -81,7 +81,6 @@ def check_residues_start_from_one(pdb_object, chain):
                 resi_list.append(r)
         except ValueError:
             raise ValueError(f"Invalid residue number format in {pdb_object} chain {chain}: {atom.resi}")
-            pass
     
     if not resi_list:
         return False
@@ -110,7 +109,8 @@ def auto_renumber_residues(pdb_object, chain):
 
     if not resi_list:
         # 見つからなかった場合はスキップ
-        print(f"[auto_renumber_residues] {pdb_object}, chain {chain} でレジデュー番号が見つかりませんでした。")
+        # print(f"[auto_renumber_residues] {pdb_object}, chain {chain} でレジデュー番号が見つかりませんでした。")
+        print(f"[auto_renumber_residues] {pdb_object}, chain {chain} has not been found.")
         return
 
     min_resi = min(resi_list)
@@ -207,11 +207,12 @@ def PseudoKnotVisualizer(pdb_object, chain=None, parser="RNAView", auto_renumber
     # ★ RNAViewを使用する場合のみ、レジデュー番号をチェックして必要に応じて補正
     if auto_renumber and parser.upper() == "RNAVIEW":
         if not check_residues_start_from_one(pdb_object, chain):
-            print(f"[PseudoKnotVisualizer] Chain {chain}: residue numbers do not start from 1. Auto-renumbering will be applied.")
+            # print(f"[PseudoKnotVisualizer] Chain {chain}: レジデュー番号が1から始まっていないため、RNAView用に補正します。")
+            print(f"[PseudoKnotVisualizer] Chain {chain}: Residue numbers do not start from 1, renumbering for RNAView.")
+            print("It may be better to use DSSR instead of RNAView.")
             auto_renumber_residues(pdb_object, chain)
         else:
-            # print(f"[PseudoKnotVisualizer] Chain {chain}: residue numbers start from 1. No auto-renumbering needed.")
-            pass
+            print(f"[PseudoKnotVisualizer] Chain {chain}: residue numbers start from 1.")
     if only_pure_rna:
         if not is_pure_rna(pdb_object, chain):
             print("The structure contains non-standard RNA bases or other molecules.")
@@ -251,7 +252,7 @@ def PseudoKnotVisualizer(pdb_object, chain=None, parser="RNAView", auto_renumber
             coloring_canonical(pdb_object, chain, j, color)
         if selection:
             # selectコマンドで選択オブジェクトを作成
-            selection_name = f"{pdb_object}_l{depth}"
+            selection_name = f"{pdb_object}_c{chain}_l{depth + 1}"
             cmd.select(selection_name, f"{pdb_object} and chain {chain} and resi {selection_str}")
             print(f"Created selection: {selection_name} with residues {selection_str}")
         print(f"Layer {depth + 1}: (i, j) = {PKlayer}")
