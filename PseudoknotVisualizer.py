@@ -192,9 +192,8 @@ def PseudoKnotVisualizer(pdb_object, chain=None, parser="RNAView", auto_renumber
         to avoid the error caused by non-sequential residue numbers in the input PDB file.
      - only_pure_rna(bool) [default: False]: If True, only standard RNA bases (A, C, G, U, I) are analyzed.
      - skip_precoloring(bool) [default: False]: If True, all atoms are not colored 'white' before coloring the base pairs.
+     - selection(bool): If True, selection will be created for each layer: pdb_object_pkorder0, pdb_object_pkorder1, pdb_object_pkorder2, ...
     """
-    #  - selection(bool): If True, selection will be created for each layer: pdb_object_pkorder0, pdb_object_pkorder1, pdb_object_pkorder2, ...
-
     print("version ", PseudoKnotVisualizer_DIR / "VERSION.txt")
     
     if chain is None:
@@ -210,10 +209,11 @@ def PseudoKnotVisualizer(pdb_object, chain=None, parser="RNAView", auto_renumber
     # ★ RNAViewを使用する場合のみ、レジデュー番号をチェックして必要に応じて補正
     if auto_renumber and parser.upper() == "RNAVIEW":
         if not check_residues_start_from_one(pdb_object, chain):
-            print(f"[PseudoKnotVisualizer] Chain {chain}: レジデュー番号が1から始まっていないため、RNAView用に補正します。")
+            print(f"[PseudoKnotVisualizer] Chain {chain}: residue numbers do not start from 1. Auto-renumbering will be applied.")
             auto_renumber_residues(pdb_object, chain)
         else:
-            print(f"[PseudoKnotVisualizer] Chain {chain}: レジデュー番号は1から始まっています。")
+            # print(f"[PseudoKnotVisualizer] Chain {chain}: residue numbers start from 1. No auto-renumbering needed.")
+            pass
     if only_pure_rna:
         if not is_pure_rna(pdb_object, chain):
             print("The structure contains non-standard RNA bases or other molecules.")
