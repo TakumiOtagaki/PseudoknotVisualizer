@@ -148,8 +148,6 @@ def rnaview_wrapper(pdb_object, chain):
                 raise Exception("RNAVIEW failed")
     except Exception as e:
         raise Exception("RNAVIEW failed or Exporting PDB failed: " + str(e))
-
-    # result_file = INTERMEDIATE_DIR + pdb_path.split("/")[-1] + ".out"
     result_file = pathlib.Path(INTERMEDIATE_DIR) / (pathlib.Path(pdb_path).name + ".out")
     raw_df = load_rnaview_data(result_file)
     return raw_df
