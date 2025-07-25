@@ -138,7 +138,7 @@ def rnaview_wrapper(pdb_object, chain):
     try:
         with tempfile.NamedTemporaryFile(delete=False, suffix=".pdb", dir=INTERMEDIATE_DIR) as tmp_pdb:
             pdb_path = tmp_pdb.name # tmp.pdb is created and deleted automatically after the block.
-            cmd.save(pdb_path, pdb_object, format="pdb")
+            cmd.save(pdb_path, f"{pdb_object} and chain {chain}", format="pdb")
 
             result = subprocess.run(
                 [RNAVIEW_EXEC, "-p", "--pdb", pdb_path],
@@ -167,7 +167,7 @@ def dssr_wrapper(pdb_object, chain):
     try:
         with tempfile.NamedTemporaryFile(delete=False, suffix=".pdb", dir=INTERMEDIATE_DIR) as tmp_pdb:
             pdb_path = tmp_pdb.name
-            cmd.save(pdb_path, pdb_object, format="pdb")
+            cmd.save(pdb_path, f"{pdb_object} and chain {chain}", format="pdb")
 
             # DSSR実行（JSONフォーマットで出力）
             json_output_path = pathlib.Path(INTERMEDIATE_DIR) / (pathlib.Path(pdb_path).name + ".dssr.json")
@@ -268,10 +268,10 @@ def PseudoKnotVisualizer(pdb_object, chain=None, auto_renumber=True, only_pure_r
             coloring_canonical(pdb_object, chain, i, color)
             coloring_canonical(pdb_object, chain, j, color)
         if selection:
-            # print(f"Creating selection: {pdb_object}_l{depth}")
-            command = f"select {pdb_object}_l{depth}, {pdb_object} and chain {chain} and resi {selection_str}"
-            cmd.create(f"{pdb_object}_l{depth}", f"{pdb_object} and chain {chain} and resi {selection_str}")
-            print(command)
+            # selectコマンドで選択オブジェクトを作成
+            selection_name = f"{pdb_object}_l{depth}"
+            cmd.select(selection_name, f"{pdb_object} and chain {chain} and resi {selection_str}")
+            print(f"Created selection: {selection_name} with residues {selection_str}")
         print(f"Layer {depth + 1}: (i, j) = {PKlayer}")
     print("Coloring done.")
     print(f"Depth is {len(PKlayers)}")
