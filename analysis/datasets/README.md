@@ -1,5 +1,5 @@
 We used RNAsolo2 database[1, 2]; we extracted RNA 3d structure data in pdb format as follows:
-![alt text](image.png)
+![alt text](RNAsolo2_downloading.png)
 
 
 
