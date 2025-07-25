@@ -133,6 +133,5 @@ def filter_abnormal_pairs(processed_df: pd.DataFrame):
     bp_details_filtered_df = pd.DataFrame(bp_details_filtered)
     if bp_details_filtered_df.empty:
         return pd.DataFrame(columns=["position", "residues", "is_canonical", "saenger_id"]), abnormal_pairs, dup_canonical_pairs
-    # print(f"Filtered out {len(abnormal_pairs)} abnormal pairs")
     print(f"Remaining pairs: {len(bp_details_filtered)}")
     return bp_details_filtered_df, abnormal_pairs, dup_canonical_pairs
