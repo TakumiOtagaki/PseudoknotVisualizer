@@ -40,17 +40,10 @@ Type `pymol` in conda pymol env, then open source PyMOL app will start.
 ## Installation of PseudoknotVisualizer
 ### overview of the installation
 1. Clone this repository.
-2. Installation of RNAView
+2. Installation of RNAView or DSSR
 3. Rewrite or create `~/.pymolrc.py` in order to load the extension at startup automatically.
 
 
-```mermaid
-graph TD;
-  CloningRepository
-  RNAView
-  DSSR
-  .pymolrc
-```
 
 -----
 
@@ -63,7 +56,8 @@ git clone https://github.com/TakumiOtagaki/PseudoknotVisualizer.git
 cd PseudoknotVisualizer
 ```
 
-### 2. Installation of RNAView
+### 2. Installation of RNAView or DSSR
+#### Installation of RNAView
   
 You need to install [RNAView](https://github.com/rcsb/RNAView).
 There is an error around the installation of RNAView,
@@ -79,6 +73,16 @@ make # if the name of the installation directory is long, you need to modify the
 ls bin # the binary rnaview will be found.
 cd ..
 ```
+
+ - TODO:
+   - RNAView を新たに install したくない場合は config.py を書き換えることでうまくできます.
+
+#### Installation of DSSR
+バイナリを得るまでに、
+ - アカウント発行
+ - 特定のページにいく
+ - macbook, linux or windows を選択してダウンロード
+ - DSSR/ に配置する
 
 
 ### 3. Rewrite or create `~/.pymolrc.py`
