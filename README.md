@@ -84,6 +84,7 @@ cd ..
  - macbook, linux or windows を選択してダウンロード
  - DSSR/ に配置する
 
+The version we used is `v1.9.10-2020apr23`.  We recommend you to use the same version.
 
 ### 3. Rewrite or create `~/.pymolrc.py`
 To  load the extension at startup automatically, please follow the instructions below.
