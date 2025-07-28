@@ -77,11 +77,13 @@ for parser in parsers:
 
 for parser in parsers:
     for variant in ['canonical_only', 'all']:
+
+        total_bps, total_canonical_bps, total_noncanonical_bps = 0, 0, 0
+
         # JSON読み込み
         path = base_dir / f'pseudoknot_analysis_{parser}_{variant}.json'
         with open(path) as f:
             data = json.load(f)
-
         # layers --> pdb_id v.s. layer_id, canonical_bp_count, non_canonical_bp_count
         data_list = list()
         for item in data: # 各 pdb ごとに分解していく
@@ -92,6 +94,7 @@ for parser in parsers:
             if num_of_layers == 0:
                 # print(f"Warning: {pdb_id} has no pseudoknot layers.")
                 num_of_layers = 1  # レイヤーがない場合は1とみなす
+                continue  # レイヤーがない場合はスキップ...
             canonical_bp_in_main_layer = 0
             non_canonical_bp_in_main_layer = 0
             canonical_bp_in_pk_layer = 0
@@ -116,6 +119,10 @@ for parser in parsers:
                     "non_canonical_bp_in_pk_layer": non_canonical_bp_in_pk_layer,
                 }
             )
+            total_bps += total_bp_count
+            total_canonical_bps += canonical_bp_in_main_layer + canonical_bp_in_pk_layer
+            total_noncanonical_bps += non_canonical_bp_in_main_layer + non_canonical_bp_in_pk_layer
+        print(f"Total BPs: {total_bps}, Total Canonical BPs: {total_canonical_bps}, Total Non-Canonical BPs: {total_noncanonical_bps}, for {parser} ({variant})")
         df = pd.DataFrame(data_list)
         df = df.set_index("pdb_id")
         # print(f"DataFrame for {parser} ({variant}):\n", df.head())
@@ -123,6 +130,7 @@ for parser in parsers:
         # (a) トップレイヤーにcanonicalがあるか の円グラフ
         if variant == "all":
             df['is_multilayer'] = df["num_of_layers"] > 1 # 元々 multilayer かどうかの場合分けで、2 通り plotting
+            print(f"number of multilayer structures: {df['is_multilayer'].sum()} out of {len(df)} total structures, for {parser} ({variant})")
 
             for multilayer in [True, False]:
                 if multilayer:
@@ -163,10 +171,16 @@ for parser in parsers:
         # (b) pseudoknot layer 数の頻度棒グラフ
         freq = df['num_of_layers'].value_counts(normalize=True).sort_index()
         plt.figure()
-        freq.plot.bar()
-        plt.xlabel('Pseudoknot Layer Count')
-        plt.xticks([int(x) for x in freq.index], rotation=0)
+        ax = freq.plot.bar( color = "orange")
+        ax.set_xlabel('Pseudoknot Layer Count')
+        ax.set_xticks([int(x) for x in range(freq.index.max() + 1)])
+        ax.set_xticklabels([int(x) for x in (range(freq.index.max() + 1))], rotation=0  )
+        
+        ax.set_xlim(-1, freq.index.max()+1)  # x 軸の範囲を 0 から最大値に設定
+        # plt.xlim(0, 10)
         plt.ylabel('Frequency')
+        # y の表示領域を 0 から 0.7 に固定
+        plt.ylim(0, 0.7)
         plt.title(f'{parser} Pseudoknot Layers ({variant})')
         plt.tight_layout()
         fn = f'bar_pseudoknot_layers_{variant}.png'
