@@ -120,9 +120,9 @@ To avoid this error, we recommend that you should install PseudoknotVisualizer i
 After loading models, it can be called and used as follows:
 ```
 # PyMOL command line after loading model
-pkv $pdb_object (,$chainID)
+pkv $object (,$chainID)
 ```
- - pdb_object = a model, it can be multimer.
+ - object = a model, it can be multimer.
  - chainID = A, B, C, ...
 
 For example, if you want to visualize the pseudoknots in 1kpd in PDB, run the followings:
@@ -143,12 +143,10 @@ Also you can get the detail explanation in pymol command line using `help pkv`:
 ```sh
 pymol commandline$ help pkv
 PseudoKnotVisualizer: Visualizing Pseudo Knots in RNA structure.
-Usage: pkv pdb_object [,chain_id]
- - pdb_object(str): PDB object name
+Usage: pkv object [,chain_id]
+ - object(str): structure object name
  - chain_id(str) : Chain ID of the RNA structure.
     If not specified, all chains will be analyzed.
- - auto_renumber(bool) [auto_renumber: True]: If True, automatically renumber residues from 1,
-    to avoid the error caused by non-sequential residue numbers in the input PDB file.
  - only_pure_rna(bool) [default: False]: If True, only standard RNA bases (A, C, G, U, I) are analyzed.
  - non_precoloring(bool) [default: False]: If True, all atoms are not colored 'white' before coloring the base pairs.
 ```
@@ -223,7 +221,7 @@ Then, 1kpd.pdb is downloaded in current directory.
   ```
 3.	Complete steps 1 through 3 from the installation instructions above.
 
-4.	Execute the command `python CLI_PseudoknotVisualizer.py -i input.pdb -o ...`
+4.	Execute the command `python CLI_PseudoknotVisualizer.py -i input.pdb [or input.cif] -o ...`
 
 
 
@@ -231,7 +229,7 @@ Then, 1kpd.pdb is downloaded in current directory.
 ```sh
 conda activate pymol
 python PseudoknotVisualizer/CLI_PseudoknotVisualizer.py \
-  -i test/1KPD.pdb \  # input pdb file.
+  -i test/1KPD.pdb \  # input pdb file. cif format is also available.
   -o test/coloring_1KPD.0.A.pymol.txt \ # path of output script txtfile
   -c A \ # chain ID
   -f pymol \ # format: chimera or pymol
