@@ -200,7 +200,13 @@ def PseudoKnotVisualizer(pdb_object, parser="RNAView", chain=None, auto_renumber
         print("Chain ID is not specified and there are multiple chains. All chains ID will be analyzed: " + ", ".join(chains))
         for chain in chains:
             # PseudoKnotVisualizer(pdb_object, chain, auto_renumber, only_pure_rna, skip_precoloring, selection, parser)
-            PseudoKnotVisualizer(pdb_object, parser, chain, auto_renumber, only_pure_rna, skip_precoloring, selection)
+            PseudoKnotVisualizer(pdb_object=pdb_object,
+                                    chain=chain,
+                                    auto_renumber=auto_renumber,
+                                    only_pure_rna=only_pure_rna,
+                                    skip_precoloring=skip_precoloring,
+                                    selection=selection,
+                                    parser=parser)
         return
     elif chain not in cmd.get_chains(pdb_object):
         print(f"Chain {chain} is not found in the pdb object.")
