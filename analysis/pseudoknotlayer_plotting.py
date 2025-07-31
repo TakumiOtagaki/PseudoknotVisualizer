@@ -129,11 +129,9 @@ for parser in parsers:
                     sub = df[df['is_multilayer'] == multilayer]
                 else:
                     sub = df
-                can_bp_mainlayer = sub['canonical_bp_in_main_layer'] > 0
-                non_can_bp_mainlayer = sub['non_canonical_bp_in_main_layer'] > 0
                 mainlayer_counts = pd.Series({
-                    'Canonical': can_bp_mainlayer.sum(),
-                    'Non-Canonical': non_can_bp_mainlayer.sum()
+                    'Canonical': sub['canonical_bp_in_main_layer'].sum(),
+                    'Non-Canonical': sub['non_canonical_bp_in_main_layer'].sum()
                 })
                 pseudoknotlayer_counts = pd.Series({
                     'Canonical': sub['canonical_bp_in_pk_layer'].sum(),
