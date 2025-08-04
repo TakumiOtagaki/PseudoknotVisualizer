@@ -77,7 +77,7 @@ def main():
     result_df['pdb_id'] = result_df['pdb_id'].str.replace('0000', '', regex=True)
     # pdb_id は "_" で区切って先頭だけ出力することにする。
     result_df['pdb_id'] = result_df['pdb_id'].str.split('_').str[0]
-    result_df.to_csv(output_file, index=False, header=False)
+    result_df.to_csv(output_file, index=False, header=True)
     print(f"\n結果を {output_file} に保存しました。")
 
 if __name__ == "__main__":
