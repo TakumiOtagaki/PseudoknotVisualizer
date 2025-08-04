@@ -30,7 +30,7 @@ def main():
     # 条件でフィルタリング
     filtered_json = json_df[
         (json_df['total_bp_count'] > 0) & 
-        (json_df['pseudoknot_layer_count'] > 1) & 
+        # (json_df['pseudoknot_layer_count'] > 1) & 
         (json_df['output_exists'] == True)
     ]
     
