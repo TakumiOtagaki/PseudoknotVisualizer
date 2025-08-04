@@ -70,7 +70,12 @@ def main():
         print(f"{row['pdb_id']},{row['model_id']},{row['chain']},{row['extra']} "
               f"(bp:{json_row['total_bp_count']}, layers:{json_row['pseudoknot_layer_count']})")
     
-    
+    # 結果をCSVファイルに保存
+    output_file = Path("analysis/datasets/filtered_multilayer_entries.csv")
+    # pdb_id は "_" で区切って先頭だけ出力することにする。
+    result_df['pdb_id'] = result_df['pdb_id'].str.split('_').str[0]
+    result_df.to_csv(output_file, index=False, header=False)
+    print(f"\n結果を {output_file} に保存しました。")
 
 if __name__ == "__main__":
     main()
