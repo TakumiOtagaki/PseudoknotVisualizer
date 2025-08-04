@@ -2,7 +2,6 @@ import os
 import sys
 import json
 import pandas as pd
-import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.font_manager as fm
 from pathlib import Path
@@ -76,166 +75,6 @@ plt.rcParams["legend.markerscale"] = 5 #markerサイズの倍率
 for parser in parsers:
     (output_dir / parser).mkdir(parents=True, exist_ok=True)
 
-def create_noncanonical_ratio_boxplot(df, parser, variant, multilayer_only=False):
-    """
-    各エントリについてCore layerとPseudoknot layerにおけるnon-canonicalの割合を計算してbox plotを作成
-    
-    Args:
-        df: DataFrame with the analysis data
-        parser: Parser name (rnaview or dssr)
-        variant: Variant name (canonical_only or all)
-        multilayer_only: If True, include only multilayer structures; if False, include all structures
-    """
-    # データフィルタリング
-    if multilayer_only:
-        sub_df = df[df['is_multilayer'] == True].copy()
-        layer_type = "Multilayer"
-    else:
-        sub_df = df.copy()
-        layer_type = "All structures"
-    
-    if len(sub_df) == 0:
-        print(f"No data available for {parser} ({variant}, {layer_type})")
-        return
-    
-    # Main layerでのnon-canonical割合を計算
-    main_layer_ratios = []
-    pk_layer_ratios = []
-    
-    for idx, row in sub_df.iterrows():
-        # Main layer (Core layer)の割合
-        total_main = row['canonical_bp_in_main_layer'] + row['non_canonical_bp_in_main_layer']
-        if total_main > 0:
-            main_ratio = row['non_canonical_bp_in_main_layer'] / total_main
-            main_layer_ratios.append(main_ratio)
-        
-        # Pseudoknot layerの割合（multilayer構造のみ）
-        if multilayer_only or row['num_of_layers'] > 1:
-            total_pk = row['canonical_bp_in_pk_layer'] + row['non_canonical_bp_in_pk_layer']
-            if total_pk > 0:
-                pk_ratio = row['non_canonical_bp_in_pk_layer'] / total_pk
-                pk_layer_ratios.append(pk_ratio)
-    
-    # Box plotのデータ準備
-    plot_data = []
-    labels = []
-    
-    if main_layer_ratios:
-        plot_data.append(main_layer_ratios)
-        labels.append('Core Layer')
-    
-    if pk_layer_ratios:
-        plot_data.append(pk_layer_ratios)
-        labels.append('Pseudoknot Layer')
-    
-    if not plot_data:
-        print(f"No valid data for box plot: {parser} ({variant}, {layer_type})")
-        return
-    
-    # Box plot作成
-    plt.figure(figsize=(8, 6))
-    box_plot = plt.boxplot(plot_data, labels=labels, patch_artist=True)
-    
-    # 色の設定
-    colors = ['lightblue', 'lightcoral']
-    for patch, color in zip(box_plot['boxes'], colors[:len(plot_data)]):
-        patch.set_facecolor(color)
-    
-    # 中央線（median）の色を黒に設定
-    for median in box_plot['medians']:
-        median.set_color('black')
-        median.set_linewidth(2)
-    
-    # 平均値を計算して表示
-    for i, data in enumerate(plot_data):
-        mean_val = np.mean(data)
-        plt.scatter(i + 1, mean_val, color='red', marker='D', s=15, zorder=5, label='Mean' if i == 0 else "")
-        plt.text(i + 1, mean_val + 0.02, f'{mean_val:.3f}', ha='center', va='bottom', fontweight='bold', color='red')
-    
-    # 凡例を追加（平均値用）
-    plt.legend(loc='upper right')
-    
-    plt.ylabel('Non-canonical Base Pair Ratio')
-    
-    # タイトルにエントリ数を追加
-    entry_counts = [len(data) for data in plot_data]
-    entry_info = ", ".join([f"{labels[i]}: {count}" for i, count in enumerate(entry_counts)])
-    plt.title(f'{parser.upper()} Non-canonical BP Ratio ({variant}, {layer_type})\nEntries - {entry_info}')
-    
-    plt.ylim(0, 1)
-    plt.grid(True, alpha=0.3)
-    plt.tight_layout()
-    
-    # ファイル名生成と保存
-    multilayer_suffix = "multilayer" if multilayer_only else "including_singlelayer"
-    fn = f'boxplot_noncanonical_ratio_{multilayer_suffix}_{variant}.png'
-    plt.savefig(os.path.join(output_dir, parser, fn))
-    print(f"Saved box plot for {parser} ({variant}, {layer_type}) to {output_dir / parser / fn}")
-    print(f"  Core Layer: {len(main_layer_ratios)} structures")
-    print(f"  Pseudoknot Layer: {len(pk_layer_ratios)} structures")
-    plt.close()
-
-def create_weighted_pie_charts(df, parser, variant, multilayer_only=False):
-    """
-    塩基対数ベースの重み付けでpie chartを作成
-    （構造の大きさに比例した重み付け）
-    
-    Args:
-        df: DataFrame with the analysis data
-        parser: Parser name (rnaview or dssr)
-        variant: Variant name (canonical_only or all)
-        multilayer_only: If True, include only multilayer structures; if False, include all structures
-    """
-    # データフィルタリング
-    if multilayer_only:
-        sub_df = df[df['is_multilayer'] == True].copy()
-        layer_type = "Multilayer"
-    else:
-        sub_df = df.copy()
-        layer_type = "All structures"
-    
-    if len(sub_df) == 0:
-        print(f"No data available for weighted pie chart: {parser} ({variant}, {layer_type})")
-        return
-    
-    # 塩基対数ベースで重み付けして計算
-    mainlayer_counts = pd.Series({
-        'Canonical': sub_df['canonical_bp_in_main_layer'].sum(),
-        'Non-Canonical': sub_df['non_canonical_bp_in_main_layer'].sum()
-    })
-    
-    pseudoknotlayer_counts = pd.Series({
-        'Canonical': sub_df['canonical_bp_in_pk_layer'].sum(),
-        'Non-Canonical': sub_df['non_canonical_bp_in_pk_layer'].sum()
-    })
-    
-    # 各レイヤーのpie chartを作成
-    for counts, title in zip(
-        [mainlayer_counts, pseudoknotlayer_counts],
-        ['MainLayer', 'PseudoknotLayer']
-    ):
-        # データが存在する場合のみプロット
-        if counts.sum() > 0:
-            plt.figure()
-            counts.plot.pie(
-                autopct='%1.1f%%',
-                labels=['Canonical', 'Non-Canonical'],
-                startangle=90,
-                title=f'{title} {parser.upper()} ({layer_type}) - Weighted by BP count\nTotal BPs: {int(counts.sum())}'
-            )
-            plt.ylabel('')
-            plt.tight_layout()
-            
-            multilayer_suffix = "multilayer" if multilayer_only else "including_singlelayer"
-            fn = f'pie_weighted_{title}_{multilayer_suffix}_{variant}.png'
-            plt.savefig(os.path.join(output_dir, parser, fn))
-            print(f"Saved weighted pie chart for {parser} ({variant}, {layer_type}, {title}) to {output_dir / parser / fn}")
-            print(f"  Total BPs: {int(counts.sum())}, Canonical: {counts['Canonical']}, Non-Canonical: {counts['Non-Canonical']}")
-            plt.close()
-        else:
-            print(f"No base pairs found for {title} in {parser} ({variant}, {layer_type})")
-
-
 for parser in parsers:
     for variant in ['canonical_only', 'all']:
 
@@ -293,22 +132,16 @@ for parser in parsers:
             df['is_multilayer'] = df["num_of_layers"] > 1 # 元々 multilayer かどうかの場合分けで、2 通り plotting
             print(f"number of multilayer structures: {df['is_multilayer'].sum()} out of {len(df)} total structures, for {parser} ({variant})")
 
-            # Box plot for non-canonical ratios
-            create_noncanonical_ratio_boxplot(df, parser, variant, multilayer_only=True)
-            create_noncanonical_ratio_boxplot(df, parser, variant, multilayer_only=False)
-
-            # Weighted pie charts (新しく追加)
-            create_weighted_pie_charts(df, parser, variant, multilayer_only=True)
-            create_weighted_pie_charts(df, parser, variant, multilayer_only=False)
-
             for multilayer in [True, False]:
                 if multilayer:
                     sub = df[df['is_multilayer'] == multilayer]
                 else:
                     sub = df
+                can_bp_mainlayer = sub['canonical_bp_in_main_layer'] > 0
+                non_can_bp_mainlayer = sub['non_canonical_bp_in_main_layer'] > 0
                 mainlayer_counts = pd.Series({
-                    'Canonical': sub['canonical_bp_in_main_layer'].sum(),
-                    'Non-Canonical': sub['non_canonical_bp_in_main_layer'].sum()
+                    'Canonical': can_bp_mainlayer.sum(),
+                    'Non-Canonical': non_can_bp_mainlayer.sum()
                 })
                 pseudoknotlayer_counts = pd.Series({
                     'Canonical': sub['canonical_bp_in_pk_layer'].sum(),
