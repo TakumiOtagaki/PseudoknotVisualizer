@@ -72,6 +72,9 @@ def main():
     
     # 結果をCSVファイルに保存
     output_file = Path("analysis/datasets/filtered_multilayer_entries.csv")
+    # pdb_id は PDB_ で始まることがあるのでまずそれを処理する
+    result_df['pdb_id'] = result_df['pdb_id'].str.replace('^PDB_', '', regex=True)
+    result_df['pdb_id'] = result_df['pdb_id'].str.replace('0000', '', regex=True)
     # pdb_id は "_" で区切って先頭だけ出力することにする。
     result_df['pdb_id'] = result_df['pdb_id'].str.split('_').str[0]
     result_df.to_csv(output_file, index=False, header=False)
