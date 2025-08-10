@@ -326,11 +326,13 @@ def main():
             ax.tick_params(top=False, right=False)
             ax.spines['top'].set_visible(False)
             ax.spines['right'].set_visible(False)
+            ax.tick_params(which='both', top=False, right=False)
+            ax.minorticks_off()  # minor を完全にオフ
             ax.set_xlabel('Pseudoknot Layer Count', fontsize=13)
-            ax.set_xticks([int(x) for x in range(freq.index.max() + 1)])
-            ax.set_xticklabels([int(x) for x in (range(freq.index.max() + 1))], rotation=0 , fontsize=12)
+            ax.set_xticks([int(x) for x in range(freq.index.max())])
+            ax.set_xticklabels([int(x) for x in (range(freq.index.max()))], rotation=0 , fontsize=12)
             ax.tick_params(axis='y', labelsize=12)
-            ax.set_xlim(-0.6, freq.index.max()+0.6)
+            ax.set_xlim(-0.6, freq.index.max()+0.3)
             plt.ylabel('Frequency', fontsize=13)
             # 累積度数ライン（同じ y 軸: 正規化なので 0→1）
             ax.plot(cumulative.index - 1, cumulative.values, color='gray', marker='o', linewidth=1.2, markersize=5, label='Cumulative', linestyle='--')
