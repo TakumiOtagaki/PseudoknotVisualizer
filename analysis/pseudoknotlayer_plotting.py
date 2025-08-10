@@ -131,13 +131,21 @@ def plot_non_canonical_ratio_box(
     for b, fc in zip(box['boxes'], fills):
         b.set(facecolor=fc, edgecolor='0.25', linewidth=1.2)
 
+    # 平均値（mean）は視認性を高めるため黒のダイヤマーカーで表示 (凡例付き)
     means = [s.mean() for s in series_list]
-    ax.scatter(range(1, len(series_list) + 1), means, marker='o', s=22, c='0.1', zorder=3)
+    for i, m in enumerate(means, start=1):
+        ax.plot(i, m, marker='D', markersize=6, color='black', markeredgecolor='white', markeredgewidth=0.5, label='Mean' if i == 1 else None, zorder=4)
+        ax.text(i + 0.18, m, f"{m:.2f}", va='center', ha='left', fontsize=7, color='0.25')
 
+    # 既存の散布図（個々のデータ点）
     rng = np.random.default_rng(seed)
     for i, s in enumerate(series_list, start=1):
         x = np.full(len(s), i, dtype=float) + rng.uniform(-0.06, 0.06, size=len(s))
         ax.scatter(x, s.values, s=6, c='0.2', alpha=0.12, linewidth=0, zorder=1)
+
+    # 凡例（Mean のみ）
+    if len(series_list) > 0:
+        ax.legend(frameon=False, fontsize=8, loc='upper left')
 
     ax.set_xticks(range(1, len(series_list) + 1))
     ax.set_xticklabels(xticklabels)
@@ -169,14 +177,13 @@ def plot_non_canonical_ratio_box(
                     ha='center', va='bottom', fontsize=9)
 
     # タイトル分の余白を確保
-    fig.tight_layout(rect=[0.0, 0.0, 1.0, 0.97])
+    fig.tight_layout(rect=(0.0, 0.0, 1.0, 0.97))
 
     # ---- 保存：PNG ----
     outdir = (output_dir / parser)
     outdir.mkdir(parents=True, exist_ok=True)
     base = outdir / f"box_noncanonical_ratio_core_vs_pseudoknot_{variant}"
-    # fig.savefig(base.with_suffix(".png"), dpi=600, bbox_inches='tight')
-    fig.savefig(base.with_suffix(".png"), dpi=600, bbox_inches='tight', transparent=True)
+    fig.savefig(str(base.with_suffix(".png")), dpi=600, bbox_inches='tight', transparent=True)
     plt.close(fig)
     print(f"Saved PNG: {base.with_suffix('.png')}")
     return base.with_suffix(".png")
