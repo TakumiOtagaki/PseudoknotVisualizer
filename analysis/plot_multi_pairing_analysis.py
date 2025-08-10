@@ -202,6 +202,63 @@ def create_duplicate_analysis(df, output_dir):
     print(f"Saved: {output_dir / fn}")
     plt.close()
 
+def box_plot_dimensions(df, output_dir):
+    """Core layer (layer_id=0) と Pseudoknot layer (layer_id>0) の non-canonical BP ratio の箱ひげ図を作成。
+
+    比率定義:
+      Core layer: non_canonical_bp_in_main_layer / (canonical_bp_in_main_layer + non_canonical_bp_in_main_layer)
+      Pseudoknot layer: (Σ chains non_canonical_bp_in_pk_layer) / (Σ chains total_bp_in_pk_layer)
+      （本スクリプトでは pk 層は既に chain を合計済みの集計値として与えられている前提）
+    """
+    # 総数計算
+    core_total = df['canonical_bp_in_main_layer'] + df['non_canonical_bp_in_main_layer']
+    pk_total = df['canonical_bp_in_pk_layer'] + df['non_canonical_bp_in_pk_layer']
+
+    # コア層比率（0除外）
+    core_mask = core_total > 0
+    core_ratio = (df.loc[core_mask, 'non_canonical_bp_in_main_layer'] / core_total[core_mask]).rename('Core Layer')
+
+    # PK層比率（レイヤー数>1 かつ pk_total>0）
+    pk_mask = (df['num_of_layers'] > 1) & (pk_total > 0)
+    pk_ratio = (df.loc[pk_mask, 'non_canonical_bp_in_pk_layer'] / pk_total[pk_mask]).rename('Pseudoknot Layer')
+
+    if len(core_ratio) == 0 and len(pk_ratio) == 0:
+        print("[box_plot_dimensions] 有効なデータがありません (全ての層で塩基対数が 0)")
+        return
+
+    # 箱ひげ図描画
+    plt.figure(figsize=(6, 6))
+    data = [core_ratio.dropna(), pk_ratio.dropna()]
+    labels = ['Core Layer', 'Pseudoknot Layer']
+
+    # 箱ひげ図
+    box = plt.boxplot(data, labels=labels, patch_artist=True, widths=0.5, showfliers=False)
+
+    colors = ['#1f77b4', '#d62728']  # Core: blue, PK: red
+    for patch, color in zip(box['boxes'], colors):
+        patch.set(facecolor=color, alpha=0.5)
+        patch.set(linewidth=1.5)
+    for median in box['medians']:
+        median.set(color='black', linewidth=1.5)
+
+    # 個別点（ジッター）
+    for i, series in enumerate(data, start=1):
+        if len(series) == 0:
+            continue
+        x_jitter = (0.08 * (pd.Series(range(len(series))).rank(method='first') % 5 - 2)) / 5.0
+        plt.scatter([i] * len(series) + x_jitter, series, alpha=0.5, s=25, color=colors[i-1], edgecolors='black', linewidths=0.3)
+
+    plt.ylabel('Non-Canonical Base Pair Ratio')
+    plt.ylim(-0.02, 1.02)
+    plt.title('Non-Canonical BP Ratio per Layer Type')
+    plt.grid(axis='y', alpha=0.3, linestyle='--')
+    plt.tight_layout()
+
+    fn = 'box_noncanonical_ratio_core_vs_pseudoknot_.png'
+    plt.savefig(output_dir / fn, dpi=300)
+    print(f"Saved: {output_dir / fn} (Core n={len(core_ratio)}, PK n={len(pk_ratio)})")
+    plt.close()
+
 def main():
     """メイン実行関数"""
     print("🎨 Multi Base Pairing Entries 可視化スクリプト")
@@ -237,7 +294,7 @@ def main():
     # 3. 重複canonical塩基対分析
     create_duplicate_analysis(df, output_dir)
 
-    # 4. 箱ひげ図（レイヤー数ごとの塩基対数）
+    # 4. 箱ひげ図（レイヤー数ごとの塩基対数 -> 非canonical比率）
     box_plot_dimensions(df, output_dir)
     
     # 統計サマリー出力
@@ -254,11 +311,8 @@ def main():
     
     print(f"\n✅ 全てのグラフが {output_dir} に保存されました")
 
-def box_plot_non_canonical_ratio(df, output_dir):
-    """レイヤーごと(Main layer or Pseudoknot layer) の非canonical塩基対比率の箱ひげ図を作成"""
-    plt.figure(figsize=(10, 6))
-    df['non_canonical_ratio_main'] = df['non_canonical_bp_in_main_layer'] / df['total_bp_count']
-    df['non_canonical_ratio_pk'] = df['non_canonical_bp_in_pk_layer'] / df['total_bp_count']
-    
+# 既存の未使用プレースホルダ関数は残すか用途変更する場合はここで更新可能
+# def box_plot_non_canonical_ratio(...): # 不使用のため未実装のまま保持
+
 if __name__ == "__main__":
     main()

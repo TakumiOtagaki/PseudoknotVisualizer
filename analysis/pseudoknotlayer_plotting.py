@@ -6,27 +6,29 @@ import matplotlib.pyplot as plt
 import matplotlib.font_manager as fm
 from pathlib import Path
 from collections import defaultdict
+from scipy.stats import mannwhitneyu
+import numpy as np
+from matplotlib.ticker import MultipleLocator, FormatStrFormatter
 
 # 設定
 parsers = ['rnaview', 'dssr']
 base_dir = Path('analysis')
-output_dir = Path('analysis/graphs')
+output_dir = Path('analysis/graphs/0810')
+os.makedirs(output_dir, exist_ok=True)  # 出力ディレクトリを作成
+os.makedirs(output_dir / 'rnaview', exist_ok=True)  # rnaview 用のサブディレクトリ
+os.makedirs(output_dir / 'dssr', exist_ok=True)  # dssr
 
 # フォント設定の改善
 def setup_fonts():
     """利用可能なフォントを確認して設定"""
     available_fonts = [f.name for f in fm.fontManager.ttflist]
-    
-    # 優先フォント候補
     preferred_fonts = ['Times New Roman', 'Times', 'Liberation Serif', 'DejaVu Serif', 'serif']
-    
     for font in preferred_fonts:
         if font in available_fonts:
             plt.rcParams['font.family'] = font
             print(f"Using font: {font}")
             break
     else:
-        # フォールバック: デフォルトのserifフォント
         plt.rcParams['font.family'] = 'serif'
         print("Using default serif font")
 
@@ -51,6 +53,12 @@ plt.rcParams["ytick.minor.visible"] = True  #y軸補助目盛りの追加
 plt.rcParams['xtick.top'] = True  #x軸の上部目盛り
 plt.rcParams['ytick.right'] = True  #y軸の右部目盛り
 
+plt.rcParams.update({
+    "font.size": 9,
+    "axes.spines.top": False,
+    "axes.spines.right": False,
+})
+
 
 #軸大きさ
 #plt.rcParams["xtick.major.width"] = 1.0             #x軸主目盛り線の線幅
@@ -69,6 +77,107 @@ plt.rcParams["legend.fancybox"] = False  # 丸角OFF
 plt.rcParams["legend.framealpha"] = 1  # 透明度の指定、0で塗りつぶしなし
 plt.rcParams["legend.edgecolor"] = 'black'  # edgeの色を変更
 plt.rcParams["legend.markerscale"] = 5 #markerサイズの倍率
+
+
+def plot_non_canonical_ratio_box(
+    df: pd.DataFrame,
+    parser: str,
+    variant: str,
+    output_dir: Path = Path("figs"),
+    seed: int = 0,
+    add_stats: bool = True,
+    save_pdf: bool = True,
+    save_png: bool = True,
+):
+    """
+    Core layer / Pseudoknot layer の non-canonical 比率の箱ひげ図（モノクロ、論文向け）。
+    - 平均は小さな点で表示（凡例なし）
+    - y=0..1、主要目盛は 0.2 間隔
+    - （オプション）Mann–Whitney U の p値 と Cliff's δ を上部に注記
+    """
+    # ---- データ整形 ----
+    core_total = df['canonical_bp_in_main_layer'] + df['non_canonical_bp_in_main_layer']
+    pk_total   = df['canonical_bp_in_pk_layer']  + df['non_canonical_bp_in_pk_layer']
+
+    core_mask = core_total > 0
+    core_ratio = (df.loc[core_mask, 'non_canonical_bp_in_main_layer'] / core_total[core_mask]).dropna()
+
+    pk_mask = (df['num_of_layers'] > 1) & (pk_total > 0)
+    pk_ratio = (df.loc[pk_mask, 'non_canonical_bp_in_pk_layer'] / pk_total[pk_mask]).dropna()
+
+    if core_ratio.empty and pk_ratio.empty:
+        print(f"[plot_non_canonical_ratio_box] 有効データなし ({parser}, {variant})")
+        return None
+
+    series_list = []
+    xticklabels = []
+    if not core_ratio.empty:
+        series_list.append(core_ratio)
+        xticklabels.append(f"Core (n={len(core_ratio)})")
+    if not pk_ratio.empty:
+        series_list.append(pk_ratio)
+        xticklabels.append(f"Pseudoknot (n={len(pk_ratio)})")
+
+    # ---- 作図 ----
+    fig, ax = plt.subplots(figsize=(3.35, 2.8))  # 1カラム幅想定：~85–90 mm
+
+    # グリッドはyのみ薄く
+    ax.grid(axis='y', linestyle=(0, (2, 3)), linewidth=0.8, alpha=0.45)
+    ax.set_axisbelow(True)
+
+    # 箱ひげ（モノクロ、外れ値は表示しない：散布に任せる）
+    box = ax.boxplot(
+        series_list,
+        widths=0.5,
+        patch_artist=True,
+        showfliers=False,
+        medianprops={'color': '0.1', 'linewidth': 1.6},
+    )
+    fills = ['0.80', '0.65'][:len(series_list)]
+    for b, fc in zip(box['boxes'], fills):
+        b.set(facecolor=fc, edgecolor='0.25', linewidth=1.2)
+
+    # 平均（小さな黒点）
+    means = [s.mean() for s in series_list]
+    ax.scatter(range(1, len(series_list) + 1), means, marker='o', s=22, c='0.1', zorder=3)
+
+    # ごく薄いジッター散布（分布の厚みだけ伝える）
+    rng = np.random.default_rng(seed)
+    for i, s in enumerate(series_list, start=1):
+        x = np.full(len(s), i, dtype=float) + rng.uniform(-0.06, 0.06, size=len(s))
+        ax.scatter(x, s.values, s=6, c='0.2', alpha=0.12, linewidths=0, zorder=1)
+
+    # 軸・ラベル
+    ax.set_xticks(range(1, len(series_list) + 1))
+    ax.set_xticklabels(xticklabels)
+    ax.set_ylabel('Non-canonical base-pair ratio')
+    ax.set_ylim(0, 1)
+    ax.yaxis.set_major_locator(MultipleLocator(0.2))
+    ax.yaxis.set_major_formatter(FormatStrFormatter('%.1f'))
+    ax.set_title('Non-canonical base-pair ratio by layer', fontsize=11, pad=6)
+
+    # ---- 統計（任意） ----
+    if add_stats and mannwhitneyu is not None and len(series_list) == 2:
+        a, b = series_list
+        if len(a) > 0 and len(b) > 0:
+            u, p = mannwhitneyu(a, b, alternative='two-sided')
+            n, m = len(a), len(b)
+            delta = 2 * u / (n * m) - 1  # Cliff's δ を U から算出
+            y_top = min(0.98, max(a.max(), b.max()) + 0.08)
+            ax.plot([1, 1, 2, 2], [y_top - 0.02, y_top, y_top, y_top - 0.02], c='0.2', lw=1)
+            ax.text(1.5, y_top + 0.01, f"MWU p={p:.2e}, δ={delta:.2f}",
+                    ha='center', va='bottom', fontsize=9)
+
+    fig.tight_layout()
+
+    # ---- 保存 ----
+    outdir = (output_dir / parser)
+    outdir.mkdir(parents=True, exist_ok=True)
+    base = outdir / f"box_noncanonical_ratio_core_vs_pseudoknot_{variant}"
+    plt.savefig(base.with_suffix(".pdf"), bbox_inches='tight')
+    plt.close(fig)
+
+    return base.with_suffix(".png")
 
 
 # 出力先ディレクトリ作成
@@ -153,12 +262,15 @@ for parser in parsers:
                     ['MainLayer', 'PseudoknotLayer']
                 ):
                     plt.figure()
-                    counts.plot.pie(
-                        autopct='%1.1f%%',
+                    # pandas の型チェッカ回避のため plt.pie を直接使用
+                    values = counts.values
+                    plt.pie(
+                        values,
                         labels=['Canonical', 'Non-Canonical'],
-                        startangle=90,
-                        title=f'{title} {parser} {"Multilayer" if multilayer else "Single-layer"} '
+                        autopct='%1.1f%%',
+                        startangle=90
                     )
+                    plt.title(f'{title} {parser} {"Multilayer" if multilayer else "Single-layer"} ')
                     plt.ylabel('')
                     plt.tight_layout()
                     fn = f'pie_{title}{"multilayer" if multilayer else "including_singlelayer"}_{variant}.png'
@@ -187,3 +299,5 @@ for parser in parsers:
         plt.savefig(os.path.join(output_dir, parser, fn))
         print(f"Saved bar graph for {parser} ({variant}) to {output_dir / parser / fn}")
         plt.close()
+        # 追加呼び出し: non-canonical 比率箱ひげ図
+        plot_non_canonical_ratio_box(df, parser, variant)
