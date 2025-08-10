@@ -236,6 +236,9 @@ def main():
     
     # 3. 重複canonical塩基対分析
     create_duplicate_analysis(df, output_dir)
+
+    # 4. 箱ひげ図（レイヤー数ごとの塩基対数）
+    box_plot_dimensions(df, output_dir)
     
     # 統計サマリー出力
     print("\n📈 統計サマリー")
@@ -251,5 +254,11 @@ def main():
     
     print(f"\n✅ 全てのグラフが {output_dir} に保存されました")
 
+def box_plot_non_canonical_ratio(df, output_dir):
+    """レイヤーごと(Main layer or Pseudoknot layer) の非canonical塩基対比率の箱ひげ図を作成"""
+    plt.figure(figsize=(10, 6))
+    df['non_canonical_ratio_main'] = df['non_canonical_bp_in_main_layer'] / df['total_bp_count']
+    df['non_canonical_ratio_pk'] = df['non_canonical_bp_in_pk_layer'] / df['total_bp_count']
+    
 if __name__ == "__main__":
     main()
