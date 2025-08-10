@@ -322,6 +322,10 @@ def main():
             cumulative = freq.cumsum()
             plt.figure()
             ax = freq.plot.bar(color="orange", alpha=0.85, width=0.8)
+            # 上・右の目盛り線/スパイン不要化
+            ax.tick_params(top=False, right=False)
+            ax.spines['top'].set_visible(False)
+            ax.spines['right'].set_visible(False)
             ax.set_xlabel('Pseudoknot Layer Count', fontsize=13)
             ax.set_xticks([int(x) for x in range(freq.index.max() + 1)])
             ax.set_xticklabels([int(x) for x in (range(freq.index.max() + 1))], rotation=0 , fontsize=12)
