@@ -83,17 +83,15 @@ def plot_non_canonical_ratio_box(
     df: pd.DataFrame,
     parser: str,
     variant: str,
-    output_dir: Path = Path("figs"),
+    output_dir: Path = Path("analysis/graphs/0810"),
     seed: int = 0,
     add_stats: bool = True,
-    save_pdf: bool = True,
-    save_png: bool = True,
 ):
     """
-    Core layer / Pseudoknot layer の non-canonical 比率の箱ひげ図（モノクロ、論文向け）。
+    Core / Pseudoknot の非カノニカルBP比率の箱ひげ図（モノクロ、論文向け）。
     - 平均は小さな点で表示（凡例なし）
-    - y=0..1、主要目盛は 0.2 間隔
-    - （オプション）Mann–Whitney U の p値 と Cliff's δ を上部に注記
+    - y=0..1（統計注記ありのときは少しだけ頭上に余白）
+    - （任意）Mann–Whitney U の p値 と Cliff's δ を上部に注記
     """
     # ---- データ整形 ----
     core_total = df['canonical_bp_in_main_layer'] + df['non_canonical_bp_in_main_layer']
@@ -109,8 +107,7 @@ def plot_non_canonical_ratio_box(
         print(f"[plot_non_canonical_ratio_box] 有効データなし ({parser}, {variant})")
         return None
 
-    series_list = []
-    xticklabels = []
+    series_list, xticklabels = [], []
     if not core_ratio.empty:
         series_list.append(core_ratio)
         xticklabels.append(f"Core (n={len(core_ratio)})")
@@ -119,13 +116,10 @@ def plot_non_canonical_ratio_box(
         xticklabels.append(f"Pseudoknot (n={len(pk_ratio)})")
 
     # ---- 作図 ----
-    fig, ax = plt.subplots(figsize=(3.35, 2.8))  # 1カラム幅想定：~85–90 mm
-
-    # グリッドはyのみ薄く
+    fig, ax = plt.subplots(figsize=(3.35, 3.1))  # 1カラム幅想定
     ax.grid(axis='y', linestyle=(0, (2, 3)), linewidth=0.8, alpha=0.45)
     ax.set_axisbelow(True)
 
-    # 箱ひげ（モノクロ、外れ値は表示しない：散布に任せる）
     box = ax.boxplot(
         series_list,
         widths=0.5,
@@ -137,21 +131,23 @@ def plot_non_canonical_ratio_box(
     for b, fc in zip(box['boxes'], fills):
         b.set(facecolor=fc, edgecolor='0.25', linewidth=1.2)
 
-    # 平均（小さな黒点）
     means = [s.mean() for s in series_list]
     ax.scatter(range(1, len(series_list) + 1), means, marker='o', s=22, c='0.1', zorder=3)
 
-    # ごく薄いジッター散布（分布の厚みだけ伝える）
     rng = np.random.default_rng(seed)
     for i, s in enumerate(series_list, start=1):
         x = np.full(len(s), i, dtype=float) + rng.uniform(-0.06, 0.06, size=len(s))
-        ax.scatter(x, s.values, s=6, c='0.2', alpha=0.12, linewidths=0, zorder=1)
+        ax.scatter(x, s.values, s=6, c='0.2', alpha=0.12, linewidth=0, zorder=1)
 
-    # 軸・ラベル
     ax.set_xticks(range(1, len(series_list) + 1))
     ax.set_xticklabels(xticklabels)
     ax.set_ylabel('Non-canonical base-pair ratio')
-    ax.set_ylim(0, 1)
+
+    # ▼ タイトルと注記がかぶらないよう headroom を確保
+    y_upper = 1.0
+    if add_stats and len(series_list) == 2:
+        y_upper = 1.06  # ちょい上に余白
+    ax.set_ylim(0, y_upper)
     ax.yaxis.set_major_locator(MultipleLocator(0.2))
     ax.yaxis.set_major_formatter(FormatStrFormatter('%.1f'))
     ax.set_title('Non-canonical base-pair ratio by layer', fontsize=11, pad=6)
@@ -162,23 +158,28 @@ def plot_non_canonical_ratio_box(
         if len(a) > 0 and len(b) > 0:
             u, p = mannwhitneyu(a, b, alternative='two-sided')
             n, m = len(a), len(b)
-            delta = 2 * u / (n * m) - 1  # Cliff's δ を U から算出
-            y_top = min(0.98, max(a.max(), b.max()) + 0.08)
-            ax.plot([1, 1, 2, 2], [y_top - 0.02, y_top, y_top, y_top - 0.02], c='0.2', lw=1)
-            ax.text(1.5, y_top + 0.01, f"MWU p={p:.2e}, δ={delta:.2f}",
+            delta = 2 * u / (n * m) - 1  # Cliff's δ
+
+            # 図の最上部から一定マージンを切って固定配置（タイトルと衝突しない）
+            y_top = y_upper - 0.035
+            ax.plot([1, 1, 2, 2],
+                    [y_top - 0.015, y_top, y_top, y_top - 0.015],
+                    c='0.2', lw=1)
+            ax.text(1.5, y_top + 0.004, f"MWU p={p:.2e}, δ={delta:.2f}",
                     ha='center', va='bottom', fontsize=9)
 
-    fig.tight_layout()
+    # タイトル分の余白を確保
+    fig.tight_layout(rect=[0.0, 0.0, 1.0, 0.97])
 
-    # ---- 保存 ----
+    # ---- 保存：PNG ----
     outdir = (output_dir / parser)
     outdir.mkdir(parents=True, exist_ok=True)
     base = outdir / f"box_noncanonical_ratio_core_vs_pseudoknot_{variant}"
-    plt.savefig(base.with_suffix(".pdf"), bbox_inches='tight')
+    # fig.savefig(base.with_suffix(".png"), dpi=600, bbox_inches='tight')
+    fig.savefig(base.with_suffix(".png"), dpi=600, bbox_inches='tight', transparent=True)
     plt.close(fig)
-
+    print(f"Saved PNG: {base.with_suffix('.png')}")
     return base.with_suffix(".png")
-
 
 # 出力先ディレクトリ作成
 for parser in parsers:
