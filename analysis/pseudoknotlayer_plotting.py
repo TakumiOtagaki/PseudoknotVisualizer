@@ -320,16 +320,17 @@ def main():
             freq = df['num_of_layers'].value_counts(normalize=True).sort_index()
             plt.figure()
             ax = freq.plot.bar( color = "orange")
-            ax.set_xlabel('Pseudoknot Layer Count')
+            ax.set_xlabel('Pseudoknot Layer Count', fontsize=13)
             ax.set_xticks([int(x) for x in range(freq.index.max() + 1)])
-            ax.set_xticklabels([int(x) for x in (range(freq.index.max() + 1))], rotation=0  )
+            ax.set_xticklabels([int(x) for x in (range(freq.index.max() + 1))], rotation=0 , fontsize=12)
+            ax.tick_params(axis='y', labelsize=12)
             
             ax.set_xlim(-1, freq.index.max()+1)  # x 軸の範囲を 0 から最大値に設定
             # plt.xlim(0, 10)
-            plt.ylabel('Frequency')
+            plt.ylabel('Frequency', fontsize=13)
             # y の表示領域を 0 から 0.7 に固定
             plt.ylim(0, 0.7)
-            plt.title(f'{parser} Pseudoknot Layers ({variant})')
+            plt.title(f'{parser} Pseudoknot Layers ({variant})', fontsize=15)
             plt.tight_layout()
             fn = f'bar_pseudoknot_layers_{variant}.png'
             plt.savefig(os.path.join(output_dir, parser, fn))
