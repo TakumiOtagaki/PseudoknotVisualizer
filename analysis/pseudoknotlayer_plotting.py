@@ -316,25 +316,33 @@ def main():
             else: 
                 pass
 
-            # (b) pseudoknot layer 数の頻度棒グラフ
-            freq = df['num_of_layers'].value_counts(normalize=True).sort_index()
+            # (b) pseudoknot layer 数の頻度棒グラフ + 累積度数ライン
+            freq_counts = df['num_of_layers'].value_counts().sort_index()
+            freq = (freq_counts / freq_counts.sum()).sort_index()
+            cumulative = freq.cumsum()
             plt.figure()
-            ax = freq.plot.bar( color = "orange")
+            ax = freq.plot.bar(color="orange", alpha=0.85, width=0.8)
             ax.set_xlabel('Pseudoknot Layer Count', fontsize=13)
             ax.set_xticks([int(x) for x in range(freq.index.max() + 1)])
             ax.set_xticklabels([int(x) for x in (range(freq.index.max() + 1))], rotation=0 , fontsize=12)
             ax.tick_params(axis='y', labelsize=12)
-            
-            ax.set_xlim(-1, freq.index.max()+1)  # x 軸の範囲を 0 から最大値に設定
-            # plt.xlim(0, 10)
+            ax.set_xlim(-0.6, freq.index.max()+0.6)
             plt.ylabel('Frequency', fontsize=13)
-            # y の表示領域を 0 から 0.7 に固定
-            plt.ylim(0, 0.7)
+            # 累積度数ライン（同じ y 軸: 正規化なので 0→1）
+            ax.plot(cumulative.index - 1, cumulative.values, color='gray', marker='o', linewidth=1.2, markersize=5, label='Cumulative', linestyle='--')
+            # 各累積点に軽く値を表示（上から重ねて）
+            for x, y in zip(cumulative.index, cumulative.values):
+                ax.text(x - 1, y + 0.02, f"{y:.2f}", ha='center', va='bottom', fontsize=8, color='black')
+            # y の表示領域（最大 1 を超えないように）
+            cum_max = float(cumulative.max()) if len(cumulative) else 0.0
+            top = max(0.7, cum_max)
+            ax.set_ylim(0, min(1.05, top + 0.08))
             plt.title(f'{parser} Pseudoknot Layers ({variant})', fontsize=15)
+            ax.legend(frameon=False, fontsize=9, loc='upper left', markerscale=1.0)
             plt.tight_layout()
             fn = f'bar_pseudoknot_layers_{variant}.png'
             plt.savefig(os.path.join(output_dir, parser, fn))
-            print(f"Saved bar graph for {parser} ({variant}) to {output_dir / parser / fn}")
+            print(f"Saved bar+cumulative graph for {parser} ({variant}) to {output_dir / parser / fn}")
             plt.close()
             # 追加呼び出し: non-canonical 比率箱ひげ
             plot_non_canonical_ratio_box(df, parser, variant, output_dir=output_dir / parser, show_mean=True)
