@@ -3,7 +3,7 @@ intermediate
 *.cif
 *.pdb
 .DS_Store
-RNAView/
+RNAView
 rebuttal/
 PseudoknotVisualizer_Photos/
 paper

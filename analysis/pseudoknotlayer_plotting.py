@@ -83,7 +83,7 @@ def plot_non_canonical_ratio_box(
     df: pd.DataFrame,
     parser: str,
     variant: str,
-    output_dir: Path = Path("analysis/graphs/0810"),
+    output_dir: Path,
     seed: int = 0,
     add_stats: bool = False,
     show_mean: bool = True,
@@ -203,14 +203,13 @@ def plot_non_canonical_ratio_box(
         ax.set_ylim(0, y_upper)
 
     # ---- 保存（PNG / 白背景） ----
-    outdir = (output_dir / parser)
+    outdir = output_dir
     outdir.mkdir(parents=True, exist_ok=True)
     base = outdir / f"box_noncanonical_ratio_core_vs_pseudoknot_{variant}"
     fig.savefig(base.with_suffix(".png"), dpi=600, bbox_inches='tight', transparent=False)
     plt.close(fig)
     print(f"Saved PNG: {base.with_suffix('.png')}")
     return base.with_suffix(".png")
-
 
 
 
@@ -337,7 +336,7 @@ def main():
             print(f"Saved bar graph for {parser} ({variant}) to {output_dir / parser / fn}")
             plt.close()
             # 追加呼び出し: non-canonical 比率箱ひげ
-            plot_non_canonical_ratio_box(df, parser, variant, show_mean=True)
+            plot_non_canonical_ratio_box(df, parser, variant, output_dir=output_dir / parser, show_mean=True)
 
 
 if __name__ == "__main__":
