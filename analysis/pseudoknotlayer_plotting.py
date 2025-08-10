@@ -128,7 +128,7 @@ def plot_non_canonical_ratio_box(
         widths=0.5,
         patch_artist=True,
         showfliers=False,  # 外れ値はジッター点に任せる
-        medianprops={'color': '0.1', 'linewidth': 1.6},
+        medianprops={'color': '0.1', 'linewidth': 1.0},
         whiskerprops={'linewidth': 1.2, 'color': '0.25'},
         capprops={'linewidth': 1.2, 'color': '0.25'},
     )
