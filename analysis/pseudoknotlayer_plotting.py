@@ -156,7 +156,7 @@ def plot_non_canonical_ratio_box(
         epsilon = 0.007
         for i, m in enumerate(means, start=1):
             y = min(m + epsilon, y1 - pad_y)  # 文字が上端をはみ出さないように
-            ax.annotate(f"{m:.2f}", (i, y),
+            ax.annotate(f"{m:.3f}", (i, y),
                         xytext=(6, 0), textcoords="offset points",  # 右に6ptずらす
                         ha='left', va='center', fontsize=7, color='0.25')
 
@@ -197,7 +197,7 @@ def plot_non_canonical_ratio_box(
             y_top = y_upper - 0.035  # 固定相対位置（タイトルと衝突しない）
             ax.plot([1, 1, 2, 2], [y_top - 0.015, y_top, y_top, y_top - 0.015],
                     c='0.2', lw=1)
-            ax.text(1.5, y_top + 0.004, f"MWU p={p:.2e}, δ={delta:.2f}",
+            ax.text(1.5, y_top + 0.004, f"MWU p={p:.2e}, δ={delta:.3f}",
                     ha='center', va='bottom', fontsize=9)
     else:
         ax.set_ylim(0, y_upper)
@@ -338,7 +338,7 @@ def main():
             ax.plot(cumulative.index - 1, cumulative.values, color='gray', marker='o', linewidth=1.2, markersize=5, label='Cumulative', linestyle='--')
             # 各累積点に軽く値を表示（上から重ねて）
             for x, y in zip(cumulative.index, cumulative.values):
-                ax.text(x - 1, y + 0.02, f"{y:.2f}", ha='center', va='bottom', fontsize=8, color='black')
+                ax.text(x - 1, y + 0.02, f"{y:.3f}", ha='center', va='bottom', fontsize=8, color='black')
             # y の表示領域（最大 1 を超えないように）
             cum_max = float(cumulative.max()) if len(cumulative) else 0.0
             top = max(0.7, cum_max)
