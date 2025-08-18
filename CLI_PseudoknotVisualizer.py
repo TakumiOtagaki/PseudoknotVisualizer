@@ -1,5 +1,5 @@
 from PseudoknotVisualizer import clear_intermediate_files, colors
-from coloring import CLI_coloring_canonical, load_colors_from_json
+from coloring import CLI_coloring_canonical, load_colors_from_json, get_color_for_depth
 from argparser import argparser, args_validation
 from analysis.parsers import raw_df_processing, filter_abnormal_pairs
 from config import RNAVIEW_DIR, RNAVIEW_EXEC, PseudoKnotVisualizer_DIR, INTERMEDIATE_DIR, DSSR_EXEC
@@ -60,7 +60,7 @@ def CLI_rnaview(struct_file, chain_id):
 
     print("rnaview done.")
     result_file = pathlib.Path(INTERMEDIATE_DIR) / (pathlib.Path(struct_file).name + ".out")
-    df = load_rnaview_data(result_file)
+    df = load_rnaview_data(str(result_file))
     return df
 
 def CLI_dssr(struct_file, chain_id):
@@ -85,20 +85,20 @@ def CLI_dssr(struct_file, chain_id):
         print(f"DSSR failed with return code: {result.returncode}")
         print(f"stdout: {result.stdout}")
         print(f"stderr: {result.stderr}")
-        return load_dssr_data(json_output_path)
+    return load_dssr_data(str(json_output_path))
 
     print("DSSR done.")
-    df = load_dssr_data(json_output_path)
+    df = load_dssr_data(str(json_output_path))
     return df
 
-def CLI_PseudoKnotVisualizer(pdb_file, chain_id, format, output_file, model_id, parser="RNAView"):
+def CLI_PseudoKnotVisualizer(pdb_file, chain_id, format, output_file, model_id, annotator="RNAView"):
     # パーサーの選択に応じてベースペアを抽出
-    if parser.upper() == "DSSR":
+    if annotator.upper() == "DSSR":
         raw_df = CLI_dssr(pdb_file, chain_id)
     
-    elif parser.upper() == "RNAVIEW":
+    elif annotator.upper() == "RNAVIEW":
         raw_df = CLI_rnaview(pdb_file, chain_id)
-    processed_df = raw_df_processing(raw_df, parser)
+    processed_df = raw_df_processing(raw_df, annotator)
     # remove abnormal pairs
     processed_df, abnormal_pairs, dup_canonical_pairs = filter_abnormal_pairs(processed_df)
     # print(f"Processed DataFrame:\n{processed_df.head()}")
@@ -108,7 +108,7 @@ def CLI_PseudoKnotVisualizer(pdb_file, chain_id, format, output_file, model_id, 
 
     with open(output_file, "w") as f:
         for depth, PKlayer in enumerate(PKlayers):
-            color = colors[str(depth + 1)]
+            color = get_color_for_depth(depth + 1, colors)
             script = CLI_coloring_canonical(pdb_id, model_id, chain_id, PKlayer, color, format)
             f.write(script)
 
@@ -122,7 +122,9 @@ def main():
     args_validation(args)
 
     print("PseudoKnotVisualizer started.")
-    CLI_PseudoKnotVisualizer(args.input, args.chain, args.format, args.output, args.model, args.parser)
+    # Backward compatibility: accept legacy --parser if present
+    annotator = getattr(args, 'annotator', None) or getattr(args, 'parser', 'RNAView')
+    CLI_PseudoKnotVisualizer(args.input, args.chain, args.format, args.output, args.model, annotator)
     print("PseudoKnotVisualizer finished: " + args.output)
 
 if __name__ == "__main__":

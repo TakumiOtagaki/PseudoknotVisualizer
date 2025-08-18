@@ -1,0 +1,5 @@
+pandas>=2.0
+numpy>=1.24
+biopython>=1.83
+# For CLI only, PyMOL is not required; for PyMOL extension usage install via conda:
+#   conda install -c conda-forge pymol-open-source
