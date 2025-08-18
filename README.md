@@ -25,13 +25,13 @@ This tool has two modes of use: CLI and GUI (using PyMOL).
 
 
 # How to Install
-## Prepairing "pymol" Conda Environment. (Recommended)
+## Preparing "pymol" Conda Environment (Recommended)
 ```
 conda create -n pymol python=3.11.0
 conda activate pymol
 conda install pandas numpy
 conda install -c conda-forge pymol-open-source
-pymol # pymol will get started.
+pymol # PyMOL will start.
 pip install -r requirements.txt
 ```
 Type `pymol` in conda pymol env, then open source PyMOL app will start.
@@ -39,7 +39,7 @@ Type `pymol` in conda pymol env, then open source PyMOL app will start.
 
 
 ## Installation of PseudoknotVisualizer
-### overview of the installation
+### Installation overview
 1. Clone this repository.
 2. Installation of RNAView or DSSR
 3. Rewrite or create `~/.pymolrc.py` in order to load the extension at startup automatically.
@@ -61,11 +61,11 @@ cd PseudoknotVisualizer
 #### Installation of RNAView
   
 You need to install [RNAView](https://github.com/rcsb/RNAView).
-There is an error around the installation of RNAView,
+Note: RNAView may have installation issues on very long path names. See Troubleshooting below.
 
 
 
-If you are installing PseudknotVisualizer in your home directory (recommended), the installation command is simple!
+If you are installing PseudoknotVisualizer in your home directory (recommended), the installation command is simple!
 The installation steps are basically as followings:
 ```sh
 git clone https://github.com/rcsb/RNAView.git
@@ -96,11 +96,10 @@ chmod +x /path/to/rnaview
 ```
 
 #### Installation of DSSR
-バイナリを得るまでに、
- - アカウント発行
- - 特定のページにいく
- - macbook, linux or windows を選択してダウンロード
- - DSSR/ に配置する
+Obtain the DSSR binary as follows:
+- Create an account and log in to the download page.
+- Choose the correct build for your OS (macOS, Linux, or Windows).
+- Download the binary and place it under `DSSR/` in this repository, or set `DSSR_EXEC` in `config.py` to your installed path (see below).
 
 The version we used is `v1.9.10-2020apr23`.  We recommend you to use the same version.
 
@@ -148,7 +147,7 @@ cmd.run( str(pathtoPKV /  "PseudoknotVisualizer.py"))
 
 
 Now, you can use our extension easily.
-After this step, the PseudoknotVisualizer extention will be automatically loaded when PyMOL starts.
+After this step, the PseudoknotVisualizer extension will be automatically loaded when PyMOL starts.
 
 ## Troubleshooting
 
@@ -212,6 +211,8 @@ fetch 1kpd
 pkv 1kpd
 # OR
 pkv sele  # if 1kpd is selected.
+# You can also choose the annotator explicitly (e.g., DSSR):
+pkv 1kpd, annotator=DSSR
 ```
 As you can see from this example, you can use "sele" to identify the model.
 
@@ -251,31 +252,34 @@ If the number of layers (pseudoknot order) is greater than 6, PseudoknotVisualiz
 
 To increase this limit beyond 6, simply add entries like "7": "another color".
 
+If PyMOL is already running when you change `colors.json`, restart PyMOL.
+
 # For CLI users
 After the installation (except for step 4), you can use our CLI.
 
 ## CLI Usage
 ```sh
-$ python 'PseudoknotVisualizer/CLI_PseudoknotVisualizer.py' --help
+$ python PseudoknotVisualizer/CLI_PseudoknotVisualizer.py --help
 
-usage: CLI_PseudoknotVisualizer.py [-h] -i INPUT -o OUTPUT -f {chimera,pymol} [-m MODEL] [-c CHAIN]
+usage: CLI_PseudoknotVisualizer.py [-h] -i INPUT -o OUTPUT -f {chimera,pymol} [-m MODEL] [-c CHAIN] [-p {DSSR,RNAView}]
 
 Visualize pseudoknots in RNA structure
 
 options:
   -h, --help            show this help message and exit
   -i INPUT, --input INPUT
-                        Input file containing RNA structure
+                        Input file containing RNA structure (.pdb or .cif)
   -o OUTPUT, --output OUTPUT
                         Output script file for visualization
   -f {chimera,pymol}, --format {chimera,pymol}
-                        Format of RNA structure (chimera or pymol)
+                        Output script format (chimera or pymol)
   -c CHAIN, --chain CHAIN
-                        Chain ID for RNA structure, default is A
+                        Chain ID (default: A)
+  -p {DSSR,RNAView}, --annotator {DSSR,RNAView}
+                        Base-pair annotator (default: RNAView)
 
 chimera options:
   Options specific to Chimera format
-
   -m MODEL, --model MODEL
                         Model ID (required if Chimera format is selected)
 ```
@@ -290,18 +294,22 @@ PDB file for 1kpd downloaded as ./1kpd.pdb
 Then, 1kpd.pdb is downloaded in current directory.
 
 ## Installation for CLI users
- 1.	Run
+ 1.  Create and activate an environment that includes the PyMOL Python module
     ```sh
-   	conda create -n pymol python=3.11
+  conda create -n pymol python=3.11
     conda activate pymol
+  conda install -c conda-forge pymol-open-source
     ```
-2.	Run
+2.  Install Python dependencies
   ```
   pip install -r requirements.txt
   ```
-3.	Complete steps 1 through 3 from the installation instructions above.
-
-4.	Execute the command `python CLI_PseudoknotVisualizer.py -i input.pdb [or input.cif] -o ...`
+3.  Install and configure one annotator (RNAView or DSSR)
+  - Install RNAView or DSSR and configure paths in `config.py` (see sections above).
+4.  Execute the CLI
+  ```sh
+  python PseudoknotVisualizer/CLI_PseudoknotVisualizer.py -i input.pdb -o out.txt -f pymol -c A --annotator RNAView
+  ```
 
 
 
@@ -314,12 +322,21 @@ python PseudoknotVisualizer/CLI_PseudoknotVisualizer.py \
   -c A \ # chain ID
   -f pymol \ # format: chimera or pymol
   # -m 0 # model ID in your viewer if you choose chimera format with -f option.
+  --annotator RNAView
+
+# Use DSSR annotator example
+python PseudoknotVisualizer/CLI_PseudoknotVisualizer.py \
+  -i test/1KPD.pdb \
+  -o test/coloring_1KPD.0.A.pymol.dssr.txt \
+  -c A \
+  -f pymol \
+  --annotator DSSR
 ```
 
 
-# Errors caused by the mismatch of pdb format 
+# Errors caused by PDB numbering mismatch 
 ## Case 1
-PseudoknotVisualizer can not color accurately the specified molecule when the sequence index in PyMOL viewer does not start with 1.
+PseudoknotVisualizer cannot color the specified molecule accurately when the residue numbering in PyMOL does not start at 1.
 If so, please check the sequence index (`your_start_index`) pushing "S" button and do as followings:
 ```sh
 select rna_chain, your_pdb_id and chain your_chain_id
@@ -335,7 +352,7 @@ Then, it will work.
 
 ### Update
 Now, PseudoKnotVisualizer can deal the molecule whose sequence index in PyMOL does not start with 1.
-In pymol command line, you can specify the `auto-renumber` flag (default: True):
+In the PyMOL command line, you can specify the `auto_renumber` flag (default: True):
 ```
 $ help pkv
 ...
