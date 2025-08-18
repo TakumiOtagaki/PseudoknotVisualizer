@@ -3,7 +3,7 @@ PseudoknotVisualizer is a **PyMOL Extension** for visualization that assigns **d
 <img src="https://github.com/TakumiOtagaki/PseudoknotVisualizer/blob/main/demo.png" alt="pymol_demo_6T3R" width="100%">
 
 # Overview
-This tool enables us to visually understand the RNA tertiary structures with pseudoknots.
+This tool helps you visually inspect the RNA tertiary structures with pseudoknots.
 This is essential for prediction of tertiary structures and selecting the best structure from the structure ensemble.
 
 For now, PseudoknotVisualizer treats only canonical base pairs(AU, GU, GC), however non-canonical pairs can be included or re-labeled in future updates.
@@ -156,7 +156,7 @@ Usage: pkv object [,chain_id]
  - non_precoloring(bool) [default: False]: If True, all atoms are not colored 'white' before coloring the base pairs.
 ```
 
-## Changing Colors (Optinal)
+## Changing Colors (Optional)
 If you want to change the color of each layer, modify PseudoknotVisualizer/colors.json. You can also add new lines.
 
 Make sure to update colors.json before launching PyMOL.
@@ -176,7 +176,7 @@ If the number of layers (pseudoknot order) is greater than 6, PseudoknotVisualiz
 
 To increase this limit beyond 6, simply add entries like "7": "another color".
 
-# For CLI user
+# For CLI users
 After the installation (except for step 4), you can use our CLI.
 
 ## CLI Usage
@@ -214,7 +214,7 @@ PDB file for 1kpd downloaded as ./1kpd.pdb
 ```
 Then, 1kpd.pdb is downloaded in current directory.
 
-## Installation for CLI user
+## Installation for CLI users
  1.	Run
     ```sh
    	conda create -n pymol python=3.11
@@ -270,11 +270,8 @@ $ help pkv
 
 Using this option, you can avoid the error around the non-ordinary sequence index.
 
-#### 20250530 update
- - Fixed an issue where, for certain entries (e.g., 1ehz), some base pairs detected by RNAView were not being colored.
-
-#### 20250716 update
- - DSSR に対応中...
+- 2025-05-30: Fixed an issue where some RNAView-detected pairs (e.g., 1ehz) were not colored.
+- 2025-07-16: Initial DSSR support in progress.
 
 # License
 This software is released under the MIT License.  
