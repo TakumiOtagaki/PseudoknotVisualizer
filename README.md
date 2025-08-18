@@ -149,9 +149,9 @@ Also you can get the details in the PyMOL command line using `help pkv`:
 pymol commandline$ help pkv
 PseudoKnotVisualizer: Visualize pseudoknot layers in RNA structures.
 Usage: pkv object [,chain] [,annotator] [,auto_renumber] [,only_pure_rna] [,skip_precoloring] [,selection]
- - object (str): Structure object name loaded in PyMOL.
- - chain (str): Chain ID. If omitted, all chains are analyzed.
- - annotator (str): Base-pair annotator: "RNAView" or "DSSR". Default: RNAView.
+ - **object** (str): Structure object name loaded in PyMOL.
+ - **chain** (str): Chain ID. If omitted, all chains are analyzed.
+ - **annotator** (str): Base-pair annotator: "RNAView" or "DSSR". Default: RNAView.
  - skip_precoloring (bool): If True, do not pre-color the chain white. Default: False.
  - selection (bool): If True, create selections per layer like <obj>_c<chain>_l<depth>. Default: True.
  - auto_renumber (bool): If True, renumber residues to start from 1 when necessary (mainly for RNAView). Default: True.
