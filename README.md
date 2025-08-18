@@ -111,8 +111,8 @@ Place the downloaded binary as `DSSR/x3dna-dssr` in this repository, or configur
 # config.py (snippet)
 from pathlib import Path
 
-DSSR_DIR = PseudoKnotVisualizer_DIR / "DSSR"
-DSSR_EXEC = DSSR_DIR / "x3dna-dssr"
+# Default: repo-local binary
+DSSR_EXEC = PseudoKnotVisualizer_DIR / "DSSR" / "x3dna-dssr"
 
 # Example: if installed at /usr/local/bin
 # DSSR_EXEC = Path("/usr/local/bin/x3dna-dssr")
@@ -167,7 +167,7 @@ The plugin checks for the binaries before running. If not found:
   - DSSR   : `DSSR/x3dna-dssr`
 - Or edit `config.py` and set:
   - `RNAVIEW_DIR` and `RNAVIEW_EXEC` for RNAView
-  - `DSSR_EXEC` (and `DSSR_DIR` if desired) for DSSR
+  - `DSSR_EXEC` for DSSR
 
 ### Permission denied or quarantine on macOS
 ```
