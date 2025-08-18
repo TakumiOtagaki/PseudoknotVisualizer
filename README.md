@@ -32,6 +32,7 @@ conda activate pymol
 conda install pandas numpy
 conda install -c conda-forge pymol-open-source
 pymol # pymol will get started.
+pip install -r requirements.txt
 ```
 Type `pymol` in conda pymol env, then open source PyMOL app will start.
 
@@ -74,8 +75,25 @@ ls bin # the binary rnaview will be found.
 cd ..
 ```
 
- - TODO:
-   - RNAView を新たに install したくない場合は config.py を書き換えることでうまくできます.
+##### Binary location and config.py (RNAView)
+If you already have RNAView installed elsewhere, or you prefer not to compile it inside this repository, point this tool to your installation by editing `config.py`:
+
+```python
+# config.py (snippet)
+from pathlib import Path
+
+RNAVIEW_DIR = PseudoKnotVisualizer_DIR / "RNAView"         # Directory that contains RNAView assets
+RNAVIEW_EXEC = RNAVIEW_DIR / "bin/rnaview"                 # Path to the RNAView binary
+
+# Example: if RNAView is installed at /opt/RNAView
+# RNAVIEW_DIR = Path("/opt/RNAView")
+# RNAVIEW_EXEC = RNAVIEW_DIR / "bin/rnaview"
+```
+
+At runtime, if the binary is not found, the plugin will suggest either placing the `rnaview` binary at `RNAView/bin/rnaview` in this repo, or editing `config.py` to set `RNAVIEW_EXEC` (and `RNAVIEW_DIR`) to your installed path. On macOS/Linux, ensure the binary is executable:
+```
+chmod +x /path/to/rnaview
+```
 
 #### Installation of DSSR
 バイナリを得るまでに、
@@ -85,6 +103,26 @@ cd ..
  - DSSR/ に配置する
 
 The version we used is `v1.9.10-2020apr23`.  We recommend you to use the same version.
+
+##### Binary location and config.py (DSSR)
+Place the downloaded binary as `DSSR/x3dna-dssr` in this repository, or configure `config.py` to point to your installation:
+
+```python
+# config.py (snippet)
+from pathlib import Path
+
+DSSR_DIR = PseudoKnotVisualizer_DIR / "DSSR"
+DSSR_EXEC = DSSR_DIR / "x3dna-dssr"
+
+# Example: if installed at /usr/local/bin
+# DSSR_EXEC = Path("/usr/local/bin/x3dna-dssr")
+```
+
+On macOS, if you see permission or quarantine warnings:
+```
+chmod +x /path/to/x3dna-dssr
+```
+Then allow the binary under System Settings > Privacy & Security when prompted.
 
 ### 3. Rewrite or create `~/.pymolrc.py`
 To  load the extension at startup automatically, please follow the instructions below.
@@ -112,12 +150,48 @@ cmd.run( str(pathtoPKV /  "PseudoknotVisualizer.py"))
 Now, you can use our extension easily.
 After this step, the PseudoknotVisualizer extention will be automatically loaded when PyMOL starts.
 
-## Error cased by RNAView installation
-When you are installing PseudknotVisualizer in a directory with a long path (longer than 60 char),
-you need to edit the line46 in RNAView/src/fpair_subs.c. 
-Please read the issues: [Buffer Overflow in get_reference_pdb() Caused by Insufficient Buffer Size ](https://github.com/rcsb/RNAView/issues/11)
+## Troubleshooting
 
-To avoid this error, we recommend that you should install PseudoknotVisualizer in your home directory.
+### RNAView path-length crash
+When installing/using RNAView in a directory with a very long path (e.g., > ~60 chars), RNAView may crash due to a buffer size issue. See:
+[Buffer Overflow in get_reference_pdb() Caused by Insufficient Buffer Size](https://github.com/rcsb/RNAView/issues/11)
+
+Workarounds:
+- Place this repository (and/or RNAView) under a shorter path (e.g., your home directory), or
+- Patch RNAView source as described in the issue, then rebuild.
+
+### "RNAView binary not found" / "DSSR binary not found"
+The plugin checks for the binaries before running. If not found:
+- Place the binaries at the default locations in this repo:
+  - RNAView: `RNAView/bin/rnaview`
+  - DSSR   : `DSSR/x3dna-dssr`
+- Or edit `config.py` and set:
+  - `RNAVIEW_DIR` and `RNAVIEW_EXEC` for RNAView
+  - `DSSR_EXEC` (and `DSSR_DIR` if desired) for DSSR
+
+### Permission denied or quarantine on macOS
+```
+chmod +x /path/to/rnaview
+chmod +x /path/to/x3dna-dssr
+xattr -d com.apple.quarantine /path/to/x3dna-dssr  # if needed
+```
+Then allow execution under System Settings > Privacy & Security.
+
+### "No module named 'pymol'" (for the PyMOL extension)
+Install PyMOL from conda-forge inside your conda environment:
+```
+conda install -c conda-forge pymol-open-source
+```
+
+### Python package errors (pandas, numpy, biopython)
+Install dependencies:
+```
+pip install -r requirements.txt
+```
+
+### RNAView output not produced or empty
+- Ensure the input selection is a valid RNA chain in PyMOL and exported as PDB when using RNAView.
+- If residue numbering does not start at 1, prefer `annotator=DSSR` or keep `auto_renumber=True` for RNAView.
 
 
 # How to use
