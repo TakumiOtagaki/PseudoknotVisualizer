@@ -225,7 +225,7 @@ def PseudoKnotVisualizer(
     auto_renumber : bool
         If True, renumber residues to start from 1 when necessary (mainly for RNAView) to avoid numbering issues.
     only_pure_rna : bool
-        If True, abort when non-standard residues (non A/C/G/U/I) other than water/ions are present.
+        Reserved flag for future use. Currently NOT enforced and ignored at runtime.
     skip_precoloring : bool
         If True, do not pre-color the chain white before layer coloring.
     selection : bool
@@ -280,11 +280,16 @@ def PseudoKnotVisualizer(
             auto_renumber_residues(pdb_object, chain)
         else:
             print(f"[PseudoKnotVisualizer] Chain {chain}: residue numbers start from 1.")
+    # Note about only_pure_rna:
+    # The flag and function `is_pure_rna` are kept for compatibility but intentionally not enforced.
+    # This is to avoid unexpected early returns in diverse real-world structures.
+    # In future, we may re-enable the filtering with a more robust detection.
     if only_pure_rna:
-        if not is_pure_rna(pdb_object, chain):
-            print("The structure contains non-standard RNA bases or other molecules.")
-            print("If you want to analyze them, please set pure_rna=False.")
-            return
+        # if not is_pure_rna(pdb_object, chain):
+        #     print("The structure contains non-standard RNA bases or other molecules.")
+        #     print("If you want to analyze them, please set pure_rna=False.")
+        #     return
+        print("[info] only_pure_rna flag is currently ignored (kept for compatibility).")
     
     # パーサーの選択に応じてベースペアを抽出
     if annotator.upper() == "DSSR":

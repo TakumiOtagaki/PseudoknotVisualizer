@@ -144,16 +144,17 @@ As you can see from this example, you can use "sele" to identify the model.
 <img src="https://github.com/TakumiOtagaki/PseudoknotVisualizer/blob/main/casp15_examples.png" alt="pymol_demo_6T3R" width="50%">
 
 
-Also you can get the detail explanation in pymol command line using `help pkv`:
+Also you can get the details in the PyMOL command line using `help pkv`:
 ```sh
 pymol commandline$ help pkv
-PseudoKnotVisualizer: Visualizing Pseudo Knots in RNA structure.
-Usage: pkv object [,chain_id]
- - object(str): structure object name
- - chain_id(str) : Chain ID of the RNA structure.
-    If not specified, all chains will be analyzed.
- - only_pure_rna(bool) [default: False]: If True, only standard RNA bases (A, C, G, U, I) are analyzed.
- - non_precoloring(bool) [default: False]: If True, all atoms are not colored 'white' before coloring the base pairs.
+PseudoKnotVisualizer: Visualize pseudoknot layers in RNA structures.
+Usage: pkv object [,chain] [,annotator] [,auto_renumber] [,only_pure_rna] [,skip_precoloring] [,selection]
+ - object (str): Structure object name loaded in PyMOL.
+ - chain (str): Chain ID. If omitted, all chains are analyzed.
+ - annotator (str): Base-pair annotator: "RNAView" or "DSSR". Default: RNAView.
+ - skip_precoloring (bool): If True, do not pre-color the chain white. Default: False.
+ - selection (bool): If True, create selections per layer like <obj>_c<chain>_l<depth>. Default: True.
+ - auto_renumber (bool): If True, renumber residues to start from 1 when necessary (mainly for RNAView). Default: True.
 ```
 
 ## Changing Colors (Optional)
