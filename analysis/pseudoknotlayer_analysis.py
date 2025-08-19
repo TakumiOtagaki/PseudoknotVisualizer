@@ -7,7 +7,7 @@ Pseudoknot Layer Analysis Script (Parallelized)
 3. 各レイヤーでのcanonical / non-canonical base pairの割合を計算
 
 $ cd PseudoknotVisualizer
-$ python analysis/pseudoknotlayer_analysis.py --parser [RNAView or DSSR] [--canonical-only]
+$ python analysis/pseudoknotlayer_analysis.py --annotator [RNAView or DSSR] [--canonical-only]
 """
 
 import sys
@@ -147,7 +147,7 @@ def main():
     # 並列で解析
     process_func = partial(
         analyze_single_pdb,
-        parser=args.parser,
+        parser=getattr(args, 'annotator', 'DSSR'),
         canonical_only=args.canonical_only
     )
     process_func(pdb_files[0])  # テスト用に最初のファイルだけ実行
@@ -168,7 +168,7 @@ def main():
         print("-" * 40)
 
     # 結果をJSONに保存
-    output_file = f"analysis/pseudoknot_analysis_{args.parser.lower()}.json"
+    output_file = f"analysis/pseudoknot_analysis_{getattr(args, 'annotator', 'DSSR').lower()}.json"
     if args.canonical_only:
         output_file = output_file.replace(".json", "_canonical_only.json")
     with open(output_file, 'w') as f:

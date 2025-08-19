@@ -20,22 +20,25 @@ def create_parser():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  # DSSRを使用して解析
-  python analysis/pseudoknotlayer_analysis.py --parser DSSR
+    # DSSRを使用して解析
+    python analysis/pseudoknotlayer_analysis.py --annotator DSSR
   
-  # RNAViewを使用して解析
-  python analysis/pseudoknotlayer_analysis.py --parser RNAView
+    # RNAViewを使用して解析
+    python analysis/pseudoknotlayer_analysis.py --annotator RNAView
         """
     )
     
     # パーサー選択オプション
     parser.add_argument(
-        "--parser",
-        "-p",
+        "--annotator",
+        "-a",
         choices=["RNAView", "DSSR"],
         default="DSSR",
-        help="RNA structure parser to use (default: DSSR)"
+        help="RNA structure annotator to use (default: DSSR)"
     )
+    # Hidden legacy flags for backward compatibility
+    parser.add_argument("--parser", dest="annotator", choices=["RNAView", "DSSR"], help=argparse.SUPPRESS)
+    parser.add_argument("-p", dest="annotator", choices=["RNAView", "DSSR"], help=argparse.SUPPRESS)
     parser.add_argument(
         "--canonical-only",
         "-c",

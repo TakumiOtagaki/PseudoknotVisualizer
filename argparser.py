@@ -16,9 +16,12 @@ def argparser():
 
     parser.add_argument('-c', '--chain', type=str, default='A', help='Chain ID for RNA structure, default is A')
     parser.add_argument(
-        '-p', '--annotator', choices=['DSSR', 'RNAView'], 
+        '-a', '--annotator', choices=['DSSR', 'RNAView'],
         default='RNAView', help='Base-pair annotator to use (DSSR or RNAView), default is RNAView'
     )
+    # Hidden legacy options for backward compatibility (do not show in --help)
+    parser.add_argument('-p', dest='annotator', choices=['DSSR', 'RNAView'], help=argparse.SUPPRESS)
+    parser.add_argument('--parser', dest='annotator', choices=['DSSR', 'RNAView'], help=argparse.SUPPRESS)
 
     return parser.parse_args()
 
@@ -30,8 +33,7 @@ def args_validation(args):
     if args.format.lower() == 'chimera' and args.model is None:
         raise ValueError("Model ID is required for Chimera format")
     
-    # Accept both annotator and legacy parser via argparse namespace
-    chosen = getattr(args, 'annotator', None) or getattr(args, 'parser', None)
+    chosen = getattr(args, 'annotator', None)
     if chosen is None or chosen.upper() not in ['DSSR', 'RNAVIEW']:
         raise ValueError("Annotator must be either 'DSSR' or 'RNAView'")
     return

@@ -261,7 +261,7 @@ After the installation (except for step 4), you can use our CLI.
 ```sh
 $ python PseudoknotVisualizer/CLI_PseudoknotVisualizer.py --help
 
-usage: CLI_PseudoknotVisualizer.py [-h] -i INPUT -o OUTPUT -f {chimera,pymol} [-m MODEL] [-c CHAIN] [-p {DSSR,RNAView}]
+usage: CLI_PseudoknotVisualizer.py [-h] -i INPUT -o OUTPUT -f {chimera,pymol} [-m MODEL] [-c CHAIN] [-a {DSSR,RNAView}]
 
 Visualize pseudoknots in RNA structure
 
@@ -275,7 +275,7 @@ options:
                         Output script format (chimera or pymol)
   -c CHAIN, --chain CHAIN
                         Chain ID (default: A)
-  -p {DSSR,RNAView}, --annotator {DSSR,RNAView}
+  -a {DSSR,RNAView}, --annotator {DSSR,RNAView}
                         Base-pair annotator (default: RNAView)
 
 chimera options:
