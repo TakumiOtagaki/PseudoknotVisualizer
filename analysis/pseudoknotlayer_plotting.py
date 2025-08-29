@@ -88,6 +88,7 @@ def plot_non_canonical_ratio_box(
     seed: int = 0,
     add_stats: bool = False,
     show_mean: bool = True,
+    include_no_pk: bool = False,
 ):
     """
     Core / Pseudoknot の non-canonical BP 比率の箱ひげ図（論文向けミニマル版）。
@@ -104,11 +105,20 @@ def plot_non_canonical_ratio_box(
 
     pk_mask = (df['num_of_layers'] > 1) & (pk_total > 0)
     pk_ratio = (df.loc[pk_mask, 'non_canonical_bp_in_pk_layer'] / pk_total[pk_mask]).dropna()
+    if include_no_pk:
+        # PK層がないものも 0 として含める
+        no_pk_idx = df.index[pk_total == 0]
+        if len(no_pk_idx) > 0:
+            zeros = pd.Series(0.0, index=no_pk_idx)
+            pk_ratio = pd.concat([pk_ratio, zeros])
 
     # 最終的にボックスプロットに使われるチェーン数を表示
     n_core = len(core_ratio)
     n_pk = len(pk_ratio)
-    print(f"[plot] {parser} {variant}: 最終的に残った chains 数 -> Core={n_core}, Pseudoknot(≥1 layer)={n_pk}")
+    if include_no_pk:
+        print(f"[plot] {parser} {variant} (incl. no PK): 最終的に残った chains 数 -> Core={n_core}, Pseudoknot(incl. none)={n_pk}")
+    else:
+        print(f"[plot] {parser} {variant}: 最終的に残った chains 数 -> Core={n_core}, Pseudoknot(≥1 layer)={n_pk}")
 
     if core_ratio.empty and pk_ratio.empty:
         print(f"[plot_non_canonical_ratio_box] 有効データなし ({parser}, {variant})")
@@ -211,7 +221,7 @@ def plot_non_canonical_ratio_box(
     # ---- 保存（PNG / 白背景） ----
     outdir = output_dir
     outdir.mkdir(parents=True, exist_ok=True)
-    base = outdir / f"box_noncanonical_ratio_core_vs_pseudoknot_{variant}"
+    base = outdir / f"box_noncanonical_ratio_core_vs_pseudoknot_{variant}{'_incl_nopk' if include_no_pk else ''}"
     fig.savefig(str(base.with_suffix(".png")), dpi=600, bbox_inches='tight', transparent=False)
     plt.close(fig)
     print(f"Saved PNG: {base.with_suffix('.png')}")
@@ -357,7 +367,10 @@ def main():
             print(f"Saved bar+cumulative graph for {parser} ({variant}) to {output_dir / parser / fn}")
             plt.close()
             # 追加呼び出し: non-canonical 比率箱ひげ
-            plot_non_canonical_ratio_box(df, parser, variant, output_dir=output_dir / parser, show_mean=True)
+            # (1) PK>=1 のみ
+            plot_non_canonical_ratio_box(df, parser, variant, output_dir=output_dir / parser, show_mean=True, include_no_pk=False)
+            # (2) PKなしも0として含める版
+            plot_non_canonical_ratio_box(df, parser, variant, output_dir=output_dir / parser, show_mean=True, include_no_pk=True)
 
 
 if __name__ == "__main__":
