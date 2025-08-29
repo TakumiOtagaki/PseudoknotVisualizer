@@ -13,7 +13,7 @@ from matplotlib.ticker import MultipleLocator, FormatStrFormatter
 # 設定
 parsers = ['rnaview', 'dssr']
 base_dir = Path('analysis')
-output_dir = Path('analysis/graphs/0810')
+output_dir = Path('analysis/graphs/0829')
 os.makedirs(output_dir, exist_ok=True)  # 出力ディレクトリを作成
 os.makedirs(output_dir / 'rnaview', exist_ok=True)  # rnaview 用のサブディレクトリ
 os.makedirs(output_dir / 'dssr', exist_ok=True)  # dssr
