@@ -9,6 +9,7 @@ from collections import defaultdict
 from scipy.stats import mannwhitneyu
 import numpy as np
 from matplotlib.ticker import MultipleLocator, FormatStrFormatter
+from matplotlib.markers import MarkerStyle
 
 # 設定
 parsers = ['rnaview', 'dssr']
@@ -104,6 +105,11 @@ def plot_non_canonical_ratio_box(
     pk_mask = (df['num_of_layers'] > 1) & (pk_total > 0)
     pk_ratio = (df.loc[pk_mask, 'non_canonical_bp_in_pk_layer'] / pk_total[pk_mask]).dropna()
 
+    # 最終的にボックスプロットに使われるチェーン数を表示
+    n_core = len(core_ratio)
+    n_pk = len(pk_ratio)
+    print(f"[plot] {parser} {variant}: 最終的に残った chains 数 -> Core={n_core}, Pseudoknot(≥1 layer)={n_pk}")
+
     if core_ratio.empty and pk_ratio.empty:
         print(f"[plot_non_canonical_ratio_box] 有効データなし ({parser}, {variant})")
         return None
@@ -148,7 +154,7 @@ def plot_non_canonical_ratio_box(
 
         # 平均マーカー（★）
         sc = ax.scatter(range(1, len(series_list) + 1), means,
-                        s=24, marker='*', c='0.1', zorder=3, label='Mean')
+                        s=24, marker=MarkerStyle('*'), c='0.1', zorder=3, label='Mean')
 
         # 数値ラベルを右横に
         y0, y1 = ax.get_ylim()
@@ -162,9 +168,9 @@ def plot_non_canonical_ratio_box(
 
         # 凡例（マーカーだけ小さめに）
         ax.legend(handles=[sc],
-                markerscale=0.8, scatterpoints=1,
-                handlelength=0.8, handletextpad=0.4,
-                frameon=False, fontsize=7)
+                  markerscale=0.8, scatterpoints=1,
+                  handlelength=0.8, handletextpad=0.4,
+                  frameon=False, fontsize=7)
 
     # ジッター散布（超薄）
     rng = np.random.default_rng(seed)
@@ -206,7 +212,7 @@ def plot_non_canonical_ratio_box(
     outdir = output_dir
     outdir.mkdir(parents=True, exist_ok=True)
     base = outdir / f"box_noncanonical_ratio_core_vs_pseudoknot_{variant}"
-    fig.savefig(base.with_suffix(".png"), dpi=600, bbox_inches='tight', transparent=False)
+    fig.savefig(str(base.with_suffix(".png")), dpi=600, bbox_inches='tight', transparent=False)
     plt.close(fig)
     print(f"Saved PNG: {base.with_suffix('.png')}")
     return base.with_suffix(".png")
