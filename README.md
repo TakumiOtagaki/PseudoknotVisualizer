@@ -22,16 +22,15 @@ This tool has two modes of use: CLI and GUI (using PyMOL).
  - green: pseudoknot layer 3
 
 # How to Install
-## Preparing "pymol" Conda Environment (Recommended)
+## Quickstart (single conda env for both GUI & CLI)
 ```
-conda create -n pymol python=3.11.0
-conda activate pymol
-conda install pandas numpy
+conda create -n pkv python=3.11.0
+conda activate pkv
 conda install -c conda-forge pymol-open-source
-pymol # PyMOL will start.
 pip install -r requirements.txt
+pymol # PyMOL will start.
 ```
-Type `pymol` in conda pymol env, then open source PyMOL app will start.
+Type `pymol` in conda pkv env, then open source PyMOL app will start.
 
 
 
@@ -40,8 +39,6 @@ Type `pymol` in conda pymol env, then open source PyMOL app will start.
 1. Clone this repository.
 2. Installation of RNAView or DSSR
 3. Rewrite or create `~/.pymolrc.py` in order to load the extension at startup automatically.
-
-
 
 -----
 
@@ -128,8 +125,7 @@ To  load the extension at startup automatically, please follow the instructions 
 ```sh
 $ vim ~/.pymolrc.py
 ```
-And modify the pathtoPKV line:
-Please do not use the "~" character.
+And modify the `pathtoPKV` line (do not use "~"; use `Path.home()`).
 ```~/.pymolrc.py
 # ~/.pymolrc.py
 import sys
@@ -144,7 +140,7 @@ pathtoPKV = pathlib.Path.home() / "PseudoknotVisualizer"  # Example: if the repo
 # --------------------------------------------------------------------------------------------------------------------
 
 sys.path.append(str(pathtoPKV))
-cmd.run( str(pathtoPKV /  "PseudoknotVisualizer.py"))
+cmd.run(str(pathtoPKV /  "PseudoknotVisualizer.py"))
 ```
 
 
@@ -298,36 +294,34 @@ PDB file for 1kpd downloaded as ./1kpd.pdb
 ```
 Then, 1kpd.pdb is downloaded in current directory.
 
-## Installation for CLI users
- 1.  Create and activate an environment that includes the PyMOL Python module
-    ```sh
-  conda create -n pymol python=3.11
-    conda activate pymol
-  conda install -c conda-forge pymol-open-source
-    ```
-2.  Install Python dependencies
-  ```
-  pip install -r requirements.txt
-  ```
-3.  Install and configure one annotator (RNAView or DSSR)
-  - Install RNAView or DSSR and configure paths in `config.py` (see sections above).
-4.  Execute the CLI
-  ```sh
-  python PseudoknotVisualizer/CLI_PseudoknotVisualizer.py -i input.pdb -o out.txt -f pymol -c A --annotator RNAView
-  ```
-
+## CLI (use the same `pkv` environment)
+Reuse the environment created in **Quickstart** (do not create another env).
+1) Activate:
+```sh
+conda activate pkv
+```
+2) Ensure deps are installed (already done in Quickstart):
+```sh
+pip install -r requirements.txt
+```
+3) Install and configure one annotator (RNAView or DSSR) as above.
+4) Run:
+```sh
+python PseudoknotVisualizer/CLI_PseudoknotVisualizer.py \
+  -i test/1kpd.cif -o out.txt -f pymol -c A --annotator RNAView
+```
 
 
 ## Example of CLI usage
 ```sh
 conda activate pymol
 python PseudoknotVisualizer/CLI_PseudoknotVisualizer.py \
-  -i test/1KPD.pdb \  # input pdb file. cif format is also available.
+  -i test/1KPD.pdb \  # input pdb file. mmCIF format is also available.
   -o test/coloring_1KPD.0.A.pymol.txt \ # path of output script txtfile
   -c A \ # chain ID
   -f pymol \ # format: chimera or pymol
-  # -m 0 # model ID in your viewer if you choose chimera format with -f option.
   --annotator RNAView
+  # -m 0 # model ID in your viewer if you choose chimera format with -f option.
 
 # Use DSSR annotator example
 python PseudoknotVisualizer/CLI_PseudoknotVisualizer.py \
