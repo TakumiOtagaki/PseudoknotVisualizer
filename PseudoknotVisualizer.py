@@ -206,13 +206,14 @@ def PseudoKnotVisualizer(
     only_pure_rna=False,
     skip_precoloring=False,
     selection=True,
+    canonical_only=True,
     parser=None,  # deprecated: backward-compatible alias for annotator
 ):
     """
     PseudoKnotVisualizer: Visualize pseudoknot layers in RNA structures.
 
     PyMOL command:
-        pkv object [,chain] [,annotator] [,auto_renumber] [,only_pure_rna] [,skip_precoloring] [,selection]
+        pkv object [,chain] [,annotator] [,auto_renumber] [,only_pure_rna] [,skip_precoloring] [,selection] [,canonical_only]
 
     Parameters
     ----------
@@ -230,6 +231,9 @@ def PseudoKnotVisualizer(
         If True, do not pre-color the chain white before layer coloring.
     selection : bool
         If True, create selections per layer: "<obj>_c<chain>_l<depth>".
+    canonical_only : bool
+        If True, only consider canonical base pairs (Watson-Crick and Wobble pairs) for pseudoknot analysis.
+        If False, include non-canonical base pairs. Default: True.
 
     Notes
     -----
@@ -237,6 +241,8 @@ def PseudoKnotVisualizer(
       the 'default' color will be applied.
     - RNAView may require residues to start at 1. When annotator="RNAView" and auto_renumber=True,
       residues are renumbered per chain if necessary. For complex numbering, consider annotator="DSSR".
+    - When canonical_only=False, non-canonical base pairs are included but careful filtering is applied
+      to remove problematic pairs (self-pairs, conflicting pairs) as done in the analysis pipeline.
 
     Deprecated
     ----------
@@ -248,10 +254,12 @@ def PseudoKnotVisualizer(
     if parser is not None:
         print("[deprecated] 'parser' is deprecated. Use 'annotator' (\"RNAView\" or \"DSSR\").")
         annotator = parser
+    canonical_only = True
     print("version ", PseudoKnotVisualizer_DIR / "VERSION.txt")
     print(
         f"arguments: pdb_object={pdb_object}, chain={chain}, annotator={annotator}, "
-        f"auto_renumber={auto_renumber}, only_pure_rna={only_pure_rna}, skip_precoloring={skip_precoloring}, selection={selection}"
+        f"auto_renumber={auto_renumber}, only_pure_rna={only_pure_rna}, skip_precoloring={skip_precoloring}, "
+        f"selection={selection}, canonical_only={canonical_only}"
     )
     
     if chain is None:
@@ -265,6 +273,7 @@ def PseudoKnotVisualizer(
                                     only_pure_rna=only_pure_rna,
                                     skip_precoloring=skip_precoloring,
                                     selection=selection,
+                                    canonical_only=canonical_only,
                                     annotator=annotator)
         return
     elif chain not in cmd.get_chains(pdb_object):
@@ -301,16 +310,48 @@ def PseudoKnotVisualizer(
     
     processed_df = raw_df_processing(raw_df, annotator)
     processed_df, abnormal_pairs, dup_canonical_pairs = filter_abnormal_pairs(processed_df)
+    
+    # canonical_only フラグに基づいてフィルタリング
+    if canonical_only:
+        # canonical base pairsのみを使用
+        filtered_df = processed_df[processed_df["is_canonical"]]
+        print(f"Using canonical base pairs only: {len(filtered_df)}/{len(processed_df)} pairs")
+    else:
+        # すべての塩基対を使用（フィルタリング済み）
+        filtered_df = processed_df
+        canonical_count = len(processed_df[processed_df["is_canonical"]])
+        noncanonical_count = len(processed_df) - canonical_count
+        print(f"Using all base pairs: {len(filtered_df)} total ({canonical_count} canonical, {noncanonical_count} non-canonical)")
+        # 重複する canonical pairs がある場合は警告
+        if dup_canonical_pairs:
+            print(f"Warning: {len(dup_canonical_pairs)} duplicate canonical pairs found and recorded.")
+    
     # print(processed_df)
-    BPL = [tuple(row["position"]) for _, row in processed_df.iterrows()]
+    BPL = [tuple(row["position"]) for _, row in filtered_df.iterrows()]
     # print(f"extracted base pairs: {BPL}")
     PKlayers = PKextractor(BPL)
 
     if not skip_precoloring:
         print(f"Precoloring all atoms to white since skip_precoloring is {skip_precoloring}")
         cmd.color("white", f"{pdb_object} and chain {chain}")
+    
+    # Details dict for base pair analysis (similar to analysis script)
+    details_dict = {(bp[0][0], bp[0][1]): {
+            "position": bp[0], "residues": bp[1], "is_canonical": bp[2], "saenger_id": bp[3]
+        } for bp in filtered_df.values.tolist()
+    }
+    
     for depth, PKlayer in enumerate(PKlayers):
         color = get_color_for_depth(depth + 1, colors)
+        
+        # Layer statistics (when using non-canonical pairs)
+        if not canonical_only:
+            canon_count = sum(1 for bp in PKlayer if details_dict[bp]["is_canonical"])
+            noncanon_count = sum(1 for bp in PKlayer if not details_dict[bp]["is_canonical"])
+            print(f"Layer {depth + 1}: {len(PKlayer)} pairs ({canon_count} canonical, {noncanon_count} non-canonical)")
+        else:
+            print(f"Layer {depth + 1}: {len(PKlayer)} canonical pairs")
+        
         print(f"Coloring layer {depth + 1} with color: {color}")
         
         # PKlayerから全ての残基番号を取得して、PyMOL用の選択文字列を作成
