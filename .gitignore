@@ -1,9 +1,9 @@
 __pycache__/*
-intermediate/*
+intermediate
 *.cif
 *.pdb
 .DS_Store
-RNAView/
+RNAView
 rebuttal/
 PseudoknotVisualizer_Photos/
 paper
@@ -16,3 +16,6 @@ paper
 6t3r.cif.out
 6t3r.cif_new_torsion.out
 base_pair_statistics.out
+DSSR/x3dna-dssr
+analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396.zip
+analysis/__pycache__

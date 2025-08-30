@@ -1,20 +1,20 @@
-from PseudoknotVisualizer import clear_intermediate_files, rnaview, colors
-from coloring import CLI_coloring_canonical, load_colors_from_json
+from PseudoknotVisualizer import clear_intermediate_files, colors
+from coloring import CLI_coloring_canonical, load_colors_from_json, get_color_for_depth
 from argparser import argparser, args_validation
-from config import RNAVIEW_PATH, RNAVIEW, PseudoKnotVisualizer_DIR, INTERMEDIATE_DIR
+from analysis.parsers import raw_df_processing, filter_abnormal_pairs
+from config import RNAVIEW_DIR, RNAVIEW_EXEC, PseudoKnotVisualizer_DIR, INTERMEDIATE_DIR, DSSR_EXEC
 from rna import PKextractor
-from addressRNAviewOutput import extract_base_pairs_from_rnaview
+from addressRNAviewOutput import load_rnaview_data #, extract_base_pairs_from_rnaview,
+from addressDSSROutput import load_dssr_data #, extract_base_pairs_from_dssr,
 from Bio.PDB import PDBParser, PDBIO
 from Bio.PDB.MMCIFParser import MMCIFParser
-from Bio.PDB.mmcifio import MMCIFIO
-import tempfile
 import subprocess
 import os
 import pathlib
 import shutil
 
 colors = load_colors_from_json(PseudoKnotVisualizer_DIR / "colors.json")
-rnaview = RNAVIEW_PATH / "rnaview"
+# rnaview_exec = RNAVIEW_EXEC
 
 def CLI_rnaview(struct_file, chain_id):
     # 入力ファイルが .cif か .pdb かを拡張子で判定
@@ -30,9 +30,9 @@ def CLI_rnaview(struct_file, chain_id):
         raise ValueError("Input file should be .cif or .pdb")
 
     structure = parser.get_structure("structure", struct_file)
+
     chain_structure = structure[0]
     selected_chain = None
-
     for chain in chain_structure:
         if chain.id == chain_id:
             selected_chain = chain
@@ -49,10 +49,9 @@ def CLI_rnaview(struct_file, chain_id):
     copied_file = pathlib.Path(INTERMEDIATE_DIR) / pathlib.Path(struct_file).name
     shutil.copy2(struct_file, copied_file)
 
-
     result = subprocess.run(
-        [rnaview, "-p", arg, copied_file],
-        env={"RNAVIEW": RNAVIEW},
+        [RNAVIEW_EXEC, "-p", arg, copied_file],
+        env={"RNAVIEW": RNAVIEW_DIR},
         cwd=INTERMEDIATE_DIR,
         check=True
         )
@@ -61,28 +60,61 @@ def CLI_rnaview(struct_file, chain_id):
 
     print("rnaview done.")
     result_file = pathlib.Path(INTERMEDIATE_DIR) / (pathlib.Path(struct_file).name + ".out")
-    valid_bps_df = extract_base_pairs_from_rnaview(result_file)
-    print(valid_bps_df)
-    BPL = [(row["left_idx"], row["right_idx"]) for _, row in valid_bps_df.iterrows()]
+    df = load_rnaview_data(str(result_file))
+    return df
 
-    return BPL
+def CLI_dssr(struct_file, chain_id):
+    """CLI version of DSSR wrapper"""
+    # intermediate 以下に複製する
+    copied_file = pathlib.Path(INTERMEDIATE_DIR) / pathlib.Path(struct_file).name
+    shutil.copy2(struct_file, copied_file)
 
-def CLI_PseudoKnotVisualizer(pdb_file, chain_id, format, output_file, model_id):
-    BPL = CLI_rnaview(pdb_file, chain_id)
+    print(f"DSSR starts with {struct_file}")
+    
+    # DSSR実行（JSONフォーマットで出力）
+    json_output_path = pathlib.Path(INTERMEDIATE_DIR) / (pathlib.Path(struct_file).name + ".dssr.json")
+    result = subprocess.run(
+        [str(DSSR_EXEC), f"-i={str(copied_file)}", "--json", f"-o={str(json_output_path)}"],
+        cwd=INTERMEDIATE_DIR,
+        check=True,
+        capture_output=True,
+        text=True
+    )
+    print(f"command: \n {str(DSSR_EXEC)} -i={str(copied_file)} --json -o={str(json_output_path)}")
+    if result.returncode != 0 or not json_output_path.exists():
+        print(f"DSSR failed with return code: {result.returncode}")
+        print(f"stdout: {result.stdout}")
+        print(f"stderr: {result.stderr}")
+    return load_dssr_data(str(json_output_path))
+
+    print("DSSR done.")
+    df = load_dssr_data(str(json_output_path))
+    return df
+
+def CLI_PseudoKnotVisualizer(pdb_file, chain_id, format, output_file, model_id, annotator="RNAView"):
+    # パーサーの選択に応じてベースペアを抽出
+    if annotator.upper() == "DSSR":
+        raw_df = CLI_dssr(pdb_file, chain_id)
+    
+    elif annotator.upper() == "RNAVIEW":
+        raw_df = CLI_rnaview(pdb_file, chain_id)
+    processed_df = raw_df_processing(raw_df, annotator)
+    # remove abnormal pairs
+    processed_df, abnormal_pairs, dup_canonical_pairs = filter_abnormal_pairs(processed_df)
+    # print(f"Processed DataFrame:\n{processed_df.head()}")
+    BPL = [tuple(row["position"]) for _, row in processed_df.iterrows()]
     pdb_id = os.path.splitext(os.path.basename(pdb_file))[0]
     PKlayers = PKextractor(BPL)
 
     with open(output_file, "w") as f:
         for depth, PKlayer in enumerate(PKlayers):
-            color = colors[str(depth + 1)]
+            color = get_color_for_depth(depth + 1, colors)
             script = CLI_coloring_canonical(pdb_id, model_id, chain_id, PKlayer, color, format)
             f.write(script)
 
     print("Coloring done.")
     print(f"Depth is {len(PKlayers)}")
     print(f"Output script is saved as {output_file}")
-    
-    clear_intermediate_files()
     return
 
 def main():
@@ -90,7 +122,10 @@ def main():
     args_validation(args)
 
     print("PseudoKnotVisualizer started.")
-    CLI_PseudoKnotVisualizer(args.input, args.chain, args.format, args.output, args.model)
+    # Backward compatibility: accept legacy --parser if present
+    annotator = getattr(args, 'annotator', None) or getattr(args, 'parser', 'RNAView')
+    CLI_PseudoKnotVisualizer(args.input, args.chain, args.format, args.output, args.model, annotator)
+    print("PseudoKnotVisualizer finished: " + args.output)
 
 if __name__ == "__main__":
     main()

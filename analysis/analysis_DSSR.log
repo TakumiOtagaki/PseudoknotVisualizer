@@ -1,0 +1,1855 @@
+Script directory: /Users/ootagakitakumi/PseudoknotVisualizer
+=== Pseudoknot Layer Analysis ===
+Dataset directory: analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396
+Found 1915 PDB files in dataset
+Found 1915 PDB files to analyze.
+Using parser: DSSR
+Processing 1915 files...
+
+--- Processing 1/5: 157D_1_A-B.pdb ---
+Processing 157D_1_A-B.pdb with chain A (display: A) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/157D_1_A-B.pdb and chain A
+DSSR done.
+Empty DataFrame
+Columns: [left_resi, left_idx, right_resi, right_idx]
+Index: []
+Successfully processed 157D_1_A-B.pdb
+Total BP: 10, Canonical: 0, Layers: 0
+Sample base pairs:
+  G2-C23: Watson-Crick, Saenger: 19-XIX
+  C3-G22: Watson-Crick, Saenger: 19-XIX
+  G4-A21: Non-WC, Saenger: 08-VIII
+
+--- Processing 2/5: 1EHZ_1_A.pdb ---
+Processing 1EHZ_1_A.pdb with chain A (display: A) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/1EHZ_1_A.pdb and chain A
+DSSR done.
+   left_resi  left_idx right_resi  right_idx
+0          G         1          C         72
+1          C         2          G         71
+2          G         3          C         70
+3          G         4          U         69
+4          A         5          U         68
+5          U         6          A         67
+6          U         7          A         66
+10         C        11          G         24
+11         U        12          A         23
+12         C        13          G         22
+14         G        19          C         56
+15         C        27          G         43
+16         C        28          G         42
+17         A        29          U         41
+19         U        50          A         64
+20         G        51          C         63
+21         U        52          A         62
+22         G        53          C         61
+Successfully processed 1EHZ_1_A.pdb
+Total BP: 23, Canonical: 18, Layers: 2
+Sample base pairs:
+  G1-C72: Watson-Crick, Saenger: 19-XIX
+  C2-G71: Watson-Crick, Saenger: 19-XIX
+  G3-C70: Watson-Crick, Saenger: 19-XIX
+
+--- Processing 3/5: 1EVV_1_A.pdb ---
+Processing 1EVV_1_A.pdb with chain A (display: A) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/1EVV_1_A.pdb and chain A
+DSSR done.
+   left_resi  left_idx right_resi  right_idx
+0          G         1          C         72
+1          C         2          G         71
+2          G         3          C         70
+3          G         4          U         69
+4          A         5          U         68
+5          U         6          A         67
+6          U         7          A         66
+10         C        11          G         24
+11         U        12          A         23
+12         C        13          G         22
+14         G        19          C         56
+15         C        27          G         43
+16         C        28          G         42
+17         A        29          U         41
+19         U        50          A         64
+20         G        51          C         63
+21         U        52          A         62
+22         G        53          C         61
+Successfully processed 1EVV_1_A.pdb
+Total BP: 23, Canonical: 18, Layers: 2
+Sample base pairs:
+  G1-C72: Watson-Crick, Saenger: 19-XIX
+  C2-G71: Watson-Crick, Saenger: 19-XIX
+  G3-C70: Watson-Crick, Saenger: 19-XIX
+
+--- Processing 4/5: 1FG0_1_A.pdb ---
+Processing 1FG0_1_A.pdb with chain A (display: A) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/1FG0_1_A.pdb and chain A
+DSSR done.
+    left_resi  left_idx right_resi  right_idx
+1           U      2064          A       2081
+2           C      2065          G       2080
+3           C      2066          G       2079
+4           A      2067          U       2078
+5           G      2068          C       2077
+..        ...       ...        ...        ...
+224         C      2625          G       2639
+225         C      2626          G       2638
+226         G      2627          C       2636
+227         U      2628          A       2635
+228         C      2629          G       2634
+
+[144 rows x 4 columns]
+Successfully processed 1FG0_1_A.pdb
+Total BP: 231, Canonical: 144, Layers: 2
+Sample base pairs:
+  U2063-A2083: Non-WC, Saenger: n/a
+  U2064-A2081: Watson-Crick, Saenger: 20-XX
+  C2065-G2080: Watson-Crick, Saenger: 19-XIX
+
+--- Processing 5/5: 1FIR_1_A.pdb ---
+Processing 1FIR_1_A.pdb with chain A (display: A) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/1FIR_1_A.pdb and chain A
+DSSR done.
+   left_resi  left_idx right_resi  right_idx
+0          G         1          C         72
+1          C         2          G         71
+2          C         3          G         70
+3          C         4          G         69
+4          G         5          C         68
+5          A         7          U         66
+9          C        11          G         24
+10         U        12          A         23
+11         C        13          G         22
+13         G        19          C         56
+15         C        28          G         42
+16         A        29          U         41
+17         G        30          C         40
+20         A        50          U         64
+21         G        51          C         63
+22         G        52          C         62
+23         G        53          C         61
+Successfully processed 1FIR_1_A.pdb
+Total BP: 24, Canonical: 17, Layers: 2
+Sample base pairs:
+  G1-C72: Watson-Crick, Saenger: 19-XIX
+  C2-G71: Watson-Crick, Saenger: 19-XIX
+  C3-G70: Watson-Crick, Saenger: 19-XIX
+
+--- Processing 6/5: 1FOQ_1_A.pdb ---
+Processing 1FOQ_1_A.pdb with chain A (display: A) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/1FOQ_1_A.pdb and chain A
+DSSR done.
+   left_resi  left_idx right_resi  right_idx
+0          U         1          A        117
+1          C         2          G        116
+2          A         3          U        115
+3          A         4          U        114
+4          G         6          U        113
+5          G         7          C        112
+6          U         8          A        111
+7          A         9          U        110
+8          C        10          G        108
+9          G        11          C        107
+10         G        12          C        105
+11         U        13          G        104
+12         A        14          U        103
+13         C        15          G        102
+14         U        16          A        101
+15         U        17          A        100
+16         U        21          A         99
+17         U        22          A         98
+18         G        23          C         97
+19         U        24          G         96
+20         C        25          G         95
+21         A        26          U         94
+22         U        27          A         93
+23         G        28          C         92
+24         G        30          C         71
+25         U        31          A         70
+26         A        32          U         69
+27         U        33          A         68
+28         G        34          C         67
+29         U        35          A         66
+30         G        37          C         65
+31         G        38          C         64
+32         G        39          C         63
+34         C        49          G         62
+35         U        50          A         61
+36         G        51          C         60
+37         A        52          U         59
+41         U        76          A         90
+42         U        77          A         89
+43         G        78          C         88
+44         A        79          U         87
+45         U        80          G         86
+Successfully processed 1FOQ_1_A.pdb
+Total BP: 47, Canonical: 42, Layers: 1
+Sample base pairs:
+  U1-A117: Watson-Crick, Saenger: 20-XX
+  C2-G116: Watson-Crick, Saenger: 19-XIX
+  A3-U115: Watson-Crick, Saenger: 20-XX
+
+--- Processing 7/5: 1FOQ_1_B.pdb ---
+Processing 1FOQ_1_B.pdb with chain B (display: B) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/1FOQ_1_B.pdb and chain B
+DSSR done.
+   left_resi  left_idx right_resi  right_idx
+0          U         1          A        117
+1          C         2          G        116
+2          A         3          U        115
+3          A         4          U        114
+4          G         6          U        113
+5          G         7          C        112
+6          U         8          A        111
+7          A         9          U        110
+8          C        10          G        108
+9          G        11          C        107
+10         G        12          C        105
+11         U        13          G        104
+12         A        14          U        103
+13         C        15          G        102
+14         U        16          A        101
+15         U        17          A        100
+16         U        21          A         99
+17         U        22          A         98
+18         G        23          C         97
+19         U        24          G         96
+20         C        25          G         95
+21         A        26          U         94
+22         U        27          A         93
+23         G        28          C         92
+24         G        30          C         71
+25         U        31          A         70
+26         A        32          U         69
+27         U        33          A         68
+28         G        34          C         67
+29         U        35          A         66
+30         G        37          C         65
+31         G        38          C         64
+32         G        39          C         63
+34         C        49          G         62
+35         U        50          A         61
+36         G        51          C         60
+37         A        52          U         59
+41         U        76          A         90
+42         U        77          A         89
+43         G        78          C         88
+44         A        79          U         87
+45         U        80          G         86
+Successfully processed 1FOQ_1_B.pdb
+Total BP: 47, Canonical: 42, Layers: 1
+Sample base pairs:
+  U1-A117: Watson-Crick, Saenger: 20-XX
+  C2-G116: Watson-Crick, Saenger: 19-XIX
+  A3-U115: Watson-Crick, Saenger: 20-XX
+
+--- Processing 8/5: 1FOQ_1_C.pdb ---
+Processing 1FOQ_1_C.pdb with chain C (display: C) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/1FOQ_1_C.pdb and chain C
+DSSR done.
+   left_resi  left_idx right_resi  right_idx
+0          U         1          A        117
+1          C         2          G        116
+2          A         3          U        115
+3          A         4          U        114
+4          G         6          U        113
+5          G         7          C        112
+6          U         8          A        111
+7          A         9          U        110
+8          C        10          G        108
+9          G        11          C        107
+10         G        12          C        105
+11         U        13          G        104
+12         A        14          U        103
+13         C        15          G        102
+14         U        16          A        101
+15         U        17          A        100
+16         U        21          A         99
+17         U        22          A         98
+18         G        23          C         97
+19         U        24          G         96
+20         C        25          G         95
+21         A        26          U         94
+22         U        27          A         93
+23         G        28          C         92
+24         G        30          C         71
+25         U        31          A         70
+26         A        32          U         69
+27         U        33          A         68
+28         G        34          C         67
+29         U        35          A         66
+30         G        37          C         65
+31         G        38          C         64
+32         G        39          C         63
+34         C        49          G         62
+35         U        50          A         61
+36         G        51          C         60
+37         A        52          U         59
+41         U        76          A         90
+42         U        77          A         89
+43         G        78          C         88
+44         A        79          U         87
+45         U        80          G         86
+Successfully processed 1FOQ_1_C.pdb
+Total BP: 47, Canonical: 42, Layers: 1
+Sample base pairs:
+  U1-A117: Watson-Crick, Saenger: 20-XX
+  C2-G116: Watson-Crick, Saenger: 19-XIX
+  A3-U115: Watson-Crick, Saenger: 20-XX
+
+--- Processing 9/5: 1FOQ_1_D.pdb ---
+Processing 1FOQ_1_D.pdb with chain D (display: D) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/1FOQ_1_D.pdb and chain D
+DSSR done.
+   left_resi  left_idx right_resi  right_idx
+0          U         1          A        117
+1          C         2          G        116
+2          A         3          U        115
+3          A         4          U        114
+4          G         6          U        113
+5          G         7          C        112
+6          U         8          A        111
+7          A         9          U        110
+8          C        10          G        108
+9          G        11          C        107
+10         G        12          C        105
+11         U        13          G        104
+12         A        14          U        103
+13         C        15          G        102
+14         U        16          A        101
+15         U        17          A        100
+16         U        21          A         99
+17         U        22          A         98
+18         G        23          C         97
+19         U        24          G         96
+20         C        25          G         95
+21         A        26          U         94
+22         U        27          A         93
+23         G        28          C         92
+24         G        30          C         71
+25         U        31          A         70
+26         A        32          U         69
+27         U        33          A         68
+28         G        34          C         67
+29         U        35          A         66
+30         G        37          C         65
+31         G        38          C         64
+32         G        39          C         63
+34         C        49          G         62
+35         U        50          A         61
+36         G        51          C         60
+37         A        52          U         59
+41         U        76          A         90
+42         U        77          A         89
+43         G        78          C         88
+44         A        79          U         87
+45         U        80          G         86
+Successfully processed 1FOQ_1_D.pdb
+Total BP: 47, Canonical: 42, Layers: 1
+Sample base pairs:
+  U1-A117: Watson-Crick, Saenger: 20-XX
+  C2-G116: Watson-Crick, Saenger: 19-XIX
+  A3-U115: Watson-Crick, Saenger: 20-XX
+
+--- Processing 10/5: 1FOQ_1_E.pdb ---
+Processing 1FOQ_1_E.pdb with chain E (display: E) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/1FOQ_1_E.pdb and chain E
+DSSR done.
+   left_resi  left_idx right_resi  right_idx
+0          U         1          A        117
+1          C         2          G        116
+2          A         3          U        115
+3          A         4          U        114
+4          G         6          U        113
+5          G         7          C        112
+6          U         8          A        111
+7          A         9          U        110
+8          C        10          G        108
+9          G        11          C        107
+10         G        12          C        105
+11         U        13          G        104
+12         A        14          U        103
+13         C        15          G        102
+14         U        16          A        101
+15         U        17          A        100
+16         U        21          A         99
+17         U        22          A         98
+18         G        23          C         97
+19         U        24          G         96
+20         C        25          G         95
+21         A        26          U         94
+22         U        27          A         93
+23         G        28          C         92
+24         G        30          C         71
+25         U        31          A         70
+26         A        32          U         69
+27         U        33          A         68
+28         G        34          C         67
+29         U        35          A         66
+30         G        37          C         65
+31         G        38          C         64
+32         G        39          C         63
+34         C        49          G         62
+35         U        50          A         61
+36         G        51          C         60
+37         A        52          U         59
+41         U        76          A         90
+42         U        77          A         89
+43         G        78          C         88
+44         A        79          U         87
+45         U        80          G         86
+Successfully processed 1FOQ_1_E.pdb
+Total BP: 47, Canonical: 42, Layers: 1
+Sample base pairs:
+  U1-A117: Watson-Crick, Saenger: 20-XX
+  C2-G116: Watson-Crick, Saenger: 19-XIX
+  A3-U115: Watson-Crick, Saenger: 20-XX
+
+--- Processing 11/5: 1GID_1_A.pdb ---
+Processing 1GID_1_A.pdb with chain A (display: A) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/1GID_1_A.pdb and chain A
+DSSR done.
+   left_resi  left_idx right_resi  right_idx
+0          G       103          C        217
+7          U       107          A        214
+9          G       108          C        213
+11         C       109          G        212
+13         G       110          C        211
+14         G       111          C        209
+15         G       112          C        208
+18         G       116          U        205
+19         G       117          C        204
+20         G       118          C        203
+21         G       119          U        202
+22         U       120          G        201
+23         C       121          G        200
+27         C       127          G        195
+28         C       128          G        194
+29         G       129          C        193
+30         U       131          A        192
+31         C       132          G        191
+32         A       133          U        190
+33         G       134          C        189
+35         A       136          U        182
+36         C       137          G        181
+38         C       138          G        180
+41         G       141          U        162
+42         U       142          A        161
+43         C       143          G        160
+44         U       144          A        159
+45         C       145          G        158
+46         A       146          U        157
+47         G       147          U        156
+48         G       148          U        155
+49         G       149          C        154
+54         C       165          G        175
+55         C       166          G        174
+64         G       220          U        253
+65         U       221          A        252
+66         C       222          G        251
+67         C       223          G        250
+70         A       226          U        249
+71         G       227          U        247
+73         U       228          A        246
+74         C       229          G        245
+75         A       230          U        244
+76         A       231          U        243
+77         C       232          G        242
+78         A       233          U        241
+79         G       234          C        240
+80         A       235          U        239
+Successfully processed 1GID_1_A.pdb
+Total BP: 81, Canonical: 48, Layers: 1
+Sample base pairs:
+  G103-C217: Watson-Crick, Saenger: 19-XIX
+  G103-A256: Non-WC, Saenger: n/a
+  A104-C216: Non-WC, Saenger: n/a
+
+--- Processing 12/5: 1GID_1_B.pdb ---
+Processing 1GID_1_B.pdb with chain B (display: B) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/1GID_1_B.pdb and chain B
+DSSR done.
+   left_resi  left_idx right_resi  right_idx
+0          G       103          C        217
+6          U       107          A        214
+8          G       108          C        213
+10         C       109          G        212
+12         G       110          C        211
+13         G       111          C        209
+14         G       112          C        208
+18         G       116          U        205
+19         G       117          C        204
+20         G       118          C        203
+21         G       119          U        202
+22         U       120          G        201
+23         C       121          G        200
+28         C       127          G        195
+29         C       128          G        194
+30         G       129          C        193
+31         U       131          A        192
+32         C       132          G        191
+33         A       133          U        190
+34         G       134          C        189
+36         A       136          U        182
+37         C       137          G        181
+39         C       138          G        180
+42         G       141          U        162
+43         U       142          A        161
+44         C       143          G        160
+45         U       144          A        159
+46         C       145          G        158
+47         A       146          U        157
+48         G       147          U        156
+49         G       148          U        155
+50         G       149          C        154
+57         C       165          G        175
+58         C       166          G        174
+67         G       220          U        253
+68         U       221          A        252
+69         C       222          G        251
+70         C       223          G        250
+73         A       226          U        249
+74         G       227          U        247
+76         U       228          A        246
+77         C       229          G        245
+78         A       230          U        244
+79         A       231          U        243
+80         C       232          G        242
+81         A       233          U        241
+82         G       234          C        240
+83         A       235          U        239
+Successfully processed 1GID_1_B.pdb
+Total BP: 84, Canonical: 48, Layers: 1
+Sample base pairs:
+  G103-C217: Watson-Crick, Saenger: 19-XIX
+  G103-A256: Non-WC, Saenger: n/a
+  A104-C216: Non-WC, Saenger: n/a
+
+--- Processing 13/5: 1I9V_1_A.pdb ---
+Processing 1I9V_1_A.pdb with chain A (display: A) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/1I9V_1_A.pdb and chain A
+DSSR done.
+   left_resi  left_idx right_resi  right_idx
+0          G         1          C         72
+1          C         2          G         71
+2          G         3          C         70
+3          G         4          U         69
+4          A         5          U         68
+5          U         6          A         67
+6          U         7          A         66
+10         G        10          C         25
+12         C        11          G         24
+13         U        12          A         23
+14         C        13          G         22
+16         G        19          C         56
+19         C        27          G         43
+20         C        28          G         42
+21         A        29          U         41
+22         G        30          C         40
+25         C        49          G         65
+26         U        50          A         64
+27         G        51          C         63
+28         U        52          A         62
+29         G        53          C         61
+Successfully processed 1I9V_1_A.pdb
+Total BP: 30, Canonical: 21, Layers: 2
+Sample base pairs:
+  G1-C72: Watson-Crick, Saenger: 19-XIX
+  C2-G71: Watson-Crick, Saenger: 19-XIX
+  G3-C70: Watson-Crick, Saenger: 19-XIX
+
+--- Processing 14/5: 1J6S_1_A.pdb ---
+Processing 1J6S_1_A.pdb with chain A (display: A) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/1J6S_1_A.pdb and chain A
+DSSR done.
+Empty DataFrame
+Columns: [left_resi, left_idx, right_resi, right_idx]
+Index: []
+No base pairs found for 1J6S_1_A.pdb
+Failed to process 1J6S_1_A.pdb
+
+--- Processing 15/5: 1J6S_1_D.pdb ---
+Processing 1J6S_1_D.pdb with chain A (display: D) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/1J6S_1_D.pdb and chain A
+DSSR done.
+Empty DataFrame
+Columns: [left_resi, left_idx, right_resi, right_idx]
+Index: []
+No base pairs found for 1J6S_1_D.pdb
+Failed to process 1J6S_1_D.pdb
+
+--- Processing 16/5: 1J7T_1_A-B.pdb ---
+Processing 1J7T_1_A-B.pdb with chain A (display: A) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/1J7T_1_A-B.pdb and chain A
+DSSR done.
+Empty DataFrame
+Columns: [left_resi, left_idx, right_resi, right_idx]
+Index: []
+Successfully processed 1J7T_1_A-B.pdb
+Total BP: 18, Canonical: 0, Layers: 0
+Sample base pairs:
+  G2-C44: Watson-Crick, Saenger: 19-XIX
+  C3-G43: Watson-Crick, Saenger: 19-XIX
+  G4-C42: Watson-Crick, Saenger: 19-XIX
+
+--- Processing 17/5: 1J8G_1_A.pdb ---
+Processing 1J8G_1_A.pdb with chain A (display: A) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/1J8G_1_A.pdb and chain A
+DSSR done.
+Empty DataFrame
+Columns: [left_resi, left_idx, right_resi, right_idx]
+Index: []
+No base pairs found for 1J8G_1_A.pdb
+Failed to process 1J8G_1_A.pdb
+
+--- Processing 18/5: 1J8G_1_B.pdb ---
+Processing 1J8G_1_B.pdb with chain A (display: B) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/1J8G_1_B.pdb and chain A
+DSSR done.
+Empty DataFrame
+Columns: [left_resi, left_idx, right_resi, right_idx]
+Index: []
+No base pairs found for 1J8G_1_B.pdb
+Failed to process 1J8G_1_B.pdb
+
+--- Processing 19/5: 1J8G_1_C.pdb ---
+Processing 1J8G_1_C.pdb with chain A (display: C) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/1J8G_1_C.pdb and chain A
+DSSR done.
+Empty DataFrame
+Columns: [left_resi, left_idx, right_resi, right_idx]
+Index: []
+No base pairs found for 1J8G_1_C.pdb
+Failed to process 1J8G_1_C.pdb
+
+--- Processing 20/5: 1J8G_1_D.pdb ---
+Processing 1J8G_1_D.pdb with chain A (display: D) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/1J8G_1_D.pdb and chain A
+DSSR done.
+Empty DataFrame
+Columns: [left_resi, left_idx, right_resi, right_idx]
+Index: []
+No base pairs found for 1J8G_1_D.pdb
+Failed to process 1J8G_1_D.pdb
+
+--- Processing 21/5: 1LC4_1_A-B.pdb ---
+Processing 1LC4_1_A-B.pdb with chain A (display: A) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/1LC4_1_A-B.pdb and chain A
+DSSR done.
+Empty DataFrame
+Columns: [left_resi, left_idx, right_resi, right_idx]
+Index: []
+Successfully processed 1LC4_1_A-B.pdb
+Total BP: 18, Canonical: 0, Layers: 0
+Sample base pairs:
+  G3-C46: Watson-Crick, Saenger: 19-XIX
+  C4-G45: Watson-Crick, Saenger: 19-XIX
+  G5-C44: Watson-Crick, Saenger: 19-XIX
+
+--- Processing 22/5: 1MWL_1_A-B.pdb ---
+Processing 1MWL_1_A-B.pdb with chain A (display: A) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/1MWL_1_A-B.pdb and chain A
+DSSR done.
+Empty DataFrame
+Columns: [left_resi, left_idx, right_resi, right_idx]
+Index: []
+Successfully processed 1MWL_1_A-B.pdb
+Total BP: 18, Canonical: 0, Layers: 0
+Sample base pairs:
+  G2-C44: Watson-Crick, Saenger: 19-XIX
+  C3-G43: Watson-Crick, Saenger: 19-XIX
+  G4-C42: Watson-Crick, Saenger: 19-XIX
+
+--- Processing 23/5: 1NBS_1_A.pdb ---
+Processing 1NBS_1_A.pdb with chain A (display: A) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/1NBS_1_A.pdb and chain A
+DSSR done.
+   left_resi  left_idx right_resi  right_idx
+0          G        86          C        239
+1          C        87          G        238
+2          G        88          C        237
+3          A        89          U        236
+4          G        90          C        235
+5          C        91          G        112
+6          C        92          G        111
+7          U        93          A        110
+8          A        94          U        109
+9          G        95          C        108
+10         C        96          G        107
+14         G       113          C        131
+15         C       114          G        129
+16         A       115          U        128
+17         G       116          C        127
+18         U       117          G        126
+19         C       118          G        125
+22         G       132          C        234
+23         G       133          C        233
+26         A       135          U        174
+27         G       136          C        173
+28         G       137          C        172
+29         A       138          U        171
+33         G       180          C        232
+34         U       181          A        231
+35         G       182          U        228
+36         C       183          G        227
+37         C       184          G        226
+49         U       197          A        216
+50         C       198          G        215
+51         U       199          A        214
+52         C       200          G        213
+Successfully processed 1NBS_1_A.pdb
+Total BP: 56, Canonical: 32, Layers: 1
+Sample base pairs:
+  G86-C239: Watson-Crick, Saenger: 19-XIX
+  C87-G238: Watson-Crick, Saenger: 19-XIX
+  G88-C237: Watson-Crick, Saenger: 19-XIX
+
+--- Processing 24/5: 1NBS_1_B.pdb ---
+Processing 1NBS_1_B.pdb with chain B (display: B) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/1NBS_1_B.pdb and chain B
+DSSR done.
+   left_resi  left_idx right_resi  right_idx
+0          G        86          C        239
+1          C        87          G        238
+2          G        88          C        237
+3          A        89          U        236
+5          G        90          C        235
+6          C        91          G        112
+7          C        92          G        111
+8          U        93          A        110
+9          A        94          U        109
+10         G        95          C        108
+11         C        96          G        107
+14         G       113          C        131
+15         C       114          G        129
+16         A       115          U        128
+17         G       116          C        127
+19         C       118          G        125
+21         G       132          C        234
+22         G       133          C        233
+25         A       135          U        174
+26         G       136          C        173
+27         G       137          C        172
+28         A       138          U        171
+33         A       143          U        165
+34         G       144          C        164
+35         C       145          G        163
+36         C       146          G        162
+40         G       150          U        159
+41         U       151          A        158
+42         C       152          G        157
+48         G       180          C        232
+49         U       181          A        231
+50         G       182          U        228
+51         C       183          G        227
+53         C       184          G        226
+66         U       197          A        216
+67         C       198          G        215
+68         U       199          A        214
+69         C       200          G        213
+70         A       201          U        212
+71         C       202          G        211
+72         U       203          G        210
+73         A       204          U        209
+Successfully processed 1NBS_1_B.pdb
+Total BP: 79, Canonical: 42, Layers: 1
+Sample base pairs:
+  G86-C239: Watson-Crick, Saenger: 19-XIX
+  C87-G238: Watson-Crick, Saenger: 19-XIX
+  G88-C237: Watson-Crick, Saenger: 19-XIX
+
+--- Processing 25/5: 1NJN_1_0.pdb ---
+Processing 1NJN_1_0.pdb with chain 0 (display: 0) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/1NJN_1_0.pdb and chain 0
+DSSR done.
+Empty DataFrame
+Columns: [left_resi, left_idx, right_resi, right_idx]
+Index: []
+No base pairs found for 1NJN_1_0.pdb
+Failed to process 1NJN_1_0.pdb
+
+--- Processing 26/5: 1NJO_1_0.pdb ---
+Processing 1NJO_1_0.pdb with chain 0 (display: 0) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/1NJO_1_0.pdb and chain 0
+DSSR done.
+Empty DataFrame
+Columns: [left_resi, left_idx, right_resi, right_idx]
+Index: []
+No base pairs found for 1NJO_1_0.pdb
+Failed to process 1NJO_1_0.pdb
+
+--- Processing 27/5: 1O9M_1_A-B.pdb ---
+Processing 1O9M_1_A-B.pdb with chain A (display: A) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/1O9M_1_A-B.pdb and chain A
+DSSR done.
+Empty DataFrame
+Columns: [left_resi, left_idx, right_resi, right_idx]
+Index: []
+Successfully processed 1O9M_1_A-B.pdb
+Total BP: 18, Canonical: 0, Layers: 0
+Sample base pairs:
+  G1403-C1498: Watson-Crick, Saenger: 19-XIX
+  C1404-G1497: Watson-Crick, Saenger: 19-XIX
+  G1405-C1496: Watson-Crick, Saenger: 19-XIX
+
+--- Processing 28/5: 1P9X_1_0.pdb ---
+Processing 1P9X_1_0.pdb with chain 0 (display: 0) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/1P9X_1_0.pdb and chain 0
+DSSR done.
+Empty DataFrame
+Columns: [left_resi, left_idx, right_resi, right_idx]
+Index: []
+No base pairs found for 1P9X_1_0.pdb
+Failed to process 1P9X_1_0.pdb
+
+--- Processing 29/5: 1SA9_1_C-D.pdb ---
+Processing 1SA9_1_C-D.pdb with chain A (display: C) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/1SA9_1_C-D.pdb and chain A
+DSSR done.
+Empty DataFrame
+Columns: [left_resi, left_idx, right_resi, right_idx]
+Index: []
+Successfully processed 1SA9_1_C-D.pdb
+Total BP: 6, Canonical: 0, Layers: 0
+Sample base pairs:
+  G202-C215: Watson-Crick, Saenger: 19-XIX
+  C203-G214: Watson-Crick, Saenger: 19-XIX
+  G204-A213: Non-WC, Saenger: 11-XI
+
+--- Processing 30/5: 1TN1_1_A.pdb ---
+Processing 1TN1_1_A.pdb with chain A (display: A) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/1TN1_1_A.pdb and chain A
+DSSR done.
+   left_resi  left_idx right_resi  right_idx
+0          G         1          C         72
+1          C         2          G         71
+2          G         3          C         70
+3          G         4          U         69
+4          A         5          U         68
+5          U         6          A         67
+6          U         7          A         66
+10         C        11          G         24
+11         U        12          A         23
+12         C        13          G         22
+14         G        19          C         56
+15         C        27          G         43
+16         C        28          G         42
+17         A        29          U         41
+19         U        50          A         64
+20         G        51          C         63
+21         U        52          A         62
+22         G        53          C         61
+Successfully processed 1TN1_1_A.pdb
+Total BP: 23, Canonical: 18, Layers: 2
+Sample base pairs:
+  G1-C72: Watson-Crick, Saenger: 19-XIX
+  C2-G71: Watson-Crick, Saenger: 19-XIX
+  G3-C70: Watson-Crick, Saenger: 19-XIX
+
+--- Processing 31/5: 1TN2_1_A.pdb ---
+Processing 1TN2_1_A.pdb with chain A (display: A) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/1TN2_1_A.pdb and chain A
+DSSR done.
+   left_resi  left_idx right_resi  right_idx
+0          G         1          C         72
+1          C         2          G         71
+2          G         3          C         70
+3          G         4          U         69
+4          A         5          U         68
+5          U         6          A         67
+6          U         7          A         66
+10         C        11          G         24
+11         U        12          A         23
+12         C        13          G         22
+14         G        19          C         56
+15         C        27          G         43
+16         C        28          G         42
+17         A        29          U         41
+19         U        50          A         64
+20         G        51          C         63
+21         U        52          A         62
+22         G        53          C         61
+Successfully processed 1TN2_1_A.pdb
+Total BP: 23, Canonical: 18, Layers: 2
+Sample base pairs:
+  G1-C72: Watson-Crick, Saenger: 19-XIX
+  C2-G71: Watson-Crick, Saenger: 19-XIX
+  G3-C70: Watson-Crick, Saenger: 19-XIX
+
+--- Processing 32/5: 1TRA_1_A.pdb ---
+Processing 1TRA_1_A.pdb with chain A (display: A) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/1TRA_1_A.pdb and chain A
+DSSR done.
+   left_resi  left_idx right_resi  right_idx
+0          G         1          C         72
+1          C         2          G         71
+2          G         3          C         70
+3          G         4          U         69
+4          A         5          U         68
+5          U         6          A         67
+6          U         7          A         66
+10         C        11          G         24
+11         U        12          A         23
+12         C        13          G         22
+14         G        19          C         56
+15         C        27          G         43
+16         C        28          G         42
+17         A        29          U         41
+18         U        50          A         64
+19         G        51          C         63
+20         U        52          A         62
+21         G        53          C         61
+Successfully processed 1TRA_1_A.pdb
+Total BP: 22, Canonical: 18, Layers: 2
+Sample base pairs:
+  G1-C72: Watson-Crick, Saenger: 19-XIX
+  C2-G71: Watson-Crick, Saenger: 19-XIX
+  G3-C70: Watson-Crick, Saenger: 19-XIX
+
+--- Processing 33/5: 1VTQ_1_A.pdb ---
+Processing 1VTQ_1_A.pdb with chain A (display: A) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/1VTQ_1_A.pdb and chain A
+DSSR done.
+   left_resi  left_idx right_resi  right_idx
+0          U         1          A         71
+1          C         2          G         70
+2          C         3          G         69
+3          G         4          C         68
+4          U         5          G         67
+5          G         6          C         66
+6          A         7          U         65
+10         G        10          U         25
+12         U        11          A         24
+13         U        12          A         23
+19         G        27          C         43
+20         G        28          C         42
+21         C        29          G         41
+22         G        30          U         40
+23         C        31          G         39
+25         G        49          C         63
+26         G        50          C         62
+27         G        51          C         61
+28         G        52          C         60
+Successfully processed 1VTQ_1_A.pdb
+Total BP: 29, Canonical: 19, Layers: 1
+Sample base pairs:
+  U1-A71: Watson-Crick, Saenger: 20-XX
+  C2-G70: Watson-Crick, Saenger: 19-XIX
+  C3-G69: Watson-Crick, Saenger: 19-XIX
+
+--- Processing 34/5: 1Y0Q_1_A.pdb ---
+Processing 1Y0Q_1_A.pdb with chain A (display: A) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/1Y0Q_1_A.pdb and chain A
+DSSR done.
+    left_resi  left_idx right_resi  right_idx
+0           C        13          G         34
+3           U        16          A         31
+4           A        17          U         30
+5           U        18          A         29
+6           A        19          U         28
+..        ...       ...        ...        ...
+102         A       220          U        238
+103         U       221          A        237
+104         A       222          U        236
+105         G       223          C        235
+106         G       224          C        234
+
+[68 rows x 4 columns]
+Successfully processed 1Y0Q_1_A.pdb
+Total BP: 109, Canonical: 68, Layers: 3
+Sample base pairs:
+  C13-G34: Watson-Crick, Saenger: 19-XIX
+  U14-C33: Non-WC, Saenger: 18-XVIII
+  U15-U32: Non-WC, Saenger: n/a
+
+--- Processing 35/5: 1Y26_1_X.pdb ---
+Processing 1Y26_1_X.pdb with chain X (display: X) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/1Y26_1_X.pdb and chain X
+DSSR done.
+   left_resi  left_idx right_resi  right_idx
+0          C        13          G         83
+1          G        14          U         82
+2          C        15          G         81
+3          U        16          A         80
+4          U        17          A         79
+5          C        18          G         78
+6          A        19          U         77
+8          U        20          A         76
+9          A        21          U         75
+10         U        22          A         52
+12         U        25          A         45
+13         C        26          G         44
+14         C        27          G         43
+15         U        28          G         42
+16         A        29          U         41
+17         A        30          U         40
+23         G        37          C         61
+25         G        38          C         60
+27         G        46          C         53
+31         C        54          G         72
+32         A        55          U         71
+33         A        56          U         70
+34         G        57          C         69
+35         A        58          U         68
+36         G        59          C         67
+Successfully processed 1Y26_1_X.pdb
+Total BP: 38, Canonical: 25, Layers: 3
+Sample base pairs:
+  C13-G83: Watson-Crick, Saenger: 19-XIX
+  G14-U82: Wobble, Saenger: 28-XXVIII
+  C15-G81: Watson-Crick, Saenger: 19-XIX
+
+--- Processing 36/5: 1Y27_1_X.pdb ---
+Processing 1Y27_1_X.pdb with chain X (display: X) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/1Y27_1_X.pdb and chain X
+DSSR done.
+   left_resi  left_idx right_resi  right_idx
+0          A        16          U         80
+1          U        17          G         79
+2          C        18          G         78
+3          A        19          U         77
+4          U        20          A         76
+5          A        21          U         75
+6          U        22          A         52
+8          U        25          A         45
+10         G        27          C         43
+11         C        28          G         42
+12         G        29          C         41
+13         U        30          A         40
+14         G        31          C         39
+19         G        37          C         61
+21         G        38          C         60
+23         G        46          C         53
+27         C        54          G         72
+28         G        55          C         71
+29         G        56          C         70
+30         G        57          U         69
+31         C        58          G         68
+32         A        59          U         67
+Successfully processed 1Y27_1_X.pdb
+Total BP: 35, Canonical: 22, Layers: 3
+Sample base pairs:
+  A16-U80: Watson-Crick, Saenger: 20-XX
+  U17-G79: Wobble, Saenger: 28-XXVIII
+  C18-G78: Watson-Crick, Saenger: 19-XIX
+
+--- Processing 37/5: 1YFG_1_A.pdb ---
+Processing 1YFG_1_A.pdb with chain A (display: A) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/1YFG_1_A.pdb and chain A
+DSSR done.
+   left_resi  left_idx right_resi  right_idx
+0          A         1          U         72
+1          G         2          C         71
+2          C         3          G         70
+3          G         4          C         69
+4          C         5          G         68
+5          C         6          G         67
+6          G         7          C         66
+9          C        11          G         24
+10         G        12          C         23
+11         C        13          G         22
+13         G        19          C         56
+16         C        27          G         43
+17         A        28          U         42
+18         G        29          C         41
+19         G        30          C         40
+20         G        31          C         39
+23         C        51          G         63
+24         G        52          C         62
+25         G        53          C         61
+Successfully processed 1YFG_1_A.pdb
+Total BP: 26, Canonical: 19, Layers: 2
+Sample base pairs:
+  A1-U72: Watson-Crick, Saenger: 20-XX
+  G2-C71: Watson-Crick, Saenger: 19-XIX
+  C3-G70: Watson-Crick, Saenger: 19-XIX
+
+--- Processing 38/5: 1YRJ_1_A-B.pdb ---
+Processing 1YRJ_1_A-B.pdb with chain A (display: A) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/1YRJ_1_A-B.pdb and chain A
+DSSR done.
+Empty DataFrame
+Columns: [left_resi, left_idx, right_resi, right_idx]
+Index: []
+Successfully processed 1YRJ_1_A-B.pdb
+Total BP: 19, Canonical: 0, Layers: 0
+Sample base pairs:
+  G3-C46: Watson-Crick, Saenger: 19-XIX
+  C4-G45: Watson-Crick, Saenger: 19-XIX
+  G5-C44: Watson-Crick, Saenger: 19-XIX
+
+--- Processing 39/5: 1Z58_1_2.pdb ---
+Processing 1Z58_1_2.pdb with chain 2 (display: 2) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/1Z58_1_2.pdb and chain 2
+DSSR done.
+Empty DataFrame
+Columns: [left_resi, left_idx, right_resi, right_idx]
+Index: []
+No base pairs found for 1Z58_1_2.pdb
+Failed to process 1Z58_1_2.pdb
+
+--- Processing 40/5: 2BE0_1_A-B.pdb ---
+Processing 2BE0_1_A-B.pdb with chain A (display: A) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/2BE0_1_A-B.pdb and chain A
+DSSR done.
+Empty DataFrame
+Columns: [left_resi, left_idx, right_resi, right_idx]
+Index: []
+Successfully processed 2BE0_1_A-B.pdb
+Total BP: 18, Canonical: 0, Layers: 0
+Sample base pairs:
+  G1-C42: Watson-Crick, Saenger: 19-XIX
+  C2-G41: Watson-Crick, Saenger: 19-XIX
+  G3-C40: Watson-Crick, Saenger: 19-XIX
+
+--- Processing 41/5: 2BEE_1_A-B.pdb ---
+Processing 2BEE_1_A-B.pdb with chain A (display: A) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/2BEE_1_A-B.pdb and chain A
+DSSR done.
+Empty DataFrame
+Columns: [left_resi, left_idx, right_resi, right_idx]
+Index: []
+Successfully processed 2BEE_1_A-B.pdb
+Total BP: 18, Canonical: 0, Layers: 0
+Sample base pairs:
+  G1-C42: Watson-Crick, Saenger: 19-XIX
+  C2-G41: Watson-Crick, Saenger: 19-XIX
+  G3-C40: Watson-Crick, Saenger: 19-XIX
+
+--- Processing 42/5: 2BJ6_1_E.pdb ---
+Processing 2BJ6_1_E.pdb with chain E (display: E) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/2BJ6_1_E.pdb and chain E
+DSSR done.
+Empty DataFrame
+Columns: [left_resi, left_idx, right_resi, right_idx]
+Index: []
+No base pairs found for 2BJ6_1_E.pdb
+Failed to process 2BJ6_1_E.pdb
+
+--- Processing 43/5: 2BJ6_1_F.pdb ---
+Processing 2BJ6_1_F.pdb with chain F (display: F) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/2BJ6_1_F.pdb and chain F
+DSSR done.
+Empty DataFrame
+Columns: [left_resi, left_idx, right_resi, right_idx]
+Index: []
+No base pairs found for 2BJ6_1_F.pdb
+Failed to process 2BJ6_1_F.pdb
+
+--- Processing 44/5: 2BJ6_1_G.pdb ---
+Processing 2BJ6_1_G.pdb with chain G (display: G) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/2BJ6_1_G.pdb and chain G
+DSSR done.
+Empty DataFrame
+Columns: [left_resi, left_idx, right_resi, right_idx]
+Index: []
+No base pairs found for 2BJ6_1_G.pdb
+Failed to process 2BJ6_1_G.pdb
+
+--- Processing 45/5: 2BJ6_1_H.pdb ---
+Processing 2BJ6_1_H.pdb with chain H (display: H) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/2BJ6_1_H.pdb and chain H
+DSSR done.
+Empty DataFrame
+Columns: [left_resi, left_idx, right_resi, right_idx]
+Index: []
+No base pairs found for 2BJ6_1_H.pdb
+Failed to process 2BJ6_1_H.pdb
+
+--- Processing 46/5: 2CKY_1_A.pdb ---
+Processing 2CKY_1_A.pdb with chain A (display: A) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/2CKY_1_A.pdb and chain A
+DSSR done.
+   left_resi  left_idx right_resi  right_idx
+0          G         3          C         77
+1          A         4          U         76
+2          C         5          G         75
+3          C         6          G         73
+4          A         7          U         39
+6          G         8          C         38
+8          G         9          C         37
+10         G        10          C         36
+14         G        13          C         26
+16         C        14          G         25
+17         U        15          G         24
+18         U        16          A         23
+19         G        17          C         22
+28         C        45          G         70
+29         C        46          G         69
+30         U        47          A         68
+33         C        51          G         64
+34         A        52          U         63
+35         G        53          C         62
+36         G        54          C         61
+Successfully processed 2CKY_1_A.pdb
+Total BP: 38, Canonical: 20, Layers: 1
+Sample base pairs:
+  G3-C77: Watson-Crick, Saenger: 19-XIX
+  A4-U76: Watson-Crick, Saenger: 20-XX
+  C5-G75: Watson-Crick, Saenger: 19-XIX
+
+--- Processing 47/5: 2CKY_1_B.pdb ---
+Processing 2CKY_1_B.pdb with chain B (display: B) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/2CKY_1_B.pdb and chain B
+DSSR done.
+   left_resi  left_idx right_resi  right_idx
+0          G         3          C         77
+1          A         4          U         76
+2          C         5          G         75
+3          C         6          G         73
+4          A         7          U         39
+5          G         8          C         38
+7          G         9          C         37
+9          G        10          C         36
+13         G        13          C         26
+15         C        14          G         25
+16         U        15          G         24
+17         U        16          A         23
+18         G        17          C         22
+27         C        45          G         70
+28         C        46          G         69
+29         U        47          A         68
+33         C        51          G         64
+34         A        52          U         63
+35         G        53          C         62
+36         G        54          C         61
+Successfully processed 2CKY_1_B.pdb
+Total BP: 38, Canonical: 20, Layers: 1
+Sample base pairs:
+  G3-C77: Watson-Crick, Saenger: 19-XIX
+  A4-U76: Watson-Crick, Saenger: 20-XX
+  C5-G75: Watson-Crick, Saenger: 19-XIX
+
+--- Processing 48/5: 2ESI_1_A-B.pdb ---
+Processing 2ESI_1_A-B.pdb with chain A (display: A) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/2ESI_1_A-B.pdb and chain A
+DSSR done.
+Empty DataFrame
+Columns: [left_resi, left_idx, right_resi, right_idx]
+Index: []
+Successfully processed 2ESI_1_A-B.pdb
+Total BP: 17, Canonical: 0, Layers: 0
+Sample base pairs:
+  G2-C45: Watson-Crick, Saenger: 19-XIX
+  C3-G44: Watson-Crick, Saenger: 19-XIX
+  G4-C43: Watson-Crick, Saenger: 19-XIX
+
+--- Processing 49/5: 2ESJ_1_A-B.pdb ---
+Processing 2ESJ_1_A-B.pdb with chain A (display: A) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/2ESJ_1_A-B.pdb and chain A
+DSSR done.
+Empty DataFrame
+Columns: [left_resi, left_idx, right_resi, right_idx]
+Index: []
+Successfully processed 2ESJ_1_A-B.pdb
+Total BP: 18, Canonical: 0, Layers: 0
+Sample base pairs:
+  G2-C45: Watson-Crick, Saenger: 19-XIX
+  C3-G44: Watson-Crick, Saenger: 19-XIX
+  G4-C43: Watson-Crick, Saenger: 19-XIX
+
+--- Processing 50/5: 2ET3_1_A-B.pdb ---
+Processing 2ET3_1_A-B.pdb with chain A (display: A) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/2ET3_1_A-B.pdb and chain A
+DSSR done.
+Empty DataFrame
+Columns: [left_resi, left_idx, right_resi, right_idx]
+Index: []
+Successfully processed 2ET3_1_A-B.pdb
+Total BP: 19, Canonical: 0, Layers: 0
+Sample base pairs:
+  G2-C45: Watson-Crick, Saenger: 19-XIX
+  C3-G44: Watson-Crick, Saenger: 19-XIX
+  G4-C43: Watson-Crick, Saenger: 19-XIX
+
+--- Processing 51/5: 2ET4_1_A-B.pdb ---
+Processing 2ET4_1_A-B.pdb with chain A (display: A) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/2ET4_1_A-B.pdb and chain A
+DSSR done.
+Empty DataFrame
+Columns: [left_resi, left_idx, right_resi, right_idx]
+Index: []
+Successfully processed 2ET4_1_A-B.pdb
+Total BP: 18, Canonical: 0, Layers: 0
+Sample base pairs:
+  G2-C45: Watson-Crick, Saenger: 19-XIX
+  C3-G44: Watson-Crick, Saenger: 19-XIX
+  G4-C43: Watson-Crick, Saenger: 19-XIX
+
+--- Processing 52/5: 2ET5_1_A-B.pdb ---
+Processing 2ET5_1_A-B.pdb with chain A (display: A) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/2ET5_1_A-B.pdb and chain A
+DSSR done.
+Empty DataFrame
+Columns: [left_resi, left_idx, right_resi, right_idx]
+Index: []
+Successfully processed 2ET5_1_A-B.pdb
+Total BP: 18, Canonical: 0, Layers: 0
+Sample base pairs:
+  G2-C45: Watson-Crick, Saenger: 19-XIX
+  C3-G44: Watson-Crick, Saenger: 19-XIX
+  G4-C43: Watson-Crick, Saenger: 19-XIX
+
+--- Processing 53/5: 2F4T_1_B-A.pdb ---
+Processing 2F4T_1_B-A.pdb with chain A (display: B) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/2F4T_1_B-A.pdb and chain A
+DSSR done.
+Empty DataFrame
+Columns: [left_resi, left_idx, right_resi, right_idx]
+Index: []
+Successfully processed 2F4T_1_B-A.pdb
+Total BP: 17, Canonical: 0, Layers: 0
+Sample base pairs:
+  C1404-G1497: Watson-Crick, Saenger: 19-XIX
+  G1405-C1496: Watson-Crick, Saenger: 19-XIX
+  U1406-U1495: Non-WC, Saenger: n/a
+
+--- Processing 54/5: 2JLT_1_A.pdb ---
+Processing 2JLT_1_A.pdb with chain A (display: A) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/2JLT_1_A.pdb and chain A
+DSSR done.
+  left_resi  left_idx right_resi  right_idx
+0         G         1          C         18
+1         G         2          C         17
+2         C         4          G         15
+3         G         5          C         14
+Successfully processed 2JLT_1_A.pdb
+Total BP: 5, Canonical: 4, Layers: 1
+Sample base pairs:
+  G1-C18: Watson-Crick, Saenger: 19-XIX
+  G2-C17: Watson-Crick, Saenger: 19-XIX
+  C4-G15: Watson-Crick, Saenger: 19-XIX
+
+--- Processing 55/5: 2N0R_1_A.pdb ---
+Processing 2N0R_1_A.pdb with chain A (display: A) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/2N0R_1_A.pdb and chain A
+DSSR done.
+  left_resi  left_idx right_resi  right_idx
+0         C         2          G         24
+4         G         6          C         17
+5         C         7          G         16
+6         U         8          A         15
+7         C         9          G         14
+Successfully processed 2N0R_1_A.pdb
+Total BP: 8, Canonical: 5, Layers: 1
+Sample base pairs:
+  C2-G24: Watson-Crick, Saenger: 19-XIX
+  U3-U23: Non-WC, Saenger: 16-XVI
+  G4-A22: Non-WC, Saenger: 11-XI
+
+--- Processing 56/5: 2O43_1_A.pdb ---
+Processing 2O43_1_A.pdb with chain A (display: A) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/2O43_1_A.pdb and chain A
+DSSR done.
+     left_resi  left_idx right_resi  right_idx
+1            G         2          C       2875
+2            U         3          A       2874
+3            C         4          G       2873
+4            A         5          U       2872
+5            A         6          U       2871
+...        ...       ...        ...        ...
+1225         G      2827          U       2840
+1226         C      2828          G       2839
+1227         A      2829          U       2838
+1229         U      2830          G       2837
+1230         A      2831          U       2836
+
+[723 rows x 4 columns]
+Successfully processed 2O43_1_A.pdb
+Total BP: 1232, Canonical: 723, Layers: 4
+Sample base pairs:
+  G1-C2876: Non-WC, Saenger: n/a
+  G2-C2875: Watson-Crick, Saenger: 19-XIX
+  U3-A2874: Watson-Crick, Saenger: 20-XX
+
+--- Processing 57/5: 2O44_1_A.pdb ---
+Processing 2O44_1_A.pdb with chain A (display: A) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/2O44_1_A.pdb and chain A
+DSSR done.
+     left_resi  left_idx right_resi  right_idx
+0            G         1          C       2876
+1            G         2          C       2875
+2            U         3          A       2874
+3            C         4          G       2873
+4            A         5          U       2872
+...        ...       ...        ...        ...
+1233         G      2827          U       2840
+1234         C      2828          G       2839
+1235         A      2829          U       2838
+1236         U      2830          G       2837
+1237         A      2831          U       2836
+
+[687 rows x 4 columns]
+Successfully processed 2O44_1_A.pdb
+Total BP: 1240, Canonical: 687, Layers: 4
+Sample base pairs:
+  G1-C2876: Watson-Crick, Saenger: 19-XIX
+  G2-C2875: Watson-Crick, Saenger: 19-XIX
+  U3-A2874: Watson-Crick, Saenger: 20-XX
+
+--- Processing 58/5: 2O45_1_A.pdb ---
+Processing 2O45_1_A.pdb with chain A (display: A) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/2O45_1_A.pdb and chain A
+DSSR done.
+     left_resi  left_idx right_resi  right_idx
+0            G         2          C       2875
+1            U         3          A       2874
+2            C         4          G       2873
+3            A         5          U       2872
+4            A         6          U       2871
+...        ...       ...        ...        ...
+1194         U      2822          G       2844
+1196         G      2827          U       2840
+1197         C      2828          G       2839
+1199         A      2829          U       2838
+1202         A      2831          U       2836
+
+[704 rows x 4 columns]
+Successfully processed 2O45_1_A.pdb
+Total BP: 1204, Canonical: 704, Layers: 3
+Sample base pairs:
+  G2-C2875: Watson-Crick, Saenger: 19-XIX
+  U3-A2874: Watson-Crick, Saenger: 20-XX
+  C4-G2873: Watson-Crick, Saenger: 19-XIX
+
+--- Processing 59/5: 2PWT_1_A-B.pdb ---
+Processing 2PWT_1_A-B.pdb with chain A (display: A) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/2PWT_1_A-B.pdb and chain A
+DSSR done.
+Empty DataFrame
+Columns: [left_resi, left_idx, right_resi, right_idx]
+Index: []
+Successfully processed 2PWT_1_A-B.pdb
+Total BP: 18, Canonical: 0, Layers: 0
+Sample base pairs:
+  G2-C44: Watson-Crick, Saenger: 19-XIX
+  C3-G43: Watson-Crick, Saenger: 19-XIX
+  G4-C42: Watson-Crick, Saenger: 19-XIX
+
+--- Processing 60/5: 2Q1R_1_A.pdb ---
+Processing 2Q1R_1_A.pdb with chain A (display: A) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/2Q1R_1_A.pdb and chain A
+DSSR done.
+Empty DataFrame
+Columns: [left_resi, left_idx, right_resi, right_idx]
+Index: []
+No base pairs found for 2Q1R_1_A.pdb
+Failed to process 2Q1R_1_A.pdb
+
+--- Processing 61/5: 2TRA_1_A.pdb ---
+Processing 2TRA_1_A.pdb with chain A (display: A) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/2TRA_1_A.pdb and chain A
+DSSR done.
+   left_resi  left_idx right_resi  right_idx
+0          U         1          A         71
+2          C         2          G         70
+3          C         3          G         69
+4          G         4          C         68
+5          U         5          G         67
+6          G         6          C         66
+7          A         7          U         65
+10         G        10          U         25
+12         U        11          A         24
+13         U        12          A         23
+16         G        18          C         55
+20         G        27          C         43
+21         G        28          C         42
+22         C        29          G         41
+23         G        30          U         40
+24         C        31          G         39
+26         G        49          C         63
+27         G        50          C         62
+28         G        51          C         61
+29         G        52          C         60
+Successfully processed 2TRA_1_A.pdb
+Total BP: 31, Canonical: 20, Layers: 2
+Sample base pairs:
+  U1-A71: Watson-Crick, Saenger: 20-XX
+  U1-G72: Non-WC, Saenger: n/a
+  C2-G70: Watson-Crick, Saenger: 19-XIX
+
+--- Processing 62/5: 2V6W_1_A-B.pdb ---
+Processing 2V6W_1_A-B.pdb with chain A (display: A) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/2V6W_1_A-B.pdb and chain A
+DSSR done.
+Empty DataFrame
+Columns: [left_resi, left_idx, right_resi, right_idx]
+Index: []
+Successfully processed 2V6W_1_A-B.pdb
+Total BP: 7, Canonical: 0, Layers: 0
+Sample base pairs:
+  G1-C72: Watson-Crick, Saenger: 19-XIX
+  G2-C71: Watson-Crick, Saenger: 19-XIX
+  A3-U70: Watson-Crick, Saenger: 20-XX
+
+--- Processing 63/5: 2V7R_1_A-B.pdb ---
+Processing 2V7R_1_A-B.pdb with chain A (display: A) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/2V7R_1_A-B.pdb and chain A
+DSSR done.
+Empty DataFrame
+Columns: [left_resi, left_idx, right_resi, right_idx]
+Index: []
+Successfully processed 2V7R_1_A-B.pdb
+Total BP: 7, Canonical: 0, Layers: 0
+Sample base pairs:
+  G1-C72: Watson-Crick, Saenger: 19-XIX
+  C2-G71: Watson-Crick, Saenger: 19-XIX
+  G3-C70: Watson-Crick, Saenger: 19-XIX
+
+--- Processing 64/5: 2VAL_1_A-C.pdb ---
+Processing 2VAL_1_A-C.pdb with chain A (display: A) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/2VAL_1_A-C.pdb and chain A
+DSSR done.
+Empty DataFrame
+Columns: [left_resi, left_idx, right_resi, right_idx]
+Index: []
+Successfully processed 2VAL_1_A-C.pdb
+Total BP: 7, Canonical: 0, Layers: 0
+Sample base pairs:
+  G1-C72: Watson-Crick, Saenger: 19-XIX
+  C2-G71: Watson-Crick, Saenger: 19-XIX
+  G3-C70: Watson-Crick, Saenger: 19-XIX
+
+--- Processing 65/5: 2VAL_1_B-D.pdb ---
+Processing 2VAL_1_B-D.pdb with chain B (display: B) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/2VAL_1_B-D.pdb and chain B
+DSSR done.
+Empty DataFrame
+Columns: [left_resi, left_idx, right_resi, right_idx]
+Index: []
+Successfully processed 2VAL_1_B-D.pdb
+Total BP: 7, Canonical: 0, Layers: 0
+Sample base pairs:
+  G1-C72: Watson-Crick, Saenger: 19-XIX
+  C2-G71: Watson-Crick, Saenger: 19-XIX
+  G3-C70: Watson-Crick, Saenger: 19-XIX
+
+--- Processing 66/5: 2VUQ_1_A-B.pdb ---
+Processing 2VUQ_1_A-B.pdb with chain A (display: A) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/2VUQ_1_A-B.pdb and chain A
+DSSR done.
+Empty DataFrame
+Columns: [left_resi, left_idx, right_resi, right_idx]
+Index: []
+Successfully processed 2VUQ_1_A-B.pdb
+Total BP: 7, Canonical: 0, Layers: 0
+Sample base pairs:
+  G1-C72: Watson-Crick, Saenger: 19-XIX
+  C2-G71: Watson-Crick, Saenger: 19-XIX
+  A3-U70: Watson-Crick, Saenger: 20-XX
+
+--- Processing 67/5: 2W89_1_A-B.pdb ---
+Processing 2W89_1_A-B.pdb with chain A (display: A) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/2W89_1_A-B.pdb and chain A
+DSSR done.
+Empty DataFrame
+Columns: [left_resi, left_idx, right_resi, right_idx]
+Index: []
+Successfully processed 2W89_1_A-B.pdb
+Total BP: 7, Canonical: 0, Layers: 0
+Sample base pairs:
+  G901-C972: Watson-Crick, Saenger: 19-XIX
+  C902-G971: Watson-Crick, Saenger: 19-XIX
+  A903-U970: Watson-Crick, Saenger: 20-XX
+
+--- Processing 68/5: 2W89_1_C-D.pdb ---
+Processing 2W89_1_C-D.pdb with chain C (display: C) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/2W89_1_C-D.pdb and chain C
+DSSR done.
+Empty DataFrame
+Columns: [left_resi, left_idx, right_resi, right_idx]
+Index: []
+Successfully processed 2W89_1_C-D.pdb
+Total BP: 7, Canonical: 0, Layers: 0
+Sample base pairs:
+  G901-C972: Watson-Crick, Saenger: 19-XIX
+  C902-G971: Watson-Crick, Saenger: 19-XIX
+  A903-U970: Watson-Crick, Saenger: 20-XX
+
+--- Processing 69/5: 2XNW_1_A.pdb ---
+Processing 2XNW_1_A.pdb with chain A (display: A) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/2XNW_1_A.pdb and chain A
+DSSR done.
+   left_resi  left_idx right_resi  right_idx
+0          A        17          U         79
+1          C        18          G         78
+2          A        19          U         77
+4          U        20          A         76
+5          A        21          U         75
+6          U        22          A         52
+8          U        25          A         45
+10         G        27          C         43
+11         C        28          G         42
+12         G        29          C         41
+13         U        30          A         40
+14         G        31          C         39
+19         G        37          C         61
+21         G        38          C         60
+23         G        46          C         53
+27         C        54          G         72
+28         G        55          C         71
+29         G        56          C         70
+30         G        57          U         69
+31         C        58          G         68
+32         A        59          U         67
+Successfully processed 2XNW_1_A.pdb
+Total BP: 35, Canonical: 21, Layers: 3
+Sample base pairs:
+  A17-U79: Watson-Crick, Saenger: 20-XX
+  C18-G78: Watson-Crick, Saenger: 19-XIX
+  A19-U77: Watson-Crick, Saenger: 20-XX
+
+--- Processing 70/5: 2XNZ_1_A.pdb ---
+Processing 2XNZ_1_A.pdb with chain A (display: A) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/2XNZ_1_A.pdb and chain A
+DSSR done.
+   left_resi  left_idx right_resi  right_idx
+0          G        16          C         80
+1          A        17          U         79
+2          C        18          G         78
+3          A        19          U         77
+4          U        20          A         76
+5          A        21          U         75
+6          U        22          A         52
+8          U        25          A         45
+10         G        27          C         43
+11         C        28          G         42
+12         G        29          C         41
+13         U        30          A         40
+14         G        31          C         39
+19         G        37          C         61
+20         G        38          C         60
+22         G        46          C         53
+26         C        54          G         72
+27         G        55          C         71
+28         G        56          C         70
+29         G        57          U         69
+30         C        58          G         68
+31         A        59          U         67
+Successfully processed 2XNZ_1_A.pdb
+Total BP: 34, Canonical: 22, Layers: 3
+Sample base pairs:
+  G16-C80: Watson-Crick, Saenger: 19-XIX
+  A17-U79: Watson-Crick, Saenger: 20-XX
+  C18-G78: Watson-Crick, Saenger: 19-XIX
+
+--- Processing 71/5: 2XO1_1_A.pdb ---
+Processing 2XO1_1_A.pdb with chain A (display: A) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/2XO1_1_A.pdb and chain A
+DSSR done.
+   left_resi  left_idx right_resi  right_idx
+0          A        17          U         79
+1          C        18          G         78
+2          A        19          U         77
+3          U        20          A         76
+4          A        21          U         75
+5          U        22          A         52
+7          U        25          A         45
+9          G        27          C         43
+10         C        28          G         42
+11         G        29          C         41
+12         U        30          A         40
+13         G        31          C         39
+18         G        37          C         61
+19         G        38          C         60
+21         G        46          C         53
+25         C        54          G         72
+26         G        55          C         71
+27         G        56          C         70
+28         G        57          U         69
+29         C        58          G         68
+30         A        59          U         67
+Successfully processed 2XO1_1_A.pdb
+Total BP: 33, Canonical: 21, Layers: 3
+Sample base pairs:
+  A17-U79: Watson-Crick, Saenger: 20-XX
+  C18-G78: Watson-Crick, Saenger: 19-XIX
+  A19-U77: Watson-Crick, Saenger: 20-XX
+
+--- Processing 72/5: 2XSL_1_A-B.pdb ---
+Processing 2XSL_1_A-B.pdb with chain A (display: A) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/2XSL_1_A-B.pdb and chain A
+DSSR done.
+Empty DataFrame
+Columns: [left_resi, left_idx, right_resi, right_idx]
+Index: []
+Successfully processed 2XSL_1_A-B.pdb
+Total BP: 7, Canonical: 0, Layers: 0
+Sample base pairs:
+  G1-C72: Watson-Crick, Saenger: 19-XIX
+  C2-G71: Watson-Crick, Saenger: 19-XIX
+  G3-C70: Watson-Crick, Saenger: 19-XIX
+
+--- Processing 73/5: 2XSL_1_C-D.pdb ---
+Processing 2XSL_1_C-D.pdb with chain C (display: C) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/2XSL_1_C-D.pdb and chain C
+DSSR done.
+Empty DataFrame
+Columns: [left_resi, left_idx, right_resi, right_idx]
+Index: []
+Successfully processed 2XSL_1_C-D.pdb
+Total BP: 7, Canonical: 0, Layers: 0
+Sample base pairs:
+  G1-C72: Watson-Crick, Saenger: 19-XIX
+  C2-G71: Watson-Crick, Saenger: 19-XIX
+  G3-C70: Watson-Crick, Saenger: 19-XIX
+
+--- Processing 74/5: 2YDH_1_A.pdb ---
+Processing 2YDH_1_A.pdb with chain A (display: A) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/2YDH_1_A.pdb and chain A
+DSSR done.
+   left_resi  left_idx right_resi  right_idx
+0          G         1          C         93
+1          G         2          C         92
+2          C         3          G         91
+3          U         4          A         90
+4          U         5          G         89
+5          A         6          U         88
+6          U         7          A         87
+7          C         8          G         86
+10         G        13          C         41
+11         G        15          C         40
+12         G        16          C         39
+13         U        17          A         38
+18         G        21          C         31
+19         G        22          C         30
+21         G        23          C         29
+25         C        25          G         68
+27         G        27          C         66
+28         G        28          C         65
+30         G        42          C         60
+31         G        43          C         59
+32         C        44          G         58
+34         C        47          G         56
+35         C        48          G         55
+36         A        49          U         54
+37         U        64          A         85
+38         C        69          G         82
+39         A        70          U         81
+40         G        71          U         80
+41         C        72          G         79
+42         G        73          C         78
+Successfully processed 2YDH_1_A.pdb
+Total BP: 44, Canonical: 30, Layers: 2
+Sample base pairs:
+  G1-C93: Watson-Crick, Saenger: 19-XIX
+  G2-C92: Watson-Crick, Saenger: 19-XIX
+  C3-G91: Watson-Crick, Saenger: 19-XIX
+
+--- Processing 75/5: 2YGH_1_A.pdb ---
+Processing 2YGH_1_A.pdb with chain A (display: A) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/2YGH_1_A.pdb and chain A
+DSSR done.
+   left_resi  left_idx right_resi  right_idx
+0          G         1          C         93
+1          G         2          C         92
+2          C         3          G         91
+3          U         4          A         90
+4          U         5          G         89
+5          A         6          U         88
+6          U         7          A         87
+7          C         8          G         86
+10         G        13          C         41
+11         G        15          C         40
+12         G        16          C         39
+13         U        17          A         38
+18         G        21          C         31
+19         G        22          C         30
+20         G        23          C         29
+23         C        25          G         68
+25         G        27          C         66
+26         G        28          C         65
+28         G        42          C         60
+29         G        43          C         59
+30         C        44          G         58
+32         C        47          G         56
+33         C        48          G         55
+34         A        49          U         54
+36         U        64          A         85
+37         C        69          G         82
+38         A        70          U         81
+39         G        71          U         80
+40         C        72          G         79
+41         G        73          C         78
+Successfully processed 2YGH_1_A.pdb
+Total BP: 43, Canonical: 30, Layers: 2
+Sample base pairs:
+  G1-C93: Watson-Crick, Saenger: 19-XIX
+  G2-C92: Watson-Crick, Saenger: 19-XIX
+  C3-G91: Watson-Crick, Saenger: 19-XIX
+
+--- Processing 76/5: 2YIF_1_Z-X.pdb ---
+Processing 2YIF_1_Z-X.pdb with chain Z (display: Z) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/2YIF_1_Z-X.pdb and chain Z
+DSSR done.
+   left_resi  left_idx right_resi  right_idx
+13         G        15          C         27
+14         G        16          C         26
+15         G        17          C         25
+22         G        33          C         46
+24         U        34          A         45
+25         G        35          C         44
+26         G        36          C         43
+37         U        64          A         80
+38         U        65          A         79
+39         U        66          A         78
+40         G        67          C         77
+41         G        68          C         76
+44         C        86          G         97
+45         A        87          U         96
+46         G        88          C         95
+Successfully processed 2YIF_1_Z-X.pdb
+Total BP: 48, Canonical: 15, Layers: 1
+Sample base pairs:
+  G2-U111: Wobble, Saenger: 28-XXVIII
+  A3-U110: Watson-Crick, Saenger: 20-XX
+  U4-A109: Watson-Crick, Saenger: 20-XX
+
+--- Processing 77/5: 364D_1_C-B-A.pdb ---
+Processing 364D_1_C-B-A.pdb with chain A (display: C) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/364D_1_C-B-A.pdb and chain A
+DSSR done.
+Empty DataFrame
+Columns: [left_resi, left_idx, right_resi, right_idx]
+Index: []
+Successfully processed 364D_1_C-B-A.pdb
+Total BP: 30, Canonical: 0, Layers: 0
+Sample base pairs:
+  U1-A119: Watson-Crick, Saenger: 20-XX
+  G2-C118: Watson-Crick, Saenger: 19-XIX
+  C3-G117: Watson-Crick, Saenger: 19-XIX
+
+--- Processing 78/5: 3A3A_1_A.pdb ---
+Processing 3A3A_1_A.pdb with chain A (display: A) using DSSR...
+DSSR starts with analysis/datasets/BGSU__M__All__A__4_0__pdb_3_396/3A3A_1_A.pdb and chain A
+DSSR done.
+   left_resi  left_idx right_resi  right_idx
+0          G         1          C         72
+1          C         2          G         71
+2          C         3          G         70
+3          C         4          G         69
+4          G         5          C         68
+5          G         5          U         67
+6          A         5          U         67
+8          G         7          C         66
+10         C        10          G         25
+11         C        11          G         24
+12         U        12          G         23
+13         C        13          G         22
+14         A        14          U         21
+15         G        15          C         20
+19         G        19          C         56
+20         U        26          A         44
+21         G        27          U         43
+22         C        28          G         42
+23         A        29          U         41
+24         G        30          C         40
+25         G        31          C         39
+28         C        46          G         47
+29         U        47          A         47
+30         G        47          C         47
+31         U        47          A         47
+32         C        47          G         47
+33         G        50          C         64
+34         U        51          A         63
+35         G        52          C         62
+36         G        53          C         61
