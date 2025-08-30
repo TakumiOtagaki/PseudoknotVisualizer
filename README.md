@@ -17,12 +17,9 @@ This tool has two modes of use: CLI and GUI (using PyMOL).
 
 - Left: Before coloring pseudoknots.
 - Right: After coloring
- - red: pseudoknot order 1
- - blue: pseudoknot order 2
- - green: pseudoknot order 3
- - (gray: Main Layer)
-
-
+ - red: pseudoknot layer 1
+ - blue: pseudoknot layer 2
+ - green: pseudoknot layer 3
 
 # How to Install
 ## Preparing "pymol" Conda Environment (Recommended)
@@ -64,8 +61,7 @@ You need to install [RNAView](https://github.com/rcsb/RNAView).
 Note: RNAView may have installation issues on very long path names. See Troubleshooting below.
 
 
-
-If you are installing PseudoknotVisualizer in your home directory (recommended), the installation command is simple!
+If you are installing PseudoknotVisualizer in your home directory (**recommended**), the installation command is simple!
 The installation steps are basically as followings:
 ```sh
 git clone https://github.com/rcsb/RNAView.git
@@ -82,12 +78,15 @@ If you already have RNAView installed elsewhere, or you prefer not to compile it
 # config.py (snippet)
 from pathlib import Path
 
-RNAVIEW_DIR = PseudoKnotVisualizer_DIR / "RNAView"         # Directory that contains RNAView assets
-RNAVIEW_EXEC = RNAVIEW_DIR / "bin/rnaview"                 # Path to the RNAView binary
+# ---------------- RNAView configuration ----------------
+# - RNAVIEW_DIR: Directory that contains the RNAView installation.
+#   If you installed RNAView elsewhere, set it like: RNAVIEW_DIR = Path("/opt/RNAView")
+RNAVIEW_DIR = PseudoKnotVisualizer_DIR / "RNAView"
 
-# Example: if RNAView is installed at /opt/RNAView
-# RNAVIEW_DIR = Path("/opt/RNAView")
-# RNAVIEW_EXEC = RNAVIEW_DIR / "bin/rnaview"
+# - RNAVIEW_EXEC: Path to the RNAView binary.
+#   Example (custom path): RNAVIEW_EXEC = Path("/opt/RNAView/bin/rnaview")
+RNAVIEW_EXEC = RNAVIEW_DIR / "bin/rnaview"
+# -------------------------------------------------------
 ```
 
 At runtime, if the binary is not found, the plugin will suggest either placing the `rnaview` binary at `RNAView/bin/rnaview` in this repo, or editing `config.py` to set `RNAVIEW_EXEC` (and `RNAVIEW_DIR`) to your installed path. On macOS/Linux, ensure the binary is executable:
@@ -97,7 +96,7 @@ chmod +x /path/to/rnaview
 
 #### Installation of DSSR
 Obtain the DSSR binary as follows:
-- Create an account and log in to the download page.
+- Create an account and log in to the [download page](http://forum.x3dna.org/index.php?topic=248.0).
 - Choose the correct build for your OS (macOS, Linux, or Windows).
 - Download the binary and place it under `DSSR/` in this repository, or set `DSSR_EXEC` in `config.py` to your installed path (see below).
 
@@ -110,11 +109,11 @@ Place the downloaded binary as `DSSR/x3dna-dssr` in this repository, or configur
 # config.py (snippet)
 from pathlib import Path
 
-# Default: repo-local binary
+# ----------------- DSSR configuration ------------------
+# - DSSR_EXEC: Path to the x3dna-dssr binary. By default we expect it under this repo's DSSR/ folder.
+#   Example (custom path): DSSR_EXEC = Path("/usr/local/bin/x3dna-dssr")
 DSSR_EXEC = PseudoKnotVisualizer_DIR / "DSSR" / "x3dna-dssr"
-
-# Example: if installed at /usr/local/bin
-# DSSR_EXEC = Path("/usr/local/bin/x3dna-dssr")
+# -------------------------------------------------------
 ```
 
 On macOS, if you see permission or quarantine warnings:
@@ -137,8 +136,11 @@ import sys
 import pathlib
 from pymol import cmd
 
+
 # --------------------- please modify this line: the path of PseudoknotVisualizer repository -------------------------
-pathtoPKV = pathlib.Path("/path/to/PseudoknotVisualizer") # <-- Please modify this line! This is the path of this repository.
+pathtoPKV = pathlib.Path.home() / "PseudoknotVisualizer"  # Example: if the repo is under your home directory
+# If you installed PseudoknotVisualizer in a different location, set the path accordingly. For example:
+# pathtoPKV = pathlib.Path("/Users/ootagakitakumi/PseudoknotVisualizer")
 # --------------------------------------------------------------------------------------------------------------------
 
 sys.path.append(str(pathtoPKV))
