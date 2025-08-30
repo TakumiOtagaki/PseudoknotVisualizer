@@ -151,6 +151,8 @@ cmd.run( str(pathtoPKV /  "PseudoknotVisualizer.py"))
 Now, you can use our extension easily.
 After this step, the PseudoknotVisualizer extension will be automatically loaded when PyMOL starts.
 
+
+
 ## Troubleshooting
 
 ### RNAView path-length crash
@@ -163,7 +165,7 @@ Workarounds:
 
 ### "RNAView binary not found" / "DSSR binary not found"
 The plugin checks for the binaries before running. If not found:
-- Place the binaries at the default locations in this repo:
+- Place the binaries at the default locations in this repository:
   - RNAView: `RNAView/bin/rnaview`
   - DSSR   : `DSSR/x3dna-dssr`
 - Or edit `config.py` and set:
@@ -193,6 +195,7 @@ pip install -r requirements.txt
 ### RNAView output not produced or empty
 - Ensure the input selection is a valid RNA chain in PyMOL and exported as PDB when using RNAView.
 - If residue numbering does not start at 1, prefer `annotator=DSSR` or keep `auto_renumber=True` for RNAView.
+  - You can avoid this error by using DSSR.
 
 
 # How to use
