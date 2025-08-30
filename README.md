@@ -1,6 +1,6 @@
 # PseudoknotVisualizer
 PseudoknotVisualizer is a **PyMOL Extension** for visualization that assigns **different colors to each Pseudoknot layer**.
-<img src="https://github.com/TakumiOtagaki/PseudoknotVisualizer/blob/main/demo.png" alt="pymol_demo_6T3R" width="100%">
+<img src="https://github.com/TakumiOtagaki/PseudoknotVisualizer/blob/main/media/demo.png" alt="pymol_demo_6T3R" width="100%">
 
 # Overview
 This tool helps you visually inspect the RNA tertiary structures with pseudoknots.
@@ -13,7 +13,7 @@ This tool has two modes of use: CLI and GUI (using PyMOL).
 
 # Demo
 
-<img src="https://github.com/TakumiOtagaki/PseudoknotVisualizer/blob/main/uncolored_6t3r.png" alt="pymol_demo_6T3R" width="30%"><img src="https://github.com/TakumiOtagaki/PseudoknotVisualizer/blob/main/colored_6t3r.png" alt="pymol_demo_6T3R" width="30%"><img src="https://github.com/TakumiOtagaki/PseudoknotVisualizer/blob/main/colored_6t3r.gif" alt="demo_gif" width="35.5%">
+<img src="https://github.com/TakumiOtagaki/PseudoknotVisualizer/blob/main/media/uncolored_6t3r.png" alt="pymol_demo_6T3R" width="30%"><img src="https://github.com/TakumiOtagaki/PseudoknotVisualizer/blob/main/media/colored_6t3r.png" alt="pymol_demo_6T3R" width="30%"><img src="https://github.com/TakumiOtagaki/PseudoknotVisualizer/blob/main/media/colored_6t3r.gif" alt="demo_gif" width="35.5%">
 
 - Left: Before coloring pseudoknots.
 - Right: After coloring
@@ -217,7 +217,7 @@ pkv 1kpd, annotator=DSSR
 ```
 As you can see from this example, you can use "sele" to identify the model.
 
-<img src="https://github.com/TakumiOtagaki/PseudoknotVisualizer/blob/main/casp15_examples.png" alt="pymol_demo_6T3R" width="50%">
+<img src="https://github.com/TakumiOtagaki/PseudoknotVisualizer/blob/main/media/casp15_examples.png" alt="pymol_demo_6T3R" width="50%">
 
 
 Also you can get the details in the PyMOL command line using `help pkv`:
