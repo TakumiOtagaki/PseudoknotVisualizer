@@ -28,7 +28,7 @@ conda create -n pkv python=3.11.0
 conda activate pkv
 conda install -c conda-forge pymol-open-source
 pip install -r requirements.txt
-pymol # PyMOL will start.
+Do **not** start PyMOL yet. You will launch it after configuring `~/.pymolrc.py`
 ```
 Type `pymol` in conda pkv env, then open source PyMOL app will start.
 
@@ -147,10 +147,16 @@ cmd.run(str(pathtoPKV /  "PseudoknotVisualizer.py"))
 Now, you can use our extension easily.
 After this step, the PseudoknotVisualizer extension will be automatically loaded when PyMOL starts.
 
+Now start PyMOL from the same pkv environment:
+```sh
+conda activate pkv
+pymol
+```
+
+The PseudoknotVisualizer extension will be loaded automatically at startup.
 
 
 ## Troubleshooting
-
 ### RNAView path-length crash
 When installing/using RNAView in a directory with a very long path (e.g., > ~60 chars), RNAView may crash due to a buffer size issue. See:
 [Buffer Overflow in get_reference_pdb() Caused by Insufficient Buffer Size](https://github.com/rcsb/RNAView/issues/11)
@@ -180,12 +186,6 @@ Then allow execution under System Settings > Privacy & Security.
 Install PyMOL from conda-forge inside your conda environment:
 ```
 conda install -c conda-forge pymol-open-source
-```
-
-### Python package errors (pandas, numpy, biopython)
-Install dependencies:
-```
-pip install -r requirements.txt
 ```
 
 ### RNAView output not produced or empty
