@@ -131,7 +131,11 @@ def CLI_PseudoKnotVisualizer(pdb_file, chain_id, format, output_file, model_id, 
         print(f"[CLI] Using all base pairs: {len(processed_df)} total ({canon_cnt} canonical, {noncanon_cnt} non-canonical)")
 
     # print(f"Processed DataFrame:\n{processed_df.head()}")
-    BPL = [tuple(row["position"]) for _, row in processed_df.iterrows()]
+    # Orientation normalization: ensure (i < j)
+    BPL = []
+    for _, row in processed_df.iterrows():
+        i, j = row["position"]
+        BPL.append((i, j) if i < j else (j, i))
     pdb_id = os.path.splitext(os.path.basename(pdb_file))[0]
     PKlayers = PKextractor(BPL)
 

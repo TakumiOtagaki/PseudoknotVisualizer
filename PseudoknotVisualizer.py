@@ -328,7 +328,11 @@ def PseudoKnotVisualizer(
         print(f"Using canonical base pairs only: {len(filtered_df)}/{len(processed_df)} pairs")
     
     # print(processed_df)
-    BPL = [tuple(row["position"]) for _, row in filtered_df.iterrows()]
+    # Orientation normalization: ensure i < j for PKextractor compatibility
+    BPL = []
+    for _, row in filtered_df.iterrows():
+        i, j = row["position"]
+        BPL.append((i, j) if i < j else (j, i))
     # print(f"extracted base pairs: {BPL}")
     PKlayers = PKextractor(BPL)
 
