@@ -1,4 +1,3 @@
-from PseudoknotVisualizer import clear_intermediate_files, colors
 from coloring import CLI_coloring_canonical, load_colors_from_json, get_color_for_depth
 from argparser import argparser, args_validation
 from analysis.parsers import raw_df_processing, filter_abnormal_pairs
@@ -6,7 +5,7 @@ from config import RNAVIEW_DIR, RNAVIEW_EXEC, PseudoKnotVisualizer_DIR, INTERMED
 from rna import PKextractor
 from addressRNAviewOutput import load_rnaview_data #, extract_base_pairs_from_rnaview,
 from addressDSSROutput import load_dssr_data #, extract_base_pairs_from_dssr,
-from Bio.PDB import PDBParser, PDBIO
+from Bio.PDB import PDBParser, PDBIO, Select
 from Bio.PDB.MMCIFParser import MMCIFParser
 import subprocess
 import os
@@ -15,6 +14,19 @@ import shutil
 
 colors = load_colors_from_json(PseudoKnotVisualizer_DIR / "colors.json")
 # rnaview_exec = RNAVIEW_EXEC
+
+class _ChainSelect(Select):
+    def __init__(self, chain_id):
+        self.chain_id = chain_id
+    def accept_model(self, model):
+        return True
+    def accept_chain(self, chain):
+        return chain.id == self.chain_id
+    def accept_residue(self, residue):
+        return True
+    def accept_atom(self, atom):
+        return True
+
 
 def CLI_rnaview(struct_file, chain_id):
     # 入力ファイルが .cif か .pdb かを拡張子で判定
@@ -41,16 +53,16 @@ def CLI_rnaview(struct_file, chain_id):
     if selected_chain is None:
         raise ValueError(f"Chain ID {chain_id} not found in {struct_file}")
 
-    # PDB と CIF で出力方法を分ける
-    arg = "--cif" if file_type == "cif" else "--pdb"
-
-    print(f"rnaview starts with {struct_file} and chain {chain_id}, output type is {arg}")
-    # intermediate 以下に複製する
-    copied_file = pathlib.Path(INTERMEDIATE_DIR) / pathlib.Path(struct_file).name
-    shutil.copy2(struct_file, copied_file)
+    # チェーン限定のPDBを書き出して RNAView に渡す（チェーン混入を避ける）
+    arg = "--pdb"
+    print(f"rnaview starts with {struct_file} and chain {chain_id}, output type is {arg} (chain-scoped PDB)")
+    copied_file = pathlib.Path(INTERMEDIATE_DIR) / f"{pathlib.Path(struct_file).stem}_chain_{chain_id}.pdb"
+    io = PDBIO()
+    io.set_structure(structure)
+    io.save(str(copied_file), _ChainSelect(chain_id))
 
     result = subprocess.run(
-        [RNAVIEW_EXEC, "-p", arg, copied_file],
+        [RNAVIEW_EXEC, "-p", arg, str(copied_file)],
         env={"RNAVIEW": RNAVIEW_DIR},
         cwd=INTERMEDIATE_DIR,
         check=True
@@ -59,7 +71,7 @@ def CLI_rnaview(struct_file, chain_id):
         raise Exception("RNAVIEW failed")
 
     print("rnaview done.")
-    result_file = pathlib.Path(INTERMEDIATE_DIR) / (pathlib.Path(struct_file).name + ".out")
+    result_file = pathlib.Path(INTERMEDIATE_DIR) / (copied_file.name + ".out")
     df = load_rnaview_data(str(result_file))
     return df
 
@@ -87,10 +99,6 @@ def CLI_dssr(struct_file, chain_id):
         print(f"stderr: {result.stderr}")
     return load_dssr_data(str(json_output_path))
 
-    print("DSSR done.")
-    df = load_dssr_data(str(json_output_path))
-    return df
-
 def CLI_PseudoKnotVisualizer(pdb_file, chain_id, format, output_file, model_id, annotator="RNAView", include_all=False):
     # パーサーの選択に応じてベースペアを抽出
     if annotator.upper() == "DSSR":
@@ -98,6 +106,19 @@ def CLI_PseudoKnotVisualizer(pdb_file, chain_id, format, output_file, model_id, 
     
     elif annotator.upper() == "RNAVIEW":
         raw_df = CLI_rnaview(pdb_file, chain_id)
+    # チェーンフィルタ（対象チェーン内のペアのみ残す）
+    try:
+        if not raw_df.empty and "chain1" in raw_df.columns and "chain2" in raw_df.columns:
+            before = len(raw_df)
+            filtered = raw_df[(raw_df["chain1"] == chain_id) & (raw_df["chain2"] == chain_id)].copy()
+            if len(filtered) == 0 and before > 0:
+                # フィルタで全て消えた場合は未フィルタのまま進める（チェーン限定PDBを使っているため）
+                print(f"[CLI] Chain filter '{chain_id}' removed all pairs; keeping unfiltered {before} pairs")
+            else:
+                raw_df = filtered
+                print(f"[CLI] Filtered by chain '{chain_id}': {len(raw_df)}/{before} pairs")
+    except Exception as e:
+        print(f"[CLI] Chain filtering skipped due to error: {e}")
     processed_df = raw_df_processing(raw_df, annotator)
     # remove abnormal pairs
     processed_df, abnormal_pairs, dup_canonical_pairs = filter_abnormal_pairs(processed_df)
