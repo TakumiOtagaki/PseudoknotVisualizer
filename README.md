@@ -156,6 +156,18 @@ pymol
 The PseudoknotVisualizer extension will be loaded automatically at startup.
 
 
+## Effect of include_all (DSSR, 1EHZ)
+
+Below is a concrete example showing how include_all changes the detected pseudoknot layers.
+
+<img src="media/1EHZ_cano.png" alt="1EHZ canonical-only (DSSR)" width="49%"><img src="media/1EHZ_noncano.png" alt="1EHZ include_all (DSSR)" width="49%">
+
+- Left: canonical only (annotator=DSSR)
+- Right: include_all (annotator=DSSR)
+- As visible, including non-canonical pairs increases the pseudoknot order (number of layers).
+As you can see, non-canonical pairs increase the pseudoknot order (number of layers).
+
+
 ## Troubleshooting
 ### RNAView path-length crash
 When installing/using RNAView in a directory with a very long path (e.g., > ~60 chars), RNAView may crash due to a buffer size issue. See:
