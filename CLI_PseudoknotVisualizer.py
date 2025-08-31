@@ -91,7 +91,7 @@ def CLI_dssr(struct_file, chain_id):
     df = load_dssr_data(str(json_output_path))
     return df
 
-def CLI_PseudoKnotVisualizer(pdb_file, chain_id, format, output_file, model_id, annotator="RNAView"):
+def CLI_PseudoKnotVisualizer(pdb_file, chain_id, format, output_file, model_id, annotator="RNAView", include_all=False):
     # パーサーの選択に応じてベースペアを抽出
     if annotator.upper() == "DSSR":
         raw_df = CLI_dssr(pdb_file, chain_id)
@@ -101,6 +101,16 @@ def CLI_PseudoKnotVisualizer(pdb_file, chain_id, format, output_file, model_id, 
     processed_df = raw_df_processing(raw_df, annotator)
     # remove abnormal pairs
     processed_df, abnormal_pairs, dup_canonical_pairs = filter_abnormal_pairs(processed_df)
+    # Canonical-only by default unless include_all=True
+    if not include_all:
+        before_cnt = len(processed_df)
+        processed_df = processed_df[processed_df["is_canonical"]].copy()
+        print(f"[CLI] Using canonical base pairs only: {len(processed_df)}/{before_cnt}")
+    else:
+        canon_cnt = len(processed_df[processed_df["is_canonical"]])
+        noncanon_cnt = len(processed_df) - canon_cnt
+        print(f"[CLI] Using all base pairs: {len(processed_df)} total ({canon_cnt} canonical, {noncanon_cnt} non-canonical)")
+
     # print(f"Processed DataFrame:\n{processed_df.head()}")
     BPL = [tuple(row["position"]) for _, row in processed_df.iterrows()]
     pdb_id = os.path.splitext(os.path.basename(pdb_file))[0]
@@ -124,7 +134,7 @@ def main():
     print("PseudoKnotVisualizer started.")
     # Backward compatibility: accept legacy --parser if present
     annotator = getattr(args, 'annotator', None) or getattr(args, 'parser', 'RNAView')
-    CLI_PseudoKnotVisualizer(args.input, args.chain, args.format, args.output, args.model, annotator)
+    CLI_PseudoKnotVisualizer(args.input, args.chain, args.format, args.output, args.model, annotator, include_all=getattr(args, 'include_all', False))
     print("PseudoKnotVisualizer finished: " + args.output)
 
 if __name__ == "__main__":
