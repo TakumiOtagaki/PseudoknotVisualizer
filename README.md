@@ -219,7 +219,7 @@ As you can see from this example, you can use "sele" to identify the model.
 
 ### Include non-canonical pairs (PyMOL)
 - Default is canonical only (Watson–Crick + GU wobble):
-  - `pkv 1kpd` あるいは `pkv 1kpd, include_all=0`
+  - `pkv 1kpd` or `pkv 1kpd, include_all=0`
 - Include all base pairs (canonical + non-canonical):
   - `pkv 1kpd, include_all=1`
   - `include_all=true|false|yes|no|on|off|1|0` can be used.
