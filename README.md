@@ -6,7 +6,7 @@ PseudoknotVisualizer is a **PyMOL Extension** for visualization that assigns **d
 This tool helps you visually inspect the RNA tertiary structures with pseudoknots.
 This is essential for prediction of tertiary structures and selecting the best structure from the structure ensemble.
 
-For now, PseudoknotVisualizer treats only canonical base pairs(AU, GU, GC), however non-canonical pairs can be included or re-labeled in future updates.
+By default, PseudoknotVisualizer uses canonical base pairs only (Watson–Crick AU/GC + GU wobble). You can optionally include non-canonical base pairs via the new include_all option (see usage below).
 
 PseudoknotVisualizer is available at PyMOL, meaning that it is easy to install.
 This tool has two modes of use: CLI and GUI (using PyMOL).
@@ -217,6 +217,13 @@ pkv 1kpd, annotator=DSSR
 ```
 As you can see from this example, you can use "sele" to identify the model.
 
+### Include non-canonical pairs (PyMOL)
+- Default is canonical only (Watson–Crick + GU wobble):
+  - `pkv 1kpd` あるいは `pkv 1kpd, include_all=0`
+- Include all base pairs (canonical + non-canonical):
+  - `pkv 1kpd, include_all=1`
+  - `include_all=true|false|yes|no|on|off|1|0` can be used.
+
 <img src="https://github.com/TakumiOtagaki/PseudoknotVisualizer/blob/main/media/casp15_examples.png" alt="pymol_demo_6T3R" width="50%">
 
 
@@ -231,6 +238,7 @@ Usage: pkv object [,chain] [,annotator] [,auto_renumber] [,only_pure_rna] [,skip
  - skip_precoloring (bool): If True, do not pre-color the chain white. Default: False.
  - selection (bool): If True, create selections per layer like <obj>_c<chain>_l<depth>. Default: True.
  - auto_renumber (bool): If True, renumber residues to start from 1 when necessary (mainly for RNAView). Default: True.
+  - include_all (bool): If True, include all base pairs (canonical + non-canonical). Default: False (canonical only).
 ```
 
 ## Changing Colors (Optional)
@@ -262,7 +270,7 @@ After the installation (except for step 4), you can use our CLI.
 ```sh
 $ python PseudoknotVisualizer/CLI_PseudoknotVisualizer.py --help
 
-usage: CLI_PseudoknotVisualizer.py [-h] -i INPUT -o OUTPUT -f {chimera,pymol} [-m MODEL] [-c CHAIN] [-a {DSSR,RNAView}]
+usage: CLI_PseudoknotVisualizer.py [-h] -i INPUT -o OUTPUT -f {chimera,pymol} [-m MODEL] [-c CHAIN] [-a {DSSR,RNAView}] [--include-all]
 
 Visualize pseudoknots in RNA structure
 
@@ -278,6 +286,7 @@ options:
                         Chain ID (default: A)
   -a {DSSR,RNAView}, --annotator {DSSR,RNAView}
                         Base-pair annotator (default: RNAView)
+  --include-all         Include all base pairs (canonical + non-canonical). Default: canonical only
 
 chimera options:
   Options specific to Chimera format
@@ -309,6 +318,13 @@ pip install -r requirements.txt
 ```sh
 python PseudoknotVisualizer/CLI_PseudoknotVisualizer.py \
   -i test/1kpd.cif -o out.txt -f pymol -c A --annotator RNAView
+```
+
+Include all base pairs (CLI):
+```sh
+python PseudoknotVisualizer/CLI_PseudoknotVisualizer.py \
+  -i test/1kpd.cif -o out_all.txt -f pymol -c A --annotator RNAView \
+  --include-all
 ```
 
 
@@ -363,6 +379,7 @@ Using this option, you can avoid the error around the non-ordinary sequence inde
 
 - 2025-05-30: Fixed an issue where some RNAView-detected pairs (e.g., 1ehz) were not colored.
 - 2025-07-16: Initial DSSR support in progress.
+- 2025-09-01: Added include_all option (default is canonical-only; pass include_all/--include-all to include non-canonical).
 
 # License
 This software is released under the MIT License.  

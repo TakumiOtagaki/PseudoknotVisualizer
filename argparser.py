@@ -19,6 +19,10 @@ def argparser():
         '-a', '--annotator', choices=['DSSR', 'RNAView'],
         default='RNAView', help='Base-pair annotator to use (DSSR or RNAView), default is RNAView'
     )
+    parser.add_argument(
+        '--include-all', action='store_true', default=False,
+        help='Include all base pairs (canonical + non-canonical). Default: canonical only'
+    )
     # Hidden legacy options for backward compatibility (do not show in --help)
     parser.add_argument('-p', dest='annotator', choices=['DSSR', 'RNAView'], help=argparse.SUPPRESS)
     parser.add_argument('--parser', dest='annotator', choices=['DSSR', 'RNAView'], help=argparse.SUPPRESS)
@@ -37,4 +41,3 @@ def args_validation(args):
     if chosen is None or chosen.upper() not in ['DSSR', 'RNAVIEW']:
         raise ValueError("Annotator must be either 'DSSR' or 'RNAView'")
     return
-
