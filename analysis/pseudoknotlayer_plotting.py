@@ -100,8 +100,18 @@ def plot_non_canonical_ratio_box(
     core_total = df['canonical_bp_in_main_layer'] + df['non_canonical_bp_in_main_layer']
     pk_total   = df['canonical_bp_in_pk_layer']  + df['non_canonical_bp_in_pk_layer']
 
+    print(f"  [RATIO BOX] {parser} {variant} filtering details:")
+    print(f"    - Total structures in input: {len(df)}")
+    
     core_mask = core_total > 0
     core_ratio = (df.loc[core_mask, 'non_canonical_bp_in_main_layer'] / core_total[core_mask]).dropna()
+    
+    print(f"    - Core layer: {core_mask.sum()} structures have >0 BPs, {len(core_ratio)} valid ratios")
+    if len(core_ratio) > 0:
+        core_canonical = df.loc[core_mask, 'canonical_bp_in_main_layer'].sum()
+        core_non_canonical = df.loc[core_mask, 'non_canonical_bp_in_main_layer'].sum()
+        print(f"      * Core canonical BPs: {core_canonical}")
+        print(f"      * Core non-canonical BPs: {core_non_canonical}")
 
     pk_mask = (df['num_of_layers'] > 1) & (pk_total > 0)
     pk_ratio = (df.loc[pk_mask, 'non_canonical_bp_in_pk_layer'] / pk_total[pk_mask]).dropna()
@@ -112,16 +122,23 @@ def plot_non_canonical_ratio_box(
             zeros = pd.Series(0.0, index=no_pk_idx)
             pk_ratio = pd.concat([pk_ratio, zeros])
 
+    print(f"    - PK layer: {pk_mask.sum()} structures have >1 layers & >0 PK BPs, {len(pk_ratio)} valid ratios")
+    if pk_mask.sum() > 0:
+        pk_canonical = df.loc[pk_mask, 'canonical_bp_in_pk_layer'].sum()
+        pk_non_canonical = df.loc[pk_mask, 'non_canonical_bp_in_pk_layer'].sum()
+        print(f"      * PK canonical BPs: {pk_canonical}")
+        print(f"      * PK non-canonical BPs: {pk_non_canonical}")
+
     # 最終的にボックスプロットに使われるチェーン数を表示
     n_core = len(core_ratio)
     n_pk = len(pk_ratio)
     if include_no_pk:
-        print(f"[plot] {parser} {variant} (incl. no PK): 最終的に残った chains 数 -> Core={n_core}, Pseudoknot(incl. none)={n_pk}")
+        print(f"    [FINAL] {parser} {variant} (incl. no PK): Box plot will show Core={n_core}, Pseudoknot(incl. none)={n_pk}")
     else:
-        print(f"[plot] {parser} {variant}: 最終的に残った chains 数 -> Core={n_core}, Pseudoknot(≥1 layer)={n_pk}")
+        print(f"    [FINAL] {parser} {variant}: Box plot will show Core={n_core}, Pseudoknot(≥1 layer)={n_pk}")
 
     if core_ratio.empty and pk_ratio.empty:
-        print(f"[plot_non_canonical_ratio_box] 有効データなし ({parser}, {variant})")
+        print(f"    [ERROR] 有効データなし ({parser}, {variant})")
         return None
 
     series_list, xticklabels = [], []
@@ -237,14 +254,20 @@ def main():
         (output_dir / parser).mkdir(parents=True, exist_ok=True)
 
     for parser in parsers:
+        print(f"---- Processing parser: {parser} ----")
         for variant in ['canonical_only', 'all']:
 
             total_bps, total_canonical_bps, total_noncanonical_bps = 0, 0, 0
+            structures_with_layers = 0
+            structures_skipped = 0
 
             # JSON読み込み
             path = base_dir / f'pseudoknot_analysis_{parser}_{variant}.json'
             with open(path) as f:
                 data = json.load(f)
+            
+            print(f"  [FILTER] 初期データ読み込み: {len(data)} structures loaded from JSON file")
+            
             # layers --> pdb_id v.s. layer_id, canonical_bp_count, non_canonical_bp_count
             data_list = list()
             for item in data: # 各 pdb ごとに分解していく
@@ -255,7 +278,10 @@ def main():
                 if num_of_layers == 0:
                     # print(f"Warning: {pdb_id} has no pseudoknot layers.")
                     num_of_layers = 1  # レイヤーがない場合は1とみなす
+                    structures_skipped += 1
                     continue  # レイヤーがない場合はスキップ...
+                
+                structures_with_layers += 1
                 canonical_bp_in_main_layer = 0
                 non_canonical_bp_in_main_layer = 0
                 canonical_bp_in_pk_layer = 0
@@ -283,21 +309,50 @@ def main():
                 total_bps += total_bp_count
                 total_canonical_bps += canonical_bp_in_main_layer + canonical_bp_in_pk_layer
                 total_noncanonical_bps += non_canonical_bp_in_main_layer + non_canonical_bp_in_pk_layer
-            print(f"Total BPs: {total_bps}, Total Canonical BPs: {total_canonical_bps}, Total Non-Canonical BPs: {total_noncanonical_bps}, for {parser} ({variant})")
+            
+            print(f"  [FILTER] レイヤーなし構造をスキップ: {structures_skipped} structures skipped (no layers)")
+            print(f"  [FILTER] 残存構造数: {structures_with_layers} structures with layers")
+            print(f"  [FILTER] 総塩基対数: {total_bps} BPs")
+            print(f"  [FILTER] Canonical BPs: {total_canonical_bps} ({total_canonical_bps/total_bps*100:.1f}%)")
+            print(f"  [FILTER] Non-canonical BPs: {total_noncanonical_bps} ({total_noncanonical_bps/total_bps*100:.1f}%)")
             df = pd.DataFrame(data_list)
             df = df.set_index("pdb_id")
+            
+            print(f"  [FILTER] DataFrame作成後: {len(df)} structures in final dataset")
+            
+            # DataFrame作成後の統計情報
+            df_total_canonical = (df['canonical_bp_in_main_layer'] + df['canonical_bp_in_pk_layer']).sum()
+            df_total_non_canonical = (df['non_canonical_bp_in_main_layer'] + df['non_canonical_bp_in_pk_layer']).sum()
+            df_total_bps = df_total_canonical + df_total_non_canonical
+            
+            print(f"  [FILTER] DataFrame内統計:")
+            print(f"    - Main layer canonical BPs: {df['canonical_bp_in_main_layer'].sum()}")
+            print(f"    - Main layer non-canonical BPs: {df['non_canonical_bp_in_main_layer'].sum()}")
+            print(f"    - PK layer canonical BPs: {df['canonical_bp_in_pk_layer'].sum()}")
+            print(f"    - PK layer non-canonical BPs: {df['non_canonical_bp_in_pk_layer'].sum()}")
+            print(f"    - Total canonical BPs: {df_total_canonical} ({df_total_canonical/df_total_bps*100:.1f}%)")
+            print(f"    - Total non-canonical BPs: {df_total_non_canonical} ({df_total_non_canonical/df_total_bps*100:.1f}%)")
             # print(f"DataFrame for {parser} ({variant}):\n", df.head())
 
             # (a) トップレイヤーにcanonicalがあるか の円グラフ
             if variant == "all":
                 df['is_multilayer'] = df["num_of_layers"] > 1 # 元々 multilayer かどうかの場合分けで、2 通り plotting
-                print(f"number of multilayer structures: {df['is_multilayer'].sum()} out of {len(df)} total structures, for {parser} ({variant})")
+                multilayer_count = df['is_multilayer'].sum()
+                total_structures = len(df)
+                print(f"  [FILTER] Multilayer分析:")
+                print(f"    - Multilayer structures: {multilayer_count} ({multilayer_count/total_structures*100:.1f}%)")
+                print(f"    - Single-layer structures: {total_structures - multilayer_count} ({(total_structures - multilayer_count)/total_structures*100:.1f}%)")
 
                 for multilayer in [True, False]:
                     if multilayer:
                         sub = df[df['is_multilayer'] == multilayer]
+                        layer_type = "multilayer"
                     else:
                         sub = df
+                        layer_type = "all structures"
+                    
+                    print(f"    [{layer_type.upper()}] Processing {len(sub)} structures:")
+                    
                     can_bp_mainlayer = sub['canonical_bp_in_main_layer'] > 0
                     non_can_bp_mainlayer = sub['non_canonical_bp_in_main_layer'] > 0
                     mainlayer_counts = pd.Series({
@@ -308,6 +363,11 @@ def main():
                         'Canonical': sub['canonical_bp_in_pk_layer'].sum(),
                         'Non-Canonical': sub['non_canonical_bp_in_pk_layer'].sum()
                     })
+                    
+                    print(f"      Main layer structures with canonical BPs: {mainlayer_counts['Canonical']}")
+                    print(f"      Main layer structures with non-canonical BPs: {mainlayer_counts['Non-Canonical']}")
+                    print(f"      Total canonical BPs in PK layers: {pseudoknotlayer_counts['Canonical']}")
+                    print(f"      Total non-canonical BPs in PK layers: {pseudoknotlayer_counts['Non-Canonical']}")
 
                     for counts, title in zip(
                         [mainlayer_counts, pseudoknotlayer_counts],
@@ -336,6 +396,12 @@ def main():
             freq_counts = df['num_of_layers'].value_counts().sort_index()
             freq = (freq_counts / freq_counts.sum()).sort_index()
             cumulative = freq.cumsum()
+            
+            print(f"  [FILTER] Layer分布統計:")
+            for layer_count, count in freq_counts.items():
+                percentage = count / freq_counts.sum() * 100
+                print(f"    - {layer_count} layers: {count} structures ({percentage:.1f}%)")
+            
             plt.figure()
             ax = freq.plot.bar(color="orange", alpha=0.85, width=0.8)
             # 上・右の目盛り線/スパイン不要化
