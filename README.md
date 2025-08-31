@@ -222,7 +222,7 @@ As you can see from this example, you can use "sele" to identify the model.
   - `pkv 1kpd` あるいは `pkv 1kpd, include_all=0`
 - Include all base pairs (canonical + non-canonical):
   - `pkv 1kpd, include_all=1`
-  - 文字列も可: `include_all=true|false|yes|no|on|off|1|0`（大文字小文字無視）
+  - `include_all=true|false|yes|no|on|off|1|0` can be used.
 
 <img src="https://github.com/TakumiOtagaki/PseudoknotVisualizer/blob/main/media/casp15_examples.png" alt="pymol_demo_6T3R" width="50%">
 
