@@ -39,7 +39,7 @@ setup_fonts()
 # matplotlib configs
 #フォント設定
 #plt.rcParams['mathtext.fontset'] = 'stix' # math fontの設定
-plt.rcParams["font.size"] = 15 # 全体のフォントサイズが変更されます。
+plt.rcParams["font.size"] = 18 # 全体のフォントサイズが変更されます。
 #plt.rcParams['xtick.labelsize'] = 9 # 軸だけ変更されます。
 #plt.rcParams['ytick.labelsize'] = 24 # 軸だけ変更されます
 
@@ -191,13 +191,13 @@ def plot_non_canonical_ratio_box(
             y = min(m + epsilon, y1 - pad_y)  # 文字が上端をはみ出さないように
             ax.annotate(f"{m:.3f}", (i, y),
                         xytext=(6, 0), textcoords="offset points",  # 右に6ptずらす
-                        ha='left', va='center', fontsize=7, color='0.25')
+                        ha='left', va='center', fontsize=8, color='0.25')
 
         # 凡例（マーカーだけ小さめに）
         ax.legend(handles=[sc],
                   markerscale=0.8, scatterpoints=1,
                   handlelength=0.8, handletextpad=0.4,
-                  frameon=False, fontsize=7)
+                  frameon=False, fontsize=8)
 
     # ジッター散布（超薄）
     rng = np.random.default_rng(seed)
@@ -213,7 +213,7 @@ def plot_non_canonical_ratio_box(
     ax.set_ylabel('Non-canonical base-pair ratio')
     ax.yaxis.set_major_locator(MultipleLocator(0.2))
     ax.yaxis.set_major_formatter(FormatStrFormatter('%.1f'))
-    ax.set_title('Non-canonical base-pair ratio by layer', fontsize=11, pad=6)
+    ax.set_title('Non-canonical base-pair ratio by layer', fontsize=14, pad=6)
 
     # ---- y上端と統計注記（必要なときのみ） ----
     y_upper = 1.0
@@ -231,7 +231,7 @@ def plot_non_canonical_ratio_box(
             ax.plot([1, 1, 2, 2], [y_top - 0.015, y_top, y_top, y_top - 0.015],
                     c='0.2', lw=1)
             ax.text(1.5, y_top + 0.004, f"MWU p={p:.2e}, δ={delta:.3f}",
-                    ha='center', va='bottom', fontsize=9)
+                    ha='center', va='bottom', fontsize=12)
     else:
         ax.set_ylim(0, y_upper)
 
@@ -382,7 +382,8 @@ def main():
                             autopct='%1.1f%%',
                             startangle=90
                         )
-                        plt.title(f'{title} {parser} {"Multilayer" if multilayer else "Single-layer"} ')
+                        parser_text = "DSSR" if parser == "dssr" else "RNAView"
+                        plt.title(f'{title} {parser_text} {"Multilayer" if multilayer else "Single-layer"} ')
                         plt.ylabel('')
                         plt.tight_layout()
                         fn = f'pie_{title}{"multilayer" if multilayer else "including_singlelayer"}_{variant}.png'
@@ -410,23 +411,24 @@ def main():
             ax.spines['right'].set_visible(False)
             ax.tick_params(which='both', top=False, right=False)
             ax.minorticks_off()  # minor を完全にオフ
-            ax.set_xlabel('Pseudoknot Layer Count', fontsize=13)
+            ax.set_xlabel('Pseudoknot Order (number of layers)', fontsize=16)
             ax.set_xticks([int(x) for x in range(freq.index.max())])
-            ax.set_xticklabels([int(x) for x in (range(freq.index.max()))], rotation=0 , fontsize=12)
-            ax.tick_params(axis='y', labelsize=12)
+            ax.set_xticklabels([int(x) for x in (range(1, freq.index.max()+1))], rotation=0 , fontsize=15)
+            ax.tick_params(axis='y', labelsize=15)
             ax.set_xlim(-0.6, freq.index.max()+0.3)
-            plt.ylabel('Frequency', fontsize=13)
+            plt.ylabel('Frequency', fontsize=16)
             # 累積度数ライン（同じ y 軸: 正規化なので 0→1）
             ax.plot(cumulative.index - 1, cumulative.values, color='gray', marker='o', linewidth=1.2, markersize=5, label='Cumulative', linestyle='--')
             # 各累積点に軽く値を表示（上から重ねて）
             for x, y in zip(cumulative.index, cumulative.values):
-                ax.text(x - 1, y + 0.02, f"{y:.3f}", ha='center', va='bottom', fontsize=8, color='black')
+                ax.text(x - 1, y + 0.02, f"{y:.3f}", ha='center', va='bottom', fontsize=11, color='black')
             # y の表示領域（最大 1 を超えないように）
             cum_max = float(cumulative.max()) if len(cumulative) else 0.0
             top = max(0.7, cum_max)
             ax.set_ylim(0, min(1.05, top + 0.08))
-            plt.title(f'{parser} Pseudoknot Layers ({variant})', fontsize=15)
-            ax.legend(frameon=False, fontsize=9, loc='upper left', markerscale=1.0)
+            parser_text = "DSSR" if parser == "dssr" else "RNAView"
+            plt.title(f'{parser_text} Pseudoknot Order ({variant.replace("_", " ")})', fontsize=18)
+            ax.legend(frameon=False, fontsize=12, loc='lower right', markerscale=1.0)
             plt.tight_layout()
             fn = f'bar_pseudoknot_layers_{variant}.png'
             plt.savefig(os.path.join(output_dir, parser, fn))
