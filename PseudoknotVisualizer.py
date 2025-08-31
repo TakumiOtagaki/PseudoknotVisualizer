@@ -1,6 +1,5 @@
 from config import RNAVIEW_DIR, RNAVIEW_EXEC, PseudoKnotVisualizer_DIR, INTERMEDIATE_DIR, DSSR_EXEC
 from coloring import coloring_canonical, load_colors_from_json, get_color_for_depth
-from argparser import argparser, args_validation
 from analysis.parsers import raw_df_processing, filter_abnormal_pairs
 from rna import PKextractor
 import os
@@ -17,8 +16,10 @@ DEBUG = False
 
 colors = load_colors_from_json(PseudoKnotVisualizer_DIR / "colors.json")
 
-def clear_intermediate_files(except_files=[]):
+def clear_intermediate_files(except_files=None):
     # intermediate dir には他のゴミのファイルがあるので消しておく
+    if except_files is None:
+        except_files = []
     for f in os.listdir(INTERMEDIATE_DIR):
         # .gitkeep は残す
         if f == ".gitkeep":
@@ -80,7 +81,8 @@ def check_residues_start_from_one(pdb_object, chain):
             if r not in resi_list:
                 resi_list.append(r)
         except ValueError:
-            raise ValueError(f"Invalid residue number format in {pdb_object} chain {chain}: {atom.resi}")
+            # 挿入コード付きなどの非整数 resi は無視して判定する
+            continue
     
     if not resi_list:
         return False
@@ -123,10 +125,10 @@ def auto_renumber_residues(pdb_object, chain):
     
     print(f"[auto_renumber_residues] renumbering chain {chain} by offset={offset} (min_resi was {min_resi})")
     
-    # alter で一括変更 (resiを int(resi)-offset に置き換える)
+    # alter で一括変更 (resv を用いて安全に再番号付け)
     cmd.alter(
         f"{pdb_object} and chain {chain}",
-        f"resi=str(int(resi)-{offset})"
+        f"resi=str(resv-{offset})"
     )
     
     # チェーン間の干渉を避けるため、全体のソートは削除
@@ -148,14 +150,12 @@ def rnaview_wrapper(pdb_object, chain):
             pdb_path = tmp_pdb.name # tmp.pdb is created and deleted automatically after the block.
             cmd.save(pdb_path, f"{pdb_object} and chain {chain}", format="pdb")
 
-            result = subprocess.run(
+            subprocess.run(
                 [RNAVIEW_EXEC, "-p", "--pdb", pdb_path],
                 env={"RNAVIEW": RNAVIEW_DIR},
                 cwd=INTERMEDIATE_DIR,
                 check=True
             )
-            if result.returncode != 0:
-                raise Exception("RNAVIEW failed")
     except Exception as e:
         raise Exception("RNAVIEW failed or Exporting PDB failed: " + str(e))
     result_file = pathlib.Path(INTERMEDIATE_DIR) / (pathlib.Path(pdb_path).name + ".out")
@@ -182,15 +182,13 @@ def dssr_wrapper(pdb_object, chain):
 
             # DSSR実行（JSONフォーマットで出力）
             json_output_path = pathlib.Path(INTERMEDIATE_DIR) / (pathlib.Path(pdb_path).name + ".dssr.json")
-            result = subprocess.run(
+            subprocess.run(
                 [str(DSSR_EXEC), f"-i={pdb_path}", "--json", f"-o={json_output_path}"],
                 cwd=INTERMEDIATE_DIR,
                 check=True,
                 capture_output=True,
                 text=True
             )
-            if result.returncode != 0:
-                raise Exception("DSSR failed")
     except Exception as e:
         raise Exception("DSSR failed or Exporting PDB failed: " + str(e))
 
@@ -252,7 +250,13 @@ def PseudoKnotVisualizer(
     if parser is not None:
         print("[deprecated] 'parser' is deprecated. Use 'annotator' (\"RNAView\" or \"DSSR\").")
         annotator = parser
-    print("version ", PseudoKnotVisualizer_DIR / "VERSION.txt")
+    # バージョン文字列の表示（存在しない場合は無視）
+    try:
+        with open(PseudoKnotVisualizer_DIR / "VERSION.txt", "r") as vf:
+            version_str = vf.read().strip()
+        print(f"version {version_str}")
+    except Exception:
+        pass
     print(
         f"arguments: pdb_object={pdb_object}, chain={chain}, annotator={annotator}, "
         f"auto_renumber={auto_renumber}, only_pure_rna={only_pure_rna}, skip_precoloring={skip_precoloring}, "
@@ -333,9 +337,13 @@ def PseudoKnotVisualizer(
         cmd.color("white", f"{pdb_object} and chain {chain}")
     
     # Details dict for base pair analysis (similar to analysis script)
-    details_dict = {(bp[0][0], bp[0][1]): {
-            "position": bp[0], "residues": bp[1], "is_canonical": bp[2], "saenger_id": bp[3]
-        } for bp in filtered_df.values.tolist()
+    records = filtered_df.to_dict(orient="records") if not filtered_df.empty else []
+    details_dict = {tuple(rec["position"]): {
+            "position": rec["position"],
+            "residues": rec["residues"],
+            "is_canonical": rec["is_canonical"],
+            "saenger_id": rec["saenger_id"],
+        } for rec in records
     }
     
     for depth, PKlayer in enumerate(PKlayers):

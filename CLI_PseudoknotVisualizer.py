@@ -61,14 +61,12 @@ def CLI_rnaview(struct_file, chain_id):
     io.set_structure(structure)
     io.save(str(copied_file), _ChainSelect(chain_id))
 
-    result = subprocess.run(
+    subprocess.run(
         [RNAVIEW_EXEC, "-p", arg, str(copied_file)],
         env={"RNAVIEW": RNAVIEW_DIR},
         cwd=INTERMEDIATE_DIR,
         check=True
         )
-    if result.returncode != 0:
-        raise Exception("RNAVIEW failed")
 
     print("rnaview done.")
     result_file = pathlib.Path(INTERMEDIATE_DIR) / (copied_file.name + ".out")
