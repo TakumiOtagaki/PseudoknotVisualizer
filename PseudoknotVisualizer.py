@@ -250,6 +250,12 @@ def PseudoKnotVisualizer(
     if parser is not None:
         print("[deprecated] 'parser' is deprecated. Use 'annotator' (\"RNAView\" or \"DSSR\").")
         annotator = parser
+    # PyMOL からの引数が文字列の場合にも正しく解釈できるよう、bool へ正規化
+    try:
+        if not isinstance(include_all, bool):
+            include_all = str(include_all).strip().lower() in ("1", "true", "t", "yes", "y", "on")
+    except Exception:
+        include_all = bool(include_all)
     # バージョン文字列の表示（存在しない場合は無視）
     try:
         with open(PseudoKnotVisualizer_DIR / "VERSION.txt", "r") as vf:
