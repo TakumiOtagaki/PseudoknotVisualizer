@@ -24,13 +24,18 @@ This tool has two modes of use: CLI and GUI (using PyMOL).
 # How to Install
 ## Quickstart (single conda env for both GUI & CLI)
 ```
-conda create -n pkv python=3.11.0
+conda create -n pkv python=3.11
 conda activate pkv
 conda install -c conda-forge pymol-open-source
+
+# clone this repository and install Python deps
+cd ~ # optional but recommended for shorter paths (helps RNAView)
+git clone https://github.com/TakumiOtagaki/PseudoknotVisualizer.git
+cd PseudoknotVisualizer
 pip install -r requirements.txt
-Do **not** start PyMOL yet. You will launch it after configuring `~/.pymolrc.py`
 ```
-Type `pymol` in conda pkv env, then open source PyMOL app will start.
+
+Do not start PyMOL yet. You will launch it after configuring `~/.pymolrc.py` below.
 
 
 
@@ -44,9 +49,9 @@ Type `pymol` in conda pkv env, then open source PyMOL app will start.
 
 ### 1. Cloning PseudoknotVisualizer
 
-Cloning in home directory is recommended due to the error of submodule RNAView.
+If you followed Quickstart, you have already cloned the repo and changed into it. Otherwise:
 ```sh
-cd ~ # if you do not want to install this tool in home directory, please skip this line.
+cd ~  # optional but recommended for shorter paths (helps RNAView)
 git clone https://github.com/TakumiOtagaki/PseudoknotVisualizer.git
 cd PseudoknotVisualizer
 ```
@@ -165,7 +170,6 @@ Below is a concrete example showing how include_all changes the detected pseudok
 - Left: canonical only (annotator=DSSR)
 - Right: include_all (annotator=DSSR)
 - As visible, including non-canonical pairs increases the pseudoknot order (number of layers).
-As you can see, non-canonical pairs increase the pseudoknot order (number of layers).
 
 
 ## Troubleshooting
@@ -243,7 +247,7 @@ Also you can get the details in the PyMOL command line using `help pkv`:
 ```sh
 pymol commandline$ help pkv
 PseudoKnotVisualizer: Visualize pseudoknot layers in RNA structures.
-Usage: pkv object [,chain] [,annotator] [,auto_renumber] [,only_pure_rna] [,skip_precoloring] [,selection]
+Usage: pkv object [,chain] [,annotator] [,auto_renumber] [,only_pure_rna] [,skip_precoloring] [,selection] [,include_all]
  - **object** (str): Structure object name loaded in PyMOL.
  - **chain** (str): Chain ID. If omitted, all chains are analyzed.
  - **annotator** (str): Base-pair annotator: "RNAView" or "DSSR". Default: RNAView.
@@ -276,7 +280,7 @@ To increase this limit beyond 6, simply add entries like "7": "another color".
 If PyMOL is already running when you change `colors.json`, restart PyMOL.
 
 # For CLI users
-After the installation (except for step 4), you can use our CLI.
+You can use the CLI without configuring `~/.pymolrc.py`. Use the same `pkv` environment created in Quickstart.
 
 ## CLI Usage
 ```sh
@@ -342,14 +346,14 @@ python PseudoknotVisualizer/CLI_PseudoknotVisualizer.py \
 
 ## Example of CLI usage
 ```sh
-conda activate pymol
+conda activate pkv
 python PseudoknotVisualizer/CLI_PseudoknotVisualizer.py \
-  -i test/1KPD.pdb \  # input pdb file. mmCIF format is also available.
-  -o test/coloring_1KPD.0.A.pymol.txt \ # path of output script txtfile
-  -c A \ # chain ID
-  -f pymol \ # format: chimera or pymol
+  -i test/1KPD.pdb \
+  -o test/coloring_1KPD.0.A.pymol.txt \
+  -c A \
+  -f pymol \
   --annotator RNAView
-  # -m 0 # model ID in your viewer if you choose chimera format with -f option.
+  # -m 0  # model ID if you choose Chimera format (-f chimera)
 
 # Use DSSR annotator example
 python PseudoknotVisualizer/CLI_PseudoknotVisualizer.py \
