@@ -55,7 +55,7 @@ pymol
 After this step, you can use the PyMOL extension as described below at the PyMOL command line:
 ```
 fetch 1ehz
-pkv 1ehz, include_all=1
+pkv 1ehz
 pkv 1ehz, include_all=1
 ```
 
