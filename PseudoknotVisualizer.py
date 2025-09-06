@@ -379,13 +379,21 @@ def PseudoKnotVisualizer(
             coloring_canonical(pdb_object, chain, i, color)
             coloring_canonical(pdb_object, chain, j, color)
         if selection:
-            # selectコマンドで選択オブジェクトを作成
-            selection_name = f"{pdb_object}_c{chain}_l{depth + 1}"
-            cmd.select(selection_name, f"{pdb_object} and chain {chain} and resi {selection_str}")
-            print(f"Created selection: {selection_name} with residues {selection_str}")
+            # Create selections with paper-friendly names and legacy names
+            # paper-friendly: core, pk1, pk2, ... (core corresponds to layer 1)
+            paper_name = "core" if depth == 0 else f"pk{depth}"
+            paper_name = f"{str(pathlib.Path(pdb_object).stem)}_{chain}_{paper_name}"
+
+            cmd.select(paper_name, f"{pdb_object} and chain {chain} and resi {selection_str}")
+            print(f"Created selection: {paper_name} with residues {selection_str}")
+
+            # legacy name kept for backward-compatibility
+            # legacy_name = f"{pdb_object}_c{chain}_l{depth + 1}"
+            # cmd.select(legacy_name, f"{pdb_object} and chain {chain} and resi {selection_str}")
+            # print(f"Created selection: {legacy_name} with residues {selection_str}")
         print(f"Layer {depth + 1}: (i, j) = {PKlayer}")
     print("Coloring done.")
-    print(f"Depth is {len(PKlayers)}")
+    print(f"pseudoknot order (number of layers): {len(PKlayers)}")
     
     clear_intermediate_files()
     return
