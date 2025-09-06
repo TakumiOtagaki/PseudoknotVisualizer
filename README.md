@@ -72,7 +72,7 @@ python CLI_PseudoknotVisualizer.py \
   --annotator RNAView
 ```
 
-
+____
 
 ## Installation of PseudoknotVisualizer
 ### Installation overview
