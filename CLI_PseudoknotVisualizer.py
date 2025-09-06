@@ -164,6 +164,7 @@ def CLI_PseudoKnotVisualizer(pdb_file, chain_id, format, output_file, model_id, 
                 if all_res:
                     res_expr = "+".join(all_res)
                     paper_name = "core" if depth == 0 else f"pk{depth}"
+                    paper_name = f"{str(pathlib.Path(pdb_file).stem)}_{chain_id}_{paper_name}"
                     f.write(f"select {paper_name}, {pdb_id} and chain {chain_id} and resi {res_expr}\n")
 
     print("Coloring done.")
