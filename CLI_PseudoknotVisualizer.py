@@ -28,6 +28,25 @@ class _ChainSelect(Select):
         return True
 
 
+def get_chain_ids(struct_file):
+    """Parse the input structure and return a sorted list of chain IDs in the first model.
+
+    Supports .pdb, .cif/.mmcif. Raises ValueError for unsupported extensions.
+    """
+    ext = os.path.splitext(struct_file)[1].lower()
+    if ext in (".cif", ".mmcif"):
+        parser = MMCIFParser(QUIET=True)
+    elif ext == ".pdb":
+        parser = PDBParser(QUIET=True)
+    else:
+        raise ValueError("Input file should be .cif or .pdb")
+
+    structure = parser.get_structure("structure", struct_file)
+    model0 = next(structure.get_models())
+    chains = sorted({chain.id for chain in model0})
+    return chains
+
+
 def CLI_rnaview(struct_file, chain_id):
     # 入力ファイルが .cif か .pdb かを拡張子で判定
     ext = os.path.splitext(struct_file)[1].lower()
@@ -98,6 +117,20 @@ def CLI_dssr(struct_file, chain_id):
     return load_dssr_data(str(json_output_path))
 
 def CLI_PseudoKnotVisualizer(pdb_file, chain_id, format, output_file, model_id, annotator="RNAView", include_all=False):
+    # 事前にチェーン存在確認（存在しなければ候補を表示して終了）
+    try:
+        chains = get_chain_ids(pdb_file)
+    except Exception as e:
+        print(f"[CLI] Failed to read structure '{pdb_file}': {e}")
+        return False
+
+    if chain_id not in chains:
+        printable = ", ".join(chains) if chains else "(none found)"
+        print(f"[CLI] Chain '{chain_id}' not found in input '{pdb_file}'.")
+        print(f"[CLI] Available chains: {printable}")
+        print("[CLI] Aborting. Please specify one of the listed chain IDs.")
+        return False
+
     # パーサーの選択に応じてベースペアを抽出
     if annotator.upper() == "DSSR":
         raw_df = CLI_dssr(pdb_file, chain_id)
@@ -170,7 +203,7 @@ def CLI_PseudoKnotVisualizer(pdb_file, chain_id, format, output_file, model_id, 
     print("Coloring done.")
     print(f"Depth is {len(PKlayers)}")
     print(f"Output script is saved as {output_file}")
-    return
+    return True
 
 def main():
     args = argparser()
@@ -179,8 +212,9 @@ def main():
     print("PseudoKnotVisualizer started.")
     # Backward compatibility: accept legacy --parser if present
     annotator = getattr(args, 'annotator', None) or getattr(args, 'parser', 'RNAView')
-    CLI_PseudoKnotVisualizer(args.input, args.chain, args.format, args.output, args.model, annotator, include_all=getattr(args, 'include_all', False))
-    print("PseudoKnotVisualizer finished: " + args.output)
+    ok = CLI_PseudoKnotVisualizer(args.input, args.chain, args.format, args.output, args.model, annotator, include_all=getattr(args, 'include_all', False))
+    if ok:
+        print("PseudoKnotVisualizer finished: " + args.output)
 
 if __name__ == "__main__":
     main()
