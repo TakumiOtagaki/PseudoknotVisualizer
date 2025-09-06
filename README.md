@@ -21,13 +21,6 @@ This tool has two modes of use: CLI and GUI (using PyMOL).
  - blue: pseudoknot layer 2
  - green: pseudoknot layer 3
 
-# Features
- - Colors pseudoknot layers (layer 0/core, layer 1/PK1, layer 2/PK2, …).
- - Annotators: choose RNAView (default) or DSSR.
- - Canonical-only by default; toggle include_all to add non‑canonical pairs.
- - PyMOL extension and standalone CLI (generates PyMOL or Chimera scripts).
- - Creates PyMOL selections per layer.
- - User‑configurable colors via colors.json.
 
 # Quickstart
 ```
