@@ -80,7 +80,6 @@ ____
 2. Installation of RNAView or DSSR
 3. Rewrite or create `~/.pymolrc.py` in order to load the extension at startup automatically.
 
------
 
 ### 1. Cloning PseudoknotVisualizer
 
