@@ -21,8 +21,7 @@ This tool has two modes of use: CLI and GUI (using PyMOL).
  - blue: pseudoknot layer 2
  - green: pseudoknot layer 3
 
-# How to Install
-## Quickstart (single conda env for both GUI & CLI)
+# Quickstart (single conda env for both GUI & CLI)
 ```
 # 1) Create env and install PyMOL (open-source build)
 conda create -n pkv python=3.11 -y
