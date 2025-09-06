@@ -140,10 +140,31 @@ def CLI_PseudoKnotVisualizer(pdb_file, chain_id, format, output_file, model_id, 
     PKlayers = PKextractor(BPL)
 
     with open(output_file, "w") as f:
+        # 1) Precoloring (whiten target first)
+        if format.lower() == "pymol":
+            f.write(f"color white, {pdb_id} and chain {chain_id}\n")
+        elif format.lower() == "chimera":
+            # Chimera chain-wide whitening (model required)
+            if model_id is None:
+                print("[CLI] Warning: Chimera format requested but model_id is None; skipping whitening.")
+            else:
+                f.write(f"color white #{model_id}:.{chain_id}\n")
+
+        # 2) Layer coloring + selection commands
         for depth, PKlayer in enumerate(PKlayers):
             color = get_color_for_depth(depth + 1, colors)
             script = CLI_coloring_canonical(pdb_id, model_id, chain_id, PKlayer, color, format)
             f.write(script)
+
+            # Add paper-friendly selections for PyMOL output
+            if format.lower() == "pymol":
+                all_res = []
+                for i, j in PKlayer:
+                    all_res.extend([str(i), str(j)])
+                if all_res:
+                    res_expr = "+".join(all_res)
+                    paper_name = "core" if depth == 0 else f"pk{depth}"
+                    f.write(f"select {paper_name}, {pdb_id} and chain {chain_id} and resi {res_expr}\n")
 
     print("Coloring done.")
     print(f"Depth is {len(PKlayers)}")
