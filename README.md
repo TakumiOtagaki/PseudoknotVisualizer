@@ -31,7 +31,7 @@ This tool has two modes of use: CLI and GUI (using PyMOL).
 
 # Quickstart
 ```
-# 1) Create env and install PyMOL (open-source build)
+# 1) Create env and install PyMOL (open-source build), which will be used for both GUI and CLI.
 conda create -n pkv python=3.11 -y
 conda activate pkv
 conda install -c conda-forge pymol-open-source -y
