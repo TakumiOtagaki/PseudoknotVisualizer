@@ -24,18 +24,53 @@ This tool has two modes of use: CLI and GUI (using PyMOL).
 # How to Install
 ## Quickstart (single conda env for both GUI & CLI)
 ```
-conda create -n pkv python=3.11
+# 1) Create env and install PyMOL (open-source build)
+conda create -n pkv python=3.11 -y
 conda activate pkv
-conda install -c conda-forge pymol-open-source
+conda install -c conda-forge pymol-open-source -y
 
-# clone this repository and install Python deps
+# 2) Clone repo + Python deps
 cd ~ # optional but recommended for shorter paths (helps RNAView)
 git clone https://github.com/TakumiOtagaki/PseudoknotVisualizer.git
 cd PseudoknotVisualizer
 pip install -r requirements.txt
+# (Optional) Option B: DSSR — download binary to DSSR/x3dna-dssr (see below)
+
+# 3) Install an annotator
+# Option A: RNAView (build from source). If you want to use existing installation, see below.
+git clone https://github.com/rcsb/RNAView.git
+cd RNAView
+make # if the name of the installation directory is long, you need to modify the RNAView script as shown in the issue.
+ls bin # the binary rnaview will be found.
+cd .. # back to PseudoknotVisualizer
+
+# 4) Load the PyMOL extension automatically
+cp pymolrc_template.py ~/.pymolrc_pkv.py
+
+# 5) Launch PyMOL from the same env
+conda activate pkv
+pymol
 ```
 
-Do not start PyMOL yet. You will launch it after configuring `~/.pymolrc.py` below.
+After this step, you can use the PyMOL extension as described below at the PyMOL command line:
+```
+fetch 1ehz
+pkv 1ehz, include_all=1
+pkv 1ehz, include_all=1
+```
+
+If you prefer DSSR for annotation, install it and set `annotator=DSSR` (see below).
+
+You can also use the CLI as described below:
+```.sh
+# cd PseudoknotVisualizer
+python CLI_PseudoknotVisualizer.py \
+  -i test/1KPD.pdb \
+  -o test/coloring_1KPD.0.A.pymol.txt \
+  -c A \
+  -f pymol \
+  --annotator RNAView
+```
 
 
 
@@ -124,32 +159,16 @@ chmod +x /path/to/x3dna-dssr
 ```
 Then allow the binary under System Settings > Privacy & Security when prompted.
 
-### 3. Rewrite or create `~/.pymolrc.py`
-To  load the extension at startup automatically, please follow the instructions below.
+### 3. Rewrite or create `~/.pymolrc_pkv.py`
+To load the extension at startup automatically, copy the provided template and adjust the path if needed.
 
 ```sh
-$ vim ~/.pymolrc.py
-```
-And modify the `pathtoPKV` line (do not use "~"; use `Path.home()`).
-```~/.pymolrc.py
-# ~/.pymolrc.py
-import sys
-import pathlib
-from pymol import cmd
+# Copy the template (~/.pymolrc.py)
+cp pymolrc_template.py ~/.pymolrc_pkv.py
 
-
-# --------------------- please modify this line: the path of PseudoknotVisualizer repository -------------------------
-pathtoPKV = pathlib.Path.home() / "PseudoknotVisualizer"  # Example: if the repo is under your home directory
-# If you installed PseudoknotVisualizer in a different location, set the path accordingly. For example:
-# pathtoPKV = pathlib.Path("/Users/ootagakitakumi/PseudoknotVisualizer")
-# --------------------------------------------------------------------------------------------------------------------
-
-sys.path.append(str(pathtoPKV))
-cmd.run(str(pathtoPKV /  "PseudoknotVisualizer.py"))
+# If your clone is not under ~/PseudoknotVisualizer, edit pathtoPKV inside ~/.pymolrc_pkv.py accordingly.
 ```
 
-
-Now, you can use our extension easily.
 After this step, the PseudoknotVisualizer extension will be automatically loaded when PyMOL starts.
 
 Now start PyMOL from the same pkv environment:
@@ -159,55 +178,6 @@ pymol
 ```
 
 The PseudoknotVisualizer extension will be loaded automatically at startup.
-
-
-## Effect of include_all (DSSR, 1EHZ)
-
-Below is a concrete example showing how include_all changes the detected pseudoknot layers.
-
-<img src="media/1EHZ_cano.png" alt="1EHZ canonical-only (DSSR)" width="49%"><img src="media/1EHZ_noncano.png" alt="1EHZ include_all (DSSR)" width="49%">
-
-- Left: canonical only (annotator=DSSR)
-- Right: include_all (annotator=DSSR)
-- As visible, including non-canonical pairs increases the pseudoknot order (number of layers).
-
-
-## Troubleshooting
-### RNAView path-length crash
-When installing/using RNAView in a directory with a very long path (e.g., > ~60 chars), RNAView may crash due to a buffer size issue. See:
-[Buffer Overflow in get_reference_pdb() Caused by Insufficient Buffer Size](https://github.com/rcsb/RNAView/issues/11)
-
-Workarounds:
-- Place this repository (and/or RNAView) under a shorter path (e.g., your home directory), or
-- Patch RNAView source as described in the issue, then rebuild.
-
-### "RNAView binary not found" / "DSSR binary not found"
-The plugin checks for the binaries before running. If not found:
-- Place the binaries at the default locations in this repository:
-  - RNAView: `RNAView/bin/rnaview`
-  - DSSR   : `DSSR/x3dna-dssr`
-- Or edit `config.py` and set:
-  - `RNAVIEW_DIR` and `RNAVIEW_EXEC` for RNAView
-  - `DSSR_EXEC` for DSSR
-
-### Permission denied or quarantine on macOS
-```
-chmod +x /path/to/rnaview
-chmod +x /path/to/x3dna-dssr
-xattr -d com.apple.quarantine /path/to/x3dna-dssr  # if needed
-```
-Then allow execution under System Settings > Privacy & Security.
-
-### "No module named 'pymol'" (for the PyMOL extension)
-Install PyMOL from conda-forge inside your conda environment:
-```
-conda install -c conda-forge pymol-open-source
-```
-
-### RNAView output not produced or empty
-- Ensure the input selection is a valid RNA chain in PyMOL and exported as PDB when using RNAView.
-- If residue numbering does not start at 1, prefer `annotator=DSSR` or keep `auto_renumber=True` for RNAView.
-  - You can avoid this error by using DSSR.
 
 
 # How to use
@@ -242,6 +212,15 @@ As you can see from this example, you can use "sele" to identify the model.
 
 <img src="https://github.com/TakumiOtagaki/PseudoknotVisualizer/blob/main/media/casp15_examples.png" alt="pymol_demo_6T3R" width="50%">
 
+### Effect of include_all (DSSR, 1EHZ)
+Below is a concrete example showing how include_all changes the detected pseudoknot layers.
+
+<img src="media/1EHZ_cano.png" alt="1EHZ canonical-only (DSSR)" width="49%"><img src="media/1EHZ_noncano.png" alt="1EHZ include_all (DSSR)" width="49%">
+
+- Left: canonical only (annotator=DSSR)
+- Right: include_all (annotator=DSSR)
+- Including non-canonical pairs increases the pseudoknot order (number of layers).
+
 
 Also you can get the details in the PyMOL command line using `help pkv`:
 ```sh
@@ -253,6 +232,7 @@ Usage: pkv object [,chain] [,annotator] [,auto_renumber] [,only_pure_rna] [,skip
  - **annotator** (str): Base-pair annotator: "RNAView" or "DSSR". Default: RNAView.
  - skip_precoloring (bool): If True, do not pre-color the chain white. Default: False.
  - selection (bool): If True, create selections per layer like <obj>_c<chain>_l<depth>. Default: True.
+    - Additionally, paper-friendly names are created: `core` (layer 1), `pk1` (layer 2), `pk2` (layer 3), ...
  - auto_renumber (bool): If True, renumber residues to start from 1 when necessary (mainly for RNAView). Default: True.
   - include_all (bool): If True, include all base pairs (canonical + non-canonical). Default: False (canonical only).
 ```
@@ -343,6 +323,13 @@ python PseudoknotVisualizer/CLI_PseudoknotVisualizer.py \
   --include-all
 ```
 
+Notes (CLI, PyMOL format):
+- The generated script starts by whitening the target chain: `color white, <object> and chain <chain>`
+- It also creates selections per layer with paper-friendly names: `core`, `pk1`, `pk2`, ...
+
+Notes (CLI, Chimera format):
+- The script starts by whitening the target chain: `color white #<model_id>:.<chain>`
+
 
 ## Example of CLI usage
 ```sh
@@ -396,6 +383,43 @@ Using this option, you can avoid the error around the non-ordinary sequence inde
 - 2025-05-30: Fixed an issue where some RNAView-detected pairs (e.g., 1ehz) were not colored.
 - 2025-07-16: Initial DSSR support in progress.
 - 2025-09-01: Added include_all option (default is canonical-only; pass include_all/--include-all to include non-canonical).
+
+## Troubleshooting
+### RNAView path-length crash
+When installing/using RNAView in a directory with a very long path (e.g., > ~60 chars), RNAView may crash due to a buffer size issue. See:
+[Buffer Overflow in get_reference_pdb() Caused by Insufficient Buffer Size](https://github.com/rcsb/RNAView/issues/11)
+
+Workarounds:
+- Place this repository (and/or RNAView) under a shorter path (e.g., your home directory), or
+- Patch RNAView source as described in the issue, then rebuild.
+
+### "RNAView binary not found" / "DSSR binary not found"
+The plugin checks for the binaries before running. If not found:
+- Place the binaries at the default locations in this repository:
+  - RNAView: `RNAView/bin/rnaview`
+  - DSSR   : `DSSR/x3dna-dssr`
+- Or edit `config.py` and set:
+  - `RNAVIEW_DIR` and `RNAVIEW_EXEC` for RNAView
+  - `DSSR_EXEC` for DSSR
+
+### Permission denied or quarantine on macOS
+```
+chmod +x /path/to/rnaview
+chmod +x /path/to/x3dna-dssr
+xattr -d com.apple.quarantine /path/to/x3dna-dssr  # if needed
+```
+Then allow execution under System Settings > Privacy & Security.
+
+### "No module named 'pymol'" (for the PyMOL extension)
+Install PyMOL from conda-forge inside your conda environment:
+```
+conda install -c conda-forge pymol-open-source
+```
+
+### RNAView output not produced or empty
+- Ensure the input selection is a valid RNA chain in PyMOL and exported as PDB when using RNAView.
+- If residue numbering does not start at 1, prefer `annotator=DSSR` or keep `auto_renumber=True` for RNAView.
+  - You can avoid this error by using DSSR.
 
 # License
 This software is released under the MIT License.  
