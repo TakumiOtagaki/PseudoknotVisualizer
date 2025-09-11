@@ -31,25 +31,34 @@ def load_dssr_data(input_file: str):
     # pairsセクションが存在する場合のみ処理
     if "pairs" in data:
         for pair in data["pairs"]:
-            # nt1とnt2から チェーン、残基名、残基番号を抽出
-            # 例: "A.G1" -> チェーン="A", 残基="G", 番号="1"
-            nt1_match = re.match(r"([A-Z]+)\.([A-Z])(\d+)", pair["nt1"])
-            nt2_match = re.match(r"([A-Z]+)\.([A-Z])(\d+)", pair["nt2"])
-            
+            # nt1/nt2 の形式は DSSR では一般に
+            #   <chain>.<base><seqnum>[insertion]
+            # のようになっている（例: "A.G1", 数字チェーンの例: "5.C1"、挿入コード付き: "A.G10A"）。
+            # 既存の実装はチェーンIDを [A-Z]+ に縛っていたため、'5' などの数値チェーンで失敗していた。
+            # より寛容なパターンでパースする。
+            # - チェーンID: ドット以外の連続文字
+            # - 塩基: 先頭1文字（A/C/G/U など）
+            # - 残基番号: 任意桁の整数（負も許容）＋任意の挿入コード1文字（あれば捨てる）
+            nt_pattern = r"([^\.]+)\.([A-Za-z])(-?\d+)([A-Za-z]?)"
+            nt1_match = re.match(nt_pattern, pair.get("nt1", ""))
+            nt2_match = re.match(nt_pattern, pair.get("nt2", ""))
+
             if not nt1_match or not nt2_match:
+                # それでも合わないケースはスキップ（後続処理で空DFは安全に扱われる）
                 continue
-                
-            # チェーン情報を取得
+
+            # チェーン情報と残基情報
             chain1 = nt1_match.group(1)
             chain2 = nt2_match.group(1)
-            left_resi = nt1_match.group(2)  # 残基名 (G, C, A, U)
-            left_idx = int(nt1_match.group(3))  # 残基番号
-            right_resi = nt2_match.group(2)  # 残基名
-            right_idx = int(nt2_match.group(3))  # 残基番号
-            
+            left_resi = nt1_match.group(2)   # 残基名 (G, C, A, U など)
+            right_resi = nt2_match.group(2)
+            # 残基番号（整数部を使用。挿入コードは無視）
+            left_idx = int(nt1_match.group(3))
+            right_idx = int(nt2_match.group(3))
+
             result_data.append({
-                "nt1": pair["nt1"],
-                "nt2": pair["nt2"], 
+                "nt1": pair.get("nt1", ""),
+                "nt2": pair.get("nt2", ""),
                 "chain1": chain1,
                 "chain2": chain2,
                 "left_resi": left_resi,
