@@ -382,6 +382,7 @@ Using this option, you can avoid the error around the non-ordinary sequence inde
 - 2025-05-30: Fixed an issue where some RNAView-detected pairs (e.g., 1ehz) were not colored.
 - 2025-07-16: Initial DSSR support in progress.
 - 2025-09-01: Added include_all option (default is canonical-only; pass include_all/--include-all to include non-canonical).
+- 2025-09-11: Fixed a bug in DSSR parsing that caused some pairs to be missed.
 
 ## Troubleshooting
 ### RNAView path-length crash
