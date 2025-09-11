@@ -1,2 +1,5 @@
-color red, 1KPD and chain A and resi 9+31+10+30+11+29+12+28+13+27
-color blue, 1KPD and chain A and resi 2+18+3+17+4+16+5+15
+color white, 1KPD and chain A
+color gray, 1KPD and chain A and resi 9+31+10+30+11+29+12+28+13+27
+select 1KPD_A_core, 1KPD and chain A and resi 9+31+10+30+11+29+12+28+13+27
+color red, 1KPD and chain A and resi 2+18+3+17+4+16+5+15
+select 1KPD_A_pk1, 1KPD and chain A and resi 2+18+3+17+4+16+5+15
