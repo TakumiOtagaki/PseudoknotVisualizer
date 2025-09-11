@@ -11,6 +11,9 @@ By default, PseudoknotVisualizer uses canonical base pairs only (Watson–Crick 
 PseudoknotVisualizer is available at PyMOL, meaning that it is easy to install.
 This tool has two modes of use: CLI and GUI (using PyMOL).
 
+<!-- 本ツールでは 立体構造から塩基対を抜き出す annotator と、得られた塩基対集合から pseudoknot layer を決定する decomposition algorithm を利用しているが、それぞれ複数の選択肢が実は存在している。本 software が実装しているのはその一部であり、注意して欲しいのは、異なる annotator や decomposition algorithm を利用した場合、得られる pseudoknot layer は異なる可能性があるということである。 -->
+In this implementation, the workflow uses (i) an annotator to extract base pairs from a 3D structure and (ii) a decomposition algorithm to assign pseudoknot layers from the resulting base-pair set. Multiple annotators and decomposition algorithms exist in the literature; PseudoknotVisualizer currently implements a subset. Importantly, different choices of annotator or decomposition algorithm can lead to different pseudoknot-layer assignments, so users should keep this variability in mind when interpreting results.
+
 # Demo
 
 <img src="https://github.com/TakumiOtagaki/PseudoknotVisualizer/blob/main/media/uncolored_6t3r.png" alt="pymol_demo_6T3R" width="30%"><img src="https://github.com/TakumiOtagaki/PseudoknotVisualizer/blob/main/media/colored_6t3r.png" alt="pymol_demo_6T3R" width="30%"><img src="https://github.com/TakumiOtagaki/PseudoknotVisualizer/blob/main/media/colored_6t3r.gif" alt="demo_gif" width="35.5%">
