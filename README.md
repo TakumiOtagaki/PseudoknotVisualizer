@@ -424,6 +424,12 @@ conda install -c conda-forge pymol-open-source
 - If residue numbering does not start at 1, prefer `annotator=DSSR` or keep `auto_renumber=True` for RNAView.
   - You can avoid this error by using DSSR.
 
+# Future updates
+In order to give various options to users, we are planning to add the following options and update;
+ - (i) \emph{Base-pair annotators.} we plan to support other annotators (e.g., MC-Annotate, FR3D, ClaRNA \citep{Lemieux2002-ea, Sarver2008-pv, Walen2014-th}), as user-selectable back ends. This will make base-pair calls more comprehensive and allow side-by-side comparisons across annotators. 
+ - (ii) \emph{pseudoknot decomposition algorithms.} In addition to the current maximum-cardinality non-crossing subset, we will provide alternative algorithm proposed by \citep{Smit2008-qn}, so that users can select the criterion that best matches their analysis.
+
+
 # License
 This software is released under the MIT License.  
 See [LICENSE](./LICENSE) for details.
