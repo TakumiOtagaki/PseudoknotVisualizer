@@ -20,6 +20,7 @@ In this implementation, the workflow uses (i) an annotator to extract base pairs
 
 - Left: Before coloring pseudoknots.
 - Right: After coloring
+ - gray: core layer
  - red: pseudoknot layer 1
  - blue: pseudoknot layer 2
  - green: pseudoknot layer 3
