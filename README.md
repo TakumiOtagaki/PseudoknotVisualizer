@@ -434,3 +434,7 @@ In order to give various options to users, we are planning to add the following 
 # License
 This software is released under the MIT License.  
 See [LICENSE](./LICENSE) for details.
+
+
+# Citation
+Otagaki T, Terai G, Asai K, Iwakiri J (2025) PseudoknotVisualizer: Visualization of pseudoknots on three-dimensional RNA structures. PLoS Comput Biol 21(11): e1013693. https://doi.org/10.1371/journal.pcbi.1013693
